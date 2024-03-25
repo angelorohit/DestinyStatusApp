@@ -21,20 +21,7 @@ private fun makeDateFormatter(
     return dateFormat
 }
 
-/**
- * Formats a [Duration] to a human readable string using the given [pattern].
- *
- * [timeZone] is used to determine the time zone of the formatted string. It is modifiable.
- * By default, the system's current timezone is used.
- *
- * Since, all of our available formats are in English by design, the [Locale] is fixed to [Locale.ENGLISH].
- *
- * [customAmPm] is used to override the default AM/PM strings.
- *
- * Internally, this class uses [SimpleDateFormat] to perform the formatting.
- * When our apps target minSdk 26, we can consider using [java.time.format.DateTimeFormatter] instead.
- */
-fun Duration.format(
+private fun Duration.format(
     pattern: String,
     timeZone: TimeZone = TimeZone.getDefault(),
     customAmPm: Pair<String, String>? = null,
@@ -49,10 +36,7 @@ fun Duration.format(
     return dateFormatter.format(inWholeMilliseconds)
 }
 
-/**
- * Meaningful constants that can be used to format a [Duration].
- */
-enum class FormatPattern(val pattern: String) {
+private enum class FormatPattern(val pattern: String) {
     // Dec 25, 2020 | 12:59 PM
     Default("MMM dd, yyyy | hh:mm a"),
 }
@@ -110,16 +94,6 @@ private fun Duration.isYesterday(
 ): Boolean =
     isWithinDays(clock = clock, timeZone = timeZone, daysAgo = 1)
 
-/**
- * Checks whether this [Duration] is within the given number of [daysAgo] for the given [timeZone].
- * The current time is determined by the given [clock].
- *
- * If [daysAgo] is 0, it checks if the [Duration] is today.
- * If [daysAgo] is 1, it checks if the [Duration] is yesterday.
- * If [daysAgo] is 2, it checks if the [Duration] is the day before yesterday and so on...
- *
- * Returns `true` if the [Duration] is within the given [daysAgo], `false` otherwise.
- */
 private fun Duration.isWithinDays(
     clock: Clock,
     timeZone: TimeZone = TimeZone.getDefault(),
