@@ -21,6 +21,7 @@ import com.angelo.destinystatusapp.presentation.helper.datetime.clock.testing.Fa
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import org.koin.androidx.compose.get
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun DestinyStatusUpdateCard(
@@ -42,7 +43,7 @@ fun DestinyStatusUpdateCard(
 
 @Composable
 private fun TimeAgoText(destinyStatusUpdate: DestinyStatusUpdate, clock: Clock, modifier: Modifier = Modifier) {
-    val timeAgoTextValue = destinyStatusUpdate.timestamp?.milliseconds?.ago(
+    val timeAgoTextValue = destinyStatusUpdate.timestamp?.seconds?.ago(
         LocalContext.current,
         clock,
         TimeAgoFormattingConfig(
