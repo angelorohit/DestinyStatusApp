@@ -163,7 +163,7 @@ private fun MainContent(
 private fun DataContent(destinyStatusUpdates: UiDataType, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier) {
         items(destinyStatusUpdates) {
-            DestinyStatusUpdateCard(destinyStatusUpdate = it)
+            DestinyStatusUpdateCard(destinyStatusUpdate = it, modifier = Modifier.padding(start = 16.dp, end = 16.dp))
         }
     }
 }
