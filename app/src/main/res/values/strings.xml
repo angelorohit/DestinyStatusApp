@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Destiny Status</string>
+
+    <string name="no_connectivity_error">No internet connection</string>
+    <string name="timeout_error">An unknown error occurred</string>
+    <string name="generic_request_error">Failed to send invitation request</string>
+    <string name="empty_content">No updates available</string>
+    <string name="zero_content">Hold on, we\'ll fetch updates soon.</string>
+
+    <string name="refresh_icon_content_description">Refresh</string>
+
+    <string name="moments_ago">Moments ago</string>
+    <string name="hour_ago">An hour ago</string>
+    <string name="hours_ago">%1$d hours ago</string>
+    <string name="minutes_ago">%1$d minutes ago</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+</resources>
