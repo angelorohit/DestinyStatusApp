@@ -1,5 +1,6 @@
 package com.angelo.destinystatusapp.presentation.screen
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -129,32 +130,32 @@ private fun MainContent(
     modifier: Modifier = Modifier,
     onErrorAction: (String) -> Unit = {},
 ) {
-    when (uiState) {
-        is UiState.Loading -> {
-            if (uiState.existingData.isEmpty()) {
-                LoadingContent(modifier)
-            } else {
-                DataContent(uiState.existingData, modifier)
+    AnimatedContent(targetState = uiState, label = "MainContentAnimatedContent") {
+        when (it) {
+            is UiState.Loading -> {
+                if (it.existingData.isEmpty()) {
+                    LoadingContent(modifier)
+                }
             }
-        }
 
-        is UiState.Zero -> ZeroContent(modifier)
+            is UiState.Zero -> ZeroContent(modifier)
 
-        is UiState.Success -> {
-            if (uiState.data.isEmpty()) {
-                EmptyContent(modifier)
-            } else {
-                DataContent(uiState.data, modifier)
+            is UiState.Success -> {
+                if (it.data.isEmpty()) {
+                    EmptyContent(modifier)
+                } else {
+                    DataContent(it.data, modifier)
+                }
             }
-        }
 
-        is UiState.Error -> {
-            if (uiState.existingData.isEmpty()) {
-                EmptyContent(modifier)
-            } else {
-                DataContent(uiState.existingData, modifier)
+            is UiState.Error -> {
+                if (it.existingData.isEmpty()) {
+                    EmptyContent(modifier)
+                } else {
+                    DataContent(it.existingData, modifier)
+                }
+                onErrorAction(it.errorData)
             }
-            onErrorAction(uiState.errorData)
         }
     }
 }
