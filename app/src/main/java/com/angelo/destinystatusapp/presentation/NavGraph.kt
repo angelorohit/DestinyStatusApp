@@ -11,9 +11,7 @@ private enum class NavigationRoute(val route: String) {
 }
 
 @Composable
-fun NavGraph(
-    navController: NavHostController,
-) {
+fun NavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = NavigationRoute.Main.route,

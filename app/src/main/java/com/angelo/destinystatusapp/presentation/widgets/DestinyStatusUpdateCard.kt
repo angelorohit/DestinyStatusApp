@@ -41,11 +41,7 @@ fun DestinyStatusUpdateCard(
 }
 
 @Composable
-private fun TimeAgoText(
-    destinyStatusUpdate: DestinyStatusUpdate,
-    clock: Clock,
-    modifier: Modifier = Modifier,
-) {
+private fun TimeAgoText(destinyStatusUpdate: DestinyStatusUpdate, clock: Clock, modifier: Modifier = Modifier) {
     val timeAgoTextValue = destinyStatusUpdate.timestamp?.milliseconds?.ago(
         LocalContext.current,
         clock,

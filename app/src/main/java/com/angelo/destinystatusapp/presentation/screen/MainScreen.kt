@@ -44,10 +44,7 @@ import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(
-    modifier: Modifier = Modifier,
-    viewModel: MainViewModel = getViewModel(),
-) {
+fun MainScreen(modifier: Modifier = Modifier, viewModel: MainViewModel = getViewModel()) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -163,10 +160,7 @@ private fun MainContent(
 }
 
 @Composable
-private fun DataContent(
-    destinyStatusUpdates: UiDataType,
-    modifier: Modifier = Modifier,
-) {
+private fun DataContent(destinyStatusUpdates: UiDataType, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier) {
         items(destinyStatusUpdates) {
             DestinyStatusUpdateCard(destinyStatusUpdate = it)
@@ -175,9 +169,7 @@ private fun DataContent(
 }
 
 @Composable
-private fun EmptyContent(
-    modifier: Modifier = Modifier,
-) {
+private fun EmptyContent(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize()) {
         Text(
             modifier = Modifier.align(Alignment.Center),
@@ -187,9 +179,7 @@ private fun EmptyContent(
 }
 
 @Composable
-private fun ZeroContent(
-    modifier: Modifier = Modifier,
-) {
+private fun ZeroContent(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize()) {
         Text(
             modifier = Modifier.align(Alignment.Center),
@@ -199,9 +189,7 @@ private fun ZeroContent(
 }
 
 @Composable
-private fun LoadingContent(
-    modifier: Modifier = Modifier,
-) {
+private fun LoadingContent(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize()) {
         CircularProgressIndicator(
             modifier = Modifier

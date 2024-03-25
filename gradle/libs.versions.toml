@@ -67,7 +67,6 @@ timber = { group = "com.jakewharton.timber", name="timber", version.ref = "timbe
 junit = { group = "junit", name="junit", version.ref = "junit" }
 
 # Detekt
-detekt-gradleplugin = { group = "io.gitlab.arturbosch.detekt", name="detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name="detekt-formatting", version.ref = "detekt" }
 
 [plugins]

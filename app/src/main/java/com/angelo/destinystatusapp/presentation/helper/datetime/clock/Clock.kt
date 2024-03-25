@@ -10,6 +10,5 @@ import kotlin.time.Duration
 interface Clock {
     fun now(): Duration
 
-    fun exceedsThreshold(startTime: Duration, threshold: Duration) =
-        now() - startTime > threshold
+    fun exceedsThreshold(startTime: Duration, threshold: Duration) = now() - startTime > threshold
 }

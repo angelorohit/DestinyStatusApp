@@ -12,10 +12,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
-private fun makeDateFormatter(
-    pattern: String,
-    timeZone: TimeZone = TimeZone.getDefault(),
-): SimpleDateFormat {
+private fun makeDateFormatter(pattern: String, timeZone: TimeZone = TimeZone.getDefault()): SimpleDateFormat {
     val dateFormat = SimpleDateFormat(pattern, Locale.ENGLISH)
     dateFormat.timeZone = timeZone
     return dateFormat
@@ -82,16 +79,10 @@ fun Duration.ago(
     }
 }
 
-private fun Duration.isToday(
-    clock: Clock,
-    timeZone: TimeZone = TimeZone.getDefault(),
-): Boolean =
+private fun Duration.isToday(clock: Clock, timeZone: TimeZone = TimeZone.getDefault()): Boolean =
     isWithinDays(clock = clock, timeZone = timeZone, daysAgo = 0)
 
-private fun Duration.isYesterday(
-    clock: Clock,
-    timeZone: TimeZone = TimeZone.getDefault(),
-): Boolean =
+private fun Duration.isYesterday(clock: Clock, timeZone: TimeZone = TimeZone.getDefault()): Boolean =
     isWithinDays(clock = clock, timeZone = timeZone, daysAgo = 1)
 
 private fun Duration.isWithinDays(
