@@ -1,0 +1,21 @@
+#!/bin/bash
+
+error_color='\033[0;31m'
+success_color='\033[0;32m'
+info_color='\033[0;33m'
+reset_color='\033[0m'
+
+echo -e "${info_color}⚈ ⚈ ⚈ Running Detekt static analysis ⚈ ⚈ ⚈${reset_color}"
+
+./gradlew detekt
+
+status=$?
+
+if [ "$status" = 0 ] ; then
+    echo -e "${success_color}✅ Detekt found no problems.${reset_color}"
+    exit 0
+else
+    echo -e "${error_color}❌ Detekt found violations it could not fix."
+    echo -e "Run ./gradlew detekt to view related issues...${reset_color}"
+    exit 1
+fi
