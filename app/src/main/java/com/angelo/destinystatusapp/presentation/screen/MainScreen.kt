@@ -9,18 +9,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,20 +29,27 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.angelo.destinystatusapp.R
+import com.angelo.destinystatusapp.presentation.NavigationRoute
+import com.angelo.destinystatusapp.presentation.navigateTo
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import com.angelo.destinystatusapp.presentation.viewmodel.DestinyStatusUiState
 import com.angelo.destinystatusapp.presentation.viewmodel.MainViewModel
 import com.angelo.destinystatusapp.presentation.viewmodel.UiDataType
 import com.angelo.destinystatusapp.presentation.viewmodel.UiState
 import com.angelo.destinystatusapp.presentation.widgets.DestinyStatusUpdateCard
+import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(modifier: Modifier = Modifier, viewModel: MainViewModel = getViewModel()) {
+fun MainScreen(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel = getViewModel(),
+) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -71,12 +75,9 @@ fun MainScreen(modifier: Modifier = Modifier, viewModel: MainViewModel = getView
         modifier = modifier,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.app_name)) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
+            StandardTopAppBar(
+                title = { Text(text = stringResource(id = R.string.app_name)) },
+                navController = navController,
                 actions = {
                     RefreshIconButton(
                         uiState = uiState,
@@ -86,6 +87,7 @@ fun MainScreen(modifier: Modifier = Modifier, viewModel: MainViewModel = getView
                             }
                         },
                     )
+                    SettingsIconButton(onClickAction = { navController.navigateTo(NavigationRoute.About) })
                 }
             )
         },
@@ -97,6 +99,19 @@ fun MainScreen(modifier: Modifier = Modifier, viewModel: MainViewModel = getView
             )
         }
     )
+}
+
+@Composable
+private fun SettingsIconButton(onClickAction: () -> Unit, modifier: Modifier = Modifier) {
+    IconButton(
+        modifier = modifier,
+        onClick = onClickAction,
+    ) {
+        Icon(
+            imageVector = Icons.Default.Settings,
+            contentDescription = stringResource(R.string.settings_icon_content_description),
+        )
+    }
 }
 
 @Composable

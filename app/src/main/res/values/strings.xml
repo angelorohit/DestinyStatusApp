@@ -7,7 +7,9 @@
     <string name="empty_content">No updates available</string>
     <string name="zero_content">Hold on, we\'ll fetch updates soon.</string>
 
+    <string name="back_icon_content_description">Back</string>
     <string name="refresh_icon_content_description">Refresh</string>
+    <string name="settings_icon_content_description">Settings</string>
 
     <string name="moments_ago">Moments ago</string>
     <string name="hour_ago">An hour ago</string>
@@ -15,4 +17,6 @@
     <string name="minutes_ago">%1$d minutes ago</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
+
+    <string name="about_screen_title">About</string>
 </resources>
