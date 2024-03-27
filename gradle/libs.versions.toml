@@ -15,6 +15,8 @@ lifecycleRuntime = "2.7.0"
 moshi = "1.15.0"
 navigationCompose = "2.7.7"
 okhttpBom = "4.12.0"
+ossLicenses = "17.0.1"
+ossLicensesPlugin = "0.10.6"
 retrofit = "2.9.0"
 timber = "5.0.1"
 
@@ -69,7 +71,11 @@ junit = { group = "junit", name="junit", version.ref = "junit" }
 # Detekt
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name="detekt-formatting", version.ref = "detekt" }
 
+# OSS licenses
+oss-licenses = { group = "com.google.android.gms", name="play-services-oss-licenses", version.ref = "ossLicenses" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+oss-licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "ossLicensesPlugin" }

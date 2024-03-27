@@ -18,5 +18,8 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
 
+    <string name="main_screen_title">@string/app_name</string>
     <string name="about_screen_title">About</string>
+
+    <string name="open_source_licenses">Open source licenses</string>
 </resources>

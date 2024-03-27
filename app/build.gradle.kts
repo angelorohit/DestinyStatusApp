@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.oss.licenses)
 }
 
 android {
@@ -24,6 +25,15 @@ android {
     buildTypes {
         debug {
             isMinifyEnabled = false
+        }
+        create("debugMini") {
+            initWith(buildTypes["debug"])
+            isShrinkResources = true
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
         release {
             isShrinkResources = true
@@ -93,6 +103,9 @@ dependencies {
 
     // Timber
     implementation(libs.timber)
+
+    // OSS licenses
+    implementation(libs.oss.licenses)
 
     // Slack lint checks
     lintChecks(libs.compose.lint.checks)

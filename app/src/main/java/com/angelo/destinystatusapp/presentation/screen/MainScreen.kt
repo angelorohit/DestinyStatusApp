@@ -76,7 +76,7 @@ fun MainScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             StandardTopAppBar(
-                title = { Text(text = stringResource(id = R.string.app_name)) },
+                title = { Text(text = stringResource(id = R.string.main_screen_title)) },
                 navController = navController,
                 actions = {
                     RefreshIconButton(

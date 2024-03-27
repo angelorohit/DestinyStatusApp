@@ -7,6 +7,7 @@ import com.angelo.destinystatusapp.data.remote.model.DestinyStatusUpdate
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import retrofit2.Response
+import timber.log.Timber
 import java.net.SocketTimeoutException
 
 class RemoteDataSourceImpl(private val destinyStatusService: DestinyStatusService) : RemoteDataSource {
@@ -16,7 +17,10 @@ class RemoteDataSourceImpl(private val destinyStatusService: DestinyStatusServic
 
     override suspend fun fetchDestinyStatusUpdates(): State<ImmutableList<DestinyStatusUpdate>> {
         return runCatching { destinyStatusService.fetchUpdates().toState() }
-            .getOrElse { throwable -> throwable.toState() }
+            .getOrElse { throwable ->
+                Timber.e("Failed to fetch Destiny status updates", throwable)
+                throwable.toState()
+            }
     }
 
     private fun Response<List<DestinyStatusUpdate>>.toState(): State<ImmutableList<DestinyStatusUpdate>> {
