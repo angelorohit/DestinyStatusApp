@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.angelo.destinystatusapp.presentation.screen.AboutScreen
+import com.angelo.destinystatusapp.presentation.screen.AttributionsScreen
 import com.angelo.destinystatusapp.presentation.screen.MainScreen
 
 @Composable
@@ -24,12 +25,16 @@ fun NavGraph(navController: NavHostController) {
         composable(NavigationRoute.About.route) {
             AboutScreen(navController)
         }
+        composable(NavigationRoute.Attributions.route) {
+            AttributionsScreen(navController)
+        }
     }
 }
 
 enum class NavigationRoute(val route: String) {
     Main("main"),
     About("about"),
+    Attributions("attributions"),
 }
 
 fun NavController.navigateTo(route: NavigationRoute) {
