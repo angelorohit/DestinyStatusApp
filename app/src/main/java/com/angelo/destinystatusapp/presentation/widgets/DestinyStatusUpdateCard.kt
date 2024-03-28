@@ -38,7 +38,7 @@ fun DestinyStatusUpdateCard(
     clock: Clock = get(),
 ) {
     Card(
-        modifier = modifier.padding(top = 8.dp, bottom = 16.dp),
+        modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {

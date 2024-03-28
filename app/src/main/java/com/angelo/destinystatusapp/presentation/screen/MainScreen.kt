@@ -1,8 +1,12 @@
 package com.angelo.destinystatusapp.presentation.screen
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -184,10 +188,17 @@ private fun MainContent(
 
 @Composable
 private fun DataContent(destinyStatusUpdates: UiDataType, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         items(destinyStatusUpdates) {
-            DestinyStatusUpdateCard(destinyStatusUpdate = it, modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+            DestinyStatusUpdateCard(
+                destinyStatusUpdate = it,
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp)
+                    .fillMaxWidth(),
+            )
         }
+        // Empty space below the last item in the list.
+        item { Spacer(modifier = Modifier.height(8.dp)) }
     }
 }
 
