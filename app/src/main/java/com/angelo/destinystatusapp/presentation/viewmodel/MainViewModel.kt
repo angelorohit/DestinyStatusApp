@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.angelo.destinystatusapp.R
-import com.angelo.destinystatusapp.data.State
-import com.angelo.destinystatusapp.data.remote.RemoteDataSource
-import com.angelo.destinystatusapp.data.remote.model.DestinyStatusUpdate
+import com.angelo.destinystatusapp.domain.State
+import com.angelo.destinystatusapp.domain.model.BungieHelpUpdate
+import com.angelo.destinystatusapp.domain.usecase.FetchBungieHelpUpdatesUseCase
 import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -19,11 +19,11 @@ import org.koin.core.component.inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
-typealias UiDataType = ImmutableList<DestinyStatusUpdate>
+typealias UiDataType = ImmutableList<BungieHelpUpdate>
 typealias DestinyStatusUiState = UiState<UiDataType, String>
 
 class MainViewModel(
-    private val remoteDataSource: RemoteDataSource,
+    private val useCase: FetchBungieHelpUpdatesUseCase,
 ) : ViewModel(), KoinComponent {
     private companion object {
         // Only allow refresh to happen every minute
@@ -44,7 +44,7 @@ class MainViewModel(
             _uiState.update { UiState.Loading(existingData) }
 
             if (clock.exceedsThreshold(lastUpdateTime, UPDATE_INTERVAL)) {
-                remoteDataSource.fetchDestinyStatusUpdates().also { state ->
+                useCase.execute().also { state ->
                     _uiState.update { state.toUiState() }
                 }
                 lastUpdateTime = clock.now()

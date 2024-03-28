@@ -1,4 +1,4 @@
-package com.angelo.destinystatusapp.data
+package com.angelo.destinystatusapp.domain
 
 sealed class State<out SUCCESS_TYPE> {
     data class Success<SUCCESS_TYPE>(val data: SUCCESS_TYPE) : State<SUCCESS_TYPE>()

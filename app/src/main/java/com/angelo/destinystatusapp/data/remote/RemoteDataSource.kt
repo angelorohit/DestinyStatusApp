@@ -1,9 +1,8 @@
 package com.angelo.destinystatusapp.data.remote
 
-import com.angelo.destinystatusapp.data.State
-import com.angelo.destinystatusapp.data.remote.model.DestinyStatusUpdate
-import kotlinx.collections.immutable.ImmutableList
+import com.angelo.destinystatusapp.data.remote.model.BungieHelpUpdatesResponse
+import retrofit2.Response
 
 interface RemoteDataSource {
-    suspend fun fetchDestinyStatusUpdates(): State<ImmutableList<DestinyStatusUpdate>>
+    suspend fun fetchBungieHelpUpdates(): Response<List<BungieHelpUpdatesResponse>>
 }

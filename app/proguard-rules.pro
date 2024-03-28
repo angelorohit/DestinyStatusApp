@@ -23,6 +23,7 @@
 ################################ Keep all data models intact ################################
 
 -keep class com.angelo.destinystatusapp.data.remote.model.** { *; }
+-keep class com.angelo.destinystatusapp.domain.model.** { *; }
 
 ################################ Retrofit Proguard rules ################################
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and

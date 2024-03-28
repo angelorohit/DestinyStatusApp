@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.angelo.destinystatusapp.R
-import com.angelo.destinystatusapp.data.remote.model.DestinyStatusUpdate
+import com.angelo.destinystatusapp.domain.model.BungieHelpUpdate
 import com.angelo.destinystatusapp.presentation.helper.datetime.TimeAgoFormattingConfig
 import com.angelo.destinystatusapp.presentation.helper.datetime.ago
 import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
@@ -32,22 +32,18 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun DestinyStatusUpdateCard(
-    destinyStatusUpdate: DestinyStatusUpdate,
-    modifier: Modifier = Modifier,
-    clock: Clock = get(),
-) {
+fun DestinyStatusUpdateCard(bungieHelpUpdate: BungieHelpUpdate, modifier: Modifier = Modifier, clock: Clock = get()) {
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            TimeAgoText(destinyStatusUpdate = destinyStatusUpdate, clock = clock)
+            TimeAgoText(bungieHelpUpdate = bungieHelpUpdate, clock = clock)
 
             Spacer(modifier = Modifier.height(16.dp))
 
             LinkifyText(
-                text = destinyStatusUpdate.text.orEmpty(),
+                text = bungieHelpUpdate.text.orEmpty(),
                 linkColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 style = MaterialTheme.typography.bodyLarge,
             )
@@ -56,8 +52,8 @@ fun DestinyStatusUpdateCard(
 }
 
 @Composable
-private fun TimeAgoText(destinyStatusUpdate: DestinyStatusUpdate, clock: Clock, modifier: Modifier = Modifier) {
-    val timeAgoTextValue = destinyStatusUpdate.timestamp?.seconds?.ago(
+private fun TimeAgoText(bungieHelpUpdate: BungieHelpUpdate, clock: Clock, modifier: Modifier = Modifier) {
+    val timeAgoTextValue = bungieHelpUpdate.timestamp?.ago(
         LocalContext.current,
         clock,
         TimeAgoFormattingConfig(
@@ -68,10 +64,14 @@ private fun TimeAgoText(destinyStatusUpdate: DestinyStatusUpdate, clock: Clock, 
             todayStringRes = R.string.today,
             yesterdayStringRes = R.string.yesterday,
         ),
-    ) ?: destinyStatusUpdate.createdAt
+    ) ?: bungieHelpUpdate.createdAt
 
     timeAgoTextValue?.let {
-        Box(modifier = modifier.clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.onSecondary)) {
+        Box(
+            modifier = modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.onSecondary)
+        ) {
             Text(
                 text = it,
                 modifier = Modifier.padding(8.dp),
@@ -91,11 +91,11 @@ private fun DestinyStatusUpdateCardPreview(modifier: Modifier = Modifier) {
     DestinyStatusAppTheme {
         Surface {
             DestinyStatusUpdateCard(
-                destinyStatusUpdate = DestinyStatusUpdate(
+                bungieHelpUpdate = BungieHelpUpdate(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
-                    timestamp = 1711058102,
+                    timestamp = 1711058102.seconds,
                     url = "https://twitter.com/BungieHelp/status/1770932153981050919",
                 ),
                 modifier = modifier,
@@ -112,11 +112,11 @@ private fun TimeAgoTextMinsAgoPreview(modifier: Modifier = Modifier) {
     DestinyStatusAppTheme {
         Surface {
             TimeAgoText(
-                destinyStatusUpdate = DestinyStatusUpdate(
+                bungieHelpUpdate = BungieHelpUpdate(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
-                    timestamp = 1711058102,
+                    timestamp = 1711058102.seconds,
                     url = "https://twitter.com/BungieHelp/status/1770932153981050919",
                 ),
                 clock = fakeClock,
@@ -133,11 +133,11 @@ private fun TimeAgoTextMomentsAgoPreview(modifier: Modifier = Modifier) {
     DestinyStatusAppTheme {
         Surface {
             TimeAgoText(
-                destinyStatusUpdate = DestinyStatusUpdate(
+                bungieHelpUpdate = BungieHelpUpdate(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
-                    timestamp = 1711999999,
+                    timestamp = 1711999999.seconds,
                     url = "https://twitter.com/BungieHelp/status/1770932153981050919",
                 ),
                 clock = fakeClock,
@@ -154,10 +154,11 @@ private fun TimeAgoTextMissingTimestampPreview(modifier: Modifier = Modifier) {
     DestinyStatusAppTheme {
         Surface {
             TimeAgoText(
-                destinyStatusUpdate = DestinyStatusUpdate(
+                bungieHelpUpdate = BungieHelpUpdate(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
+                    timestamp = null,
                     url = "https://twitter.com/BungieHelp/status/1770932153981050919",
                 ),
                 clock = fakeClock,
