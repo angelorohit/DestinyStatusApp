@@ -12,7 +12,7 @@ import java.net.SocketTimeoutException
 
 class RemoteDataSourceImpl(private val destinyStatusService: DestinyStatusService) : RemoteDataSource {
     companion object {
-        private const val MAX_UPDATES_PER_REQUEST = 10
+        private const val MAX_UPDATES_PER_REQUEST = 20
     }
 
     override suspend fun fetchDestinyStatusUpdates(): State<ImmutableList<DestinyStatusUpdate>> {
