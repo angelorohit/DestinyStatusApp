@@ -19,8 +19,8 @@ import com.angelo.destinystatusapp.R
 @Composable
 fun StandardTopAppBar(
     navController: NavController,
-    title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    title: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(

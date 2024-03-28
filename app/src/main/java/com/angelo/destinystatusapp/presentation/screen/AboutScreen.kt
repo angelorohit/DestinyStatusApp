@@ -48,10 +48,7 @@ fun AboutScreen(navController: NavController, modifier: Modifier = Modifier) {
     Scaffold(
         modifier = modifier,
         topBar = {
-            StandardTopAppBar(
-                title = { Text(text = stringResource(id = R.string.about_screen_title)) },
-                navController = navController,
-            )
+            StandardTopAppBar(navController = navController)
         },
         content = { innerPadding ->
             Column(
