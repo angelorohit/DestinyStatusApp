@@ -35,7 +35,7 @@ import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
 @Composable
-fun AboutScreen(navController: NavController, modifier: Modifier = Modifier) {
+fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.gaming_community_driven))
 

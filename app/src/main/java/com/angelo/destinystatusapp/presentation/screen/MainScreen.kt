@@ -98,7 +98,7 @@ fun MainScreen(
                             }
                         },
                     )
-                    SettingsIconButton(onClickAction = { navController.navigateTo(NavigationRoute.About) })
+                    SettingsIconButton(onClickAction = { navController.navigateTo(NavigationRoute.Settings) })
                 }
             )
         },
