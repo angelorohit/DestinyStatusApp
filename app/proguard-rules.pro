@@ -20,7 +20,11 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# Retrofit Proguard rules
+################################ Keep all data models intact ################################
+
+-keep class com.angelo.destinystatusapp.data.remote.model.** { *; }
+
+################################ Retrofit Proguard rules ################################
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
 # EnclosingMethod is required to use InnerClasses.
 -keepattributes Signature, InnerClasses, EnclosingMethod
@@ -69,3 +73,7 @@
 
 # With R8 full mode generic signatures are stripped for classes that are not kept.
 -keep,allowobfuscation,allowshrinking class retrofit2.Response
+
+################################ Crashlytics ################################
+-keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
+-keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.
