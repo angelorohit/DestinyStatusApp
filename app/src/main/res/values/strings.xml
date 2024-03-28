@@ -21,5 +21,9 @@
     <string name="main_screen_title">@string/app_name</string>
     <string name="about_screen_title">About</string>
 
+    <string name="community_driven">A community driven effort for Guardians!</string>
     <string name="open_source_licenses">Open source licenses</string>
+    <string name="service_attribution">Original service provided at bungiehelp.org</string>
+    <string name="assets_attribution">Lottie animation by Pierre Blavette / LottieFiles</string>
+    <string name="ip_attribution">Original Destiny IP by Bungie</string>
 </resources>

@@ -101,6 +101,9 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
+    // Lottie
+    implementation(libs.lottie.compose)
+
     // Timber
     implementation(libs.timber)
 
