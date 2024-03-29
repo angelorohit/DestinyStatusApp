@@ -44,7 +44,7 @@ class MainViewModel(
             _uiState.update { UiState.Loading(existingData) }
 
             if (clock.exceedsThreshold(lastUpdateTime, UPDATE_INTERVAL)) {
-                useCase.execute().also { state ->
+                useCase().also { state ->
                     _uiState.update { state.toUiState() }
                 }
                 lastUpdateTime = clock.now()

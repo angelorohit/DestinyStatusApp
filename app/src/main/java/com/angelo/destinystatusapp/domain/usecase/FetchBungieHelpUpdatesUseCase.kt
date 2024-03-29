@@ -5,5 +5,5 @@ import com.angelo.destinystatusapp.domain.model.BungieHelpUpdate
 import kotlinx.collections.immutable.ImmutableList
 
 interface FetchBungieHelpUpdatesUseCase {
-    suspend fun execute(): State<ImmutableList<BungieHelpUpdate>>
+    suspend operator fun invoke(): State<ImmutableList<BungieHelpUpdate>>
 }

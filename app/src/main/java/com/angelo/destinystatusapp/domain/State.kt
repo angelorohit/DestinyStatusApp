@@ -14,3 +14,12 @@ sealed class State<out SUCCESS_TYPE> {
         }
     }
 }
+
+fun <SUCCESS_TYPE, TRANSFORMED_TYPE> State<SUCCESS_TYPE>.map(
+    transform: (SUCCESS_TYPE) -> TRANSFORMED_TYPE,
+): State<TRANSFORMED_TYPE> {
+    return when (this) {
+        is State.Success -> State.Success(transform(data))
+        is State.Error -> this
+    }
+}
