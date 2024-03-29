@@ -38,7 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
@@ -52,6 +52,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.core.text.util.LinkifyCompat
+import com.angelo.destinystatusapp.presentation.helper.customtabs.launchCustomTabs
 import timber.log.Timber
 import java.util.regex.Pattern
 
@@ -87,7 +88,7 @@ fun LinkifyText(
     clickable: Boolean = true,
     onClickLink: ((linkText: String) -> Unit)? = null,
 ) {
-    val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
     val linkInfos = if (linkEntire) listOf(LinkInfo(text, 0, text.length)) else SpannableStr.getLinkInfos(text)
     val annotatedString = buildAnnotatedString {
         append(text)
@@ -131,12 +132,12 @@ fun LinkifyText(
                     start = offset,
                     end = offset,
                 ).firstOrNull()?.let { result ->
+                    val url = annotatedString.substring(result.start, result.end).trim().removeSuffix(".")
                     if (linkEntire) {
-                        onClickLink?.invoke(annotatedString.substring(result.start, result.end))
+                        onClickLink?.invoke(url)
                     } else {
-                        val url = annotatedString.substring(result.start, result.end).trim()
                         try {
-                            uriHandler.openUri(url)
+                            context.launchCustomTabs(url)
                         } catch (exception: ActivityNotFoundException) {
                             Timber.tag("Linkify").e(exception)
                         }

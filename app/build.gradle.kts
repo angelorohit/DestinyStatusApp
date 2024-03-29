@@ -72,6 +72,9 @@ dependencies {
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
+    // Browser
+    implementation(libs.androidx.browser)
+
     // Jetpack Compose
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)

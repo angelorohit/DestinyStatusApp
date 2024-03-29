@@ -11,15 +11,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.angelo.destinystatusapp.R
+import com.angelo.destinystatusapp.presentation.helper.customtabs.launchCustomTabs
 import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
 
 @Composable
 fun AttributionsScreen(navController: NavController, modifier: Modifier = Modifier) {
-    val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
 
     Scaffold(
         modifier = modifier,
@@ -38,28 +39,28 @@ fun AttributionsScreen(navController: NavController, modifier: Modifier = Modifi
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.service_attribution)) },
                     modifier = Modifier.clickable {
-                        uriHandler.openUri(AttributionLinks.BUNGIE_HELP_SERVICE)
+                        context.launchCustomTabs(AttributionLinks.BUNGIE_HELP_SERVICE)
                     },
                 )
                 HorizontalDivider()
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.app_icon_attribution)) },
                     modifier = Modifier.clickable {
-                        uriHandler.openUri(AttributionLinks.APP_ICON)
+                        context.launchCustomTabs(AttributionLinks.APP_ICON)
                     },
                 )
                 HorizontalDivider()
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.lottie_animation_attribution)) },
                     modifier = Modifier.clickable {
-                        uriHandler.openUri(AttributionLinks.ANIMATION)
+                        context.launchCustomTabs(AttributionLinks.ANIMATION)
                     },
                 )
                 HorizontalDivider()
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.ip_attribution)) },
                     modifier = Modifier.clickable {
-                        uriHandler.openUri(AttributionLinks.INTELLECTUAL_PROPERTY)
+                        context.launchCustomTabs(AttributionLinks.INTELLECTUAL_PROPERTY)
                     },
                 )
             }
