@@ -65,7 +65,7 @@ class MainViewModel(
                 val errorMessage = when (errorType) {
                     is State.ErrorType.Remote.NoConnectivity -> context.getString(R.string.no_connectivity_error)
                     is State.ErrorType.Remote.Timeout -> context.getString(R.string.timeout_error)
-                    is State.ErrorType.Remote.Network -> errorType.message
+                    is State.ErrorType.Remote.Request -> context.getString(R.string.request_error, errorType.message)
                     else -> context.getString(R.string.generic_request_error)
                 }
 

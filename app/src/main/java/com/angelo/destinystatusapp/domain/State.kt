@@ -7,7 +7,7 @@ sealed class State<out SUCCESS_TYPE> {
 
     sealed class ErrorType {
         sealed class Remote : ErrorType() {
-            data class Network(val message: String = "") : Remote()
+            data class Request(val httpStatusCode: Int, val message: String = "") : Remote()
             data object NoConnectivity : Remote()
             data object Timeout : Remote()
             data object Unknown : Remote()
