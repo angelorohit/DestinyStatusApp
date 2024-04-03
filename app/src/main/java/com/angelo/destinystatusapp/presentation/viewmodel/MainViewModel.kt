@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.domain.State
-import com.angelo.destinystatusapp.domain.model.BungieHelpUpdate
+import com.angelo.destinystatusapp.domain.model.BungieHelpPost
 import com.angelo.destinystatusapp.domain.usecase.FetchBungieHelpUpdatesUseCase
 import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
 import kotlinx.collections.immutable.ImmutableList
@@ -19,7 +19,7 @@ import org.koin.core.component.inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
-typealias UiDataType = ImmutableList<BungieHelpUpdate>
+typealias UiDataType = ImmutableList<BungieHelpPost>
 typealias DestinyStatusUiState = UiState<UiDataType, String>
 
 class MainViewModel(

@@ -1,10 +1,10 @@
 package com.angelo.destinystatusapp.domain.mapper
 
-import com.angelo.destinystatusapp.data.remote.model.BungieHelpUpdatesResponse
-import com.angelo.destinystatusapp.domain.model.BungieHelpUpdate
+import com.angelo.destinystatusapp.data.remote.model.RemoteBungieHelpPost
+import com.angelo.destinystatusapp.domain.model.BungieHelpPost
 import kotlin.time.Duration.Companion.seconds
 
-fun BungieHelpUpdatesResponse.toBungieHelpUpdate() = BungieHelpUpdate(
+fun RemoteBungieHelpPost.toDomainModel() = BungieHelpPost(
     id = id,
     createdAt = createdAt,
     text = text,

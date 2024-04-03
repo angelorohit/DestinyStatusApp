@@ -191,7 +191,7 @@ private fun DataContent(destinyStatusUpdates: UiDataType, modifier: Modifier = M
     LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         items(destinyStatusUpdates) {
             DestinyStatusUpdateCard(
-                bungieHelpUpdate = it,
+                bungieHelpPost = it,
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
