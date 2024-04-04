@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.oss.licenses)
     alias(libs.plugins.google.services)
     alias(libs.plugins.crashlytics)
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -75,6 +76,13 @@ dependencies {
     // Browser
     implementation(libs.androidx.browser)
 
+    // DataStore
+    implementation(libs.androidx.datastore)
+
+    // Protobuf
+    implementation(libs.protobuf.java.lite)
+    implementation(libs.protobuf.kotlin.lite)
+
     // Jetpack Compose
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
@@ -131,4 +139,24 @@ dependencies {
     debugImplementation(libs.compose.ui.test.manifest)
 
     detektPlugins(libs.detekt.formatting)
+}
+
+protobuf {
+    protoc {
+        artifact = "${libs.protobuf.compiler.get()}"
+    }
+    plugins {
+        generateProtoTasks {
+            all().forEach {
+                it.builtins {
+                    create("java") {
+                        option("lite")
+                    }
+                    create("kotlin") {
+                        option("lite")
+                    }
+                }
+            }
+        }
+    }
 }

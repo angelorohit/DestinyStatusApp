@@ -1,6 +1,8 @@
 package com.angelo.destinystatusapp.data.di
 
 import com.angelo.destinystatusapp.BuildConfig
+import com.angelo.destinystatusapp.data.local.datastore.BungieHelpDao
+import com.angelo.destinystatusapp.data.local.datastore.BungieHelpDaoImpl
 import com.angelo.destinystatusapp.data.remote.RemoteDataSource
 import com.angelo.destinystatusapp.data.remote.RemoteDataSourceImpl
 import com.angelo.destinystatusapp.data.remote.api.ApiConstants
@@ -42,4 +44,6 @@ val dataModule = module {
     }
 
     single<RemoteDataSource> { RemoteDataSourceImpl(destinyStatusService = get()) }
+
+    single<BungieHelpDao> { BungieHelpDaoImpl(androidContext()) }
 }

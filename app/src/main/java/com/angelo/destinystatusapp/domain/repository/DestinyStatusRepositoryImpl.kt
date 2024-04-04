@@ -14,7 +14,7 @@ class DestinyStatusRepositoryImpl(private val remoteDataSource: RemoteDataSource
     override suspend fun fetchBungieHelpPosts(): State<List<BungieHelpPost>> {
         return runCatching { remoteDataSource.fetchBungieHelpPosts().toState() }
             .getOrElse { throwable ->
-                Timber.e("Failed to fetch Destiny status updates", throwable)
+                Timber.e("Failed to fetch Bungie Help Posts", throwable)
                 throwable.toState()
             }
     }

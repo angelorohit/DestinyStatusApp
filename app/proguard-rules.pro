@@ -24,6 +24,13 @@
 
 -keep class com.angelo.destinystatusapp.data.remote.model.** { *; }
 -keep class com.angelo.destinystatusapp.domain.model.** { *; }
+-keep class com.angelo.destinystatusapp.proto.** { *; }
+
+################################ Keep all datastore and protobufs ################################
+-keep class androidx.datastore.*.** {*;}
+-keepclassmembers class * extends androidx.datastore.preferences.protobuf.GeneratedMessageLite {
+    <fields> ;
+}
 
 ################################ Retrofit Proguard rules ################################
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and

@@ -12,6 +12,11 @@ sealed class State<out SUCCESS_TYPE> {
             data object Timeout : Remote()
             data object Unknown : Remote()
         }
+
+        sealed class Local : ErrorType() {
+            data object Write : Local()
+            data object Read : Local()
+        }
     }
 }
 

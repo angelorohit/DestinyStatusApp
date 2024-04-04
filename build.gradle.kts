@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.oss.licenses) apply false
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.crashlytics) apply false
+    alias(libs.plugins.protobuf) apply false
 }
 
 task("addPreCommitGitHookOnBuild") {
