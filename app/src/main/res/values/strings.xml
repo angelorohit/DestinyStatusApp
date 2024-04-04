@@ -2,9 +2,11 @@
     <string name="app_name">Destiny Status</string>
 
     <string name="no_connectivity_error">No internet connection</string>
-    <string name="timeout_error">Timed out when fetching the latest upates</string>
+    <string name="timeout_error">Timed out when fetching the latest updates</string>
     <string name="request_error">Request failed: %s</string>
     <string name="generic_request_error">An unknown error occurred</string>
+    <string name="local_persistence_read_error">Failed to read updates from local storage</string>
+    <string name="local_persistence_write_error">Failed to save updates to local storage</string>
     <string name="empty_content">No updates available</string>
     <string name="zero_content">Hold on, we\'ll fetch updates soon.</string>
 

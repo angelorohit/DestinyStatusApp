@@ -1,6 +1,5 @@
 package com.angelo.destinystatusapp.presentation.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.angelo.destinystatusapp.R
@@ -10,6 +9,7 @@ import com.angelo.destinystatusapp.domain.model.BungieHelpPost
 import com.angelo.destinystatusapp.domain.repository.BungieHelpDaoRepository
 import com.angelo.destinystatusapp.domain.repository.DestinyStatusRepository
 import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
+import com.angelo.destinystatusapp.presentation.viewmodel.UiString.StringResource
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -23,7 +23,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 typealias UiDataType = ImmutableList<BungieHelpPost>
-typealias DestinyStatusUiState = UiState<UiDataType, String>
+typealias DestinyStatusUiState = UiState<UiDataType, UiString>
 
 class MainViewModel(
     private val destinyStatusRepository: DestinyStatusRepository,
@@ -34,7 +34,6 @@ class MainViewModel(
         val UPDATE_INTERVAL = 1.minutes
     }
 
-    private val context: Context by inject()
     private val clock: Clock by inject()
 
     private val _uiState = MutableStateFlow<DestinyStatusUiState>(UiState.Zero)
@@ -78,16 +77,16 @@ class MainViewModel(
             }
 
             is State.Error -> {
-                val errorMessage = when (errorType) {
-                    is State.ErrorType.Remote.NoConnectivity -> context.getString(R.string.no_connectivity_error)
-                    is State.ErrorType.Remote.Timeout -> context.getString(R.string.timeout_error)
-                    is State.ErrorType.Remote.Request -> context.getString(R.string.request_error, errorType.message)
-                    is State.ErrorType.Local.Read -> "Local read error"
-                    is State.ErrorType.Local.Write -> "Local write error"
-                    else -> context.getString(R.string.generic_request_error)
+                val errorUiString = when (errorType) {
+                    is State.ErrorType.Remote.NoConnectivity -> StringResource(R.string.no_connectivity_error)
+                    is State.ErrorType.Remote.Timeout -> StringResource(R.string.timeout_error)
+                    is State.ErrorType.Remote.Request -> StringResource(R.string.request_error, errorType.message)
+                    is State.ErrorType.Local.Read -> StringResource(R.string.local_persistence_read_error)
+                    is State.ErrorType.Local.Write -> StringResource(R.string.local_persistence_write_error)
+                    else -> StringResource(R.string.generic_request_error)
                 }
 
-                return UiState.Error(existingData, errorMessage)
+                return UiState.Error(existingData, errorUiString)
             }
         }
     }

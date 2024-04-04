@@ -180,7 +180,7 @@ private fun MainContent(
                 } else {
                     DataContent(it.existingData, modifier)
                 }
-                onErrorAction(it.errorData)
+                onErrorAction(it.errorData.asString())
             }
         }
     }
