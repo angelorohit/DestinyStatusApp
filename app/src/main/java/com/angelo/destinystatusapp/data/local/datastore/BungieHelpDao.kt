@@ -1,9 +1,9 @@
 package com.angelo.destinystatusapp.data.local.datastore
 
-import com.angelo.destinystatusapp.proto.BungieHelpPostItems
+import com.angelo.destinystatusapp.proto.BungiePostItems
 
 interface BungieHelpDao {
-    suspend fun readBungieHelpPostItems(): BungieHelpPostItems
+    suspend fun readBungieHelpPostItems(): BungiePostItems
 
-    suspend fun saveBungieHelpPostItems(items: BungieHelpPostItems)
+    suspend fun saveBungieHelpPostItems(items: BungiePostItems)
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.domain.State
 import com.angelo.destinystatusapp.domain.map
-import com.angelo.destinystatusapp.domain.model.BungieHelpPost
+import com.angelo.destinystatusapp.domain.model.BungiePost
 import com.angelo.destinystatusapp.domain.repository.BungieHelpDaoRepository
 import com.angelo.destinystatusapp.domain.repository.DestinyStatusRepository
 import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
@@ -22,7 +22,7 @@ import org.koin.core.component.inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
-typealias UiDataType = ImmutableList<BungieHelpPost>
+typealias UiDataType = ImmutableList<BungiePost>
 typealias DestinyStatusUiState = UiState<UiDataType, UiString>
 
 class MainViewModel(
@@ -30,8 +30,8 @@ class MainViewModel(
     private val bungieHelpDaoRepository: BungieHelpDaoRepository,
 ) : ViewModel(), KoinComponent {
     private companion object {
-        // Only allow refresh to happen every minute
-        val UPDATE_INTERVAL = 1.minutes
+        // Only allow refresh to happen every one and a half minutes.
+        val UPDATE_INTERVAL = 1.5.minutes
     }
 
     private val clock: Clock by inject()

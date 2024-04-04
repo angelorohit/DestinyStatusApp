@@ -43,7 +43,7 @@ import com.angelo.destinystatusapp.presentation.viewmodel.DestinyStatusUiState
 import com.angelo.destinystatusapp.presentation.viewmodel.MainViewModel
 import com.angelo.destinystatusapp.presentation.viewmodel.UiDataType
 import com.angelo.destinystatusapp.presentation.viewmodel.UiState
-import com.angelo.destinystatusapp.presentation.widgets.DestinyStatusUpdateCard
+import com.angelo.destinystatusapp.presentation.widgets.BungiePostCard
 import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -190,8 +190,8 @@ private fun MainContent(
 private fun DataContent(destinyStatusUpdates: UiDataType, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         items(destinyStatusUpdates) {
-            DestinyStatusUpdateCard(
-                bungieHelpPost = it,
+            BungiePostCard(
+                bungiePost = it,
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),

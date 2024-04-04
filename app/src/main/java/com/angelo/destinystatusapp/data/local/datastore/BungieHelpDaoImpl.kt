@@ -5,8 +5,8 @@ import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
-import com.angelo.destinystatusapp.proto.BungieHelpPostItems
-import com.angelo.destinystatusapp.proto.bungieHelpPostItems
+import com.angelo.destinystatusapp.proto.BungiePostItems
+import com.angelo.destinystatusapp.proto.bungiePostItems
 import kotlinx.coroutines.flow.firstOrNull
 import java.io.IOException
 import java.io.InputStream
@@ -14,21 +14,21 @@ import java.io.OutputStream
 
 private const val DATA_STORE_FILE_NAME = "bungie_help_post.pb"
 
-private object BungieHelpPostItemsSerializer : Serializer<BungieHelpPostItems> {
-    override val defaultValue: BungieHelpPostItems = bungieHelpPostItems {}
+private object BungieHelpPostItemsSerializer : Serializer<BungiePostItems> {
+    override val defaultValue: BungiePostItems = bungiePostItems {}
 
-    override suspend fun readFrom(input: InputStream): BungieHelpPostItems {
+    override suspend fun readFrom(input: InputStream): BungiePostItems {
         try {
-            return BungieHelpPostItems.parseFrom(input)
+            return BungiePostItems.parseFrom(input)
         } catch (exception: IOException) {
             throw CorruptionException("Failed to read proto.", exception)
         }
     }
 
-    override suspend fun writeTo(t: BungieHelpPostItems, output: OutputStream) = t.writeTo(output)
+    override suspend fun writeTo(t: BungiePostItems, output: OutputStream) = t.writeTo(output)
 }
 
-private val Context.dataStore: DataStore<BungieHelpPostItems> by dataStore(
+private val Context.dataStore: DataStore<BungiePostItems> by dataStore(
     fileName = DATA_STORE_FILE_NAME,
     serializer = BungieHelpPostItemsSerializer
 )
@@ -36,10 +36,10 @@ private val Context.dataStore: DataStore<BungieHelpPostItems> by dataStore(
 class BungieHelpDaoImpl(context: Context) : BungieHelpDao {
     private val dataStore = context.dataStore
 
-    override suspend fun readBungieHelpPostItems(): BungieHelpPostItems =
-        dataStore.data.firstOrNull() ?: BungieHelpPostItems.getDefaultInstance()
+    override suspend fun readBungieHelpPostItems(): BungiePostItems =
+        dataStore.data.firstOrNull() ?: BungiePostItems.getDefaultInstance()
 
-    override suspend fun saveBungieHelpPostItems(items: BungieHelpPostItems) {
+    override suspend fun saveBungieHelpPostItems(items: BungiePostItems) {
         dataStore.updateData { items }
     }
 }

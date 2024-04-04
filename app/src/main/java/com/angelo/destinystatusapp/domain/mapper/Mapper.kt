@@ -1,14 +1,14 @@
 package com.angelo.destinystatusapp.domain.mapper
 
-import com.angelo.destinystatusapp.data.remote.model.RemoteBungieHelpPost
-import com.angelo.destinystatusapp.domain.model.BungieHelpPost
-import com.angelo.destinystatusapp.proto.BungieHelpPostItem
-import com.angelo.destinystatusapp.proto.BungieHelpPostItems
-import com.angelo.destinystatusapp.proto.bungieHelpPostItem
-import com.angelo.destinystatusapp.proto.bungieHelpPostItems
+import com.angelo.destinystatusapp.data.remote.model.RemoteBungiePost
+import com.angelo.destinystatusapp.domain.model.BungiePost
+import com.angelo.destinystatusapp.proto.BungiePostItem
+import com.angelo.destinystatusapp.proto.BungiePostItems
+import com.angelo.destinystatusapp.proto.bungiePostItem
+import com.angelo.destinystatusapp.proto.bungiePostItems
 import kotlin.time.Duration.Companion.seconds
 
-fun RemoteBungieHelpPost.toDomainModel() = BungieHelpPost(
+fun RemoteBungiePost.toDomainModel() = BungiePost(
     id = id,
     createdAt = createdAt,
     text = text,
@@ -16,9 +16,9 @@ fun RemoteBungieHelpPost.toDomainModel() = BungieHelpPost(
     url = url,
 )
 
-private fun BungieHelpPost.toDao(): BungieHelpPostItem {
-    val domainModel: BungieHelpPost = this
-    return bungieHelpPostItem {
+private fun BungiePost.toDao(): BungiePostItem {
+    val domainModel: BungiePost = this
+    return bungiePostItem {
         id = domainModel.id.orEmpty()
         createdAt = domainModel.createdAt.orEmpty()
         text = domainModel.text.orEmpty()
@@ -27,11 +27,11 @@ private fun BungieHelpPost.toDao(): BungieHelpPostItem {
     }
 }
 
-fun List<BungieHelpPost>.toDao(): BungieHelpPostItems = bungieHelpPostItems {
+fun List<BungiePost>.toDao(): BungiePostItems = bungiePostItems {
     items.addAll(map { post -> post.toDao() })
 }
 
-fun BungieHelpPostItem.toDomainModel() = BungieHelpPost(
+fun BungiePostItem.toDomainModel() = BungiePost(
     id = id,
     createdAt = createdAt,
     text = text,
@@ -39,4 +39,4 @@ fun BungieHelpPostItem.toDomainModel() = BungieHelpPost(
     url = url,
 )
 
-fun BungieHelpPostItems.toDomainModel(): List<BungieHelpPost> = itemsList.map { item -> item.toDomainModel() }
+fun BungiePostItems.toDomainModel(): List<BungiePost> = itemsList.map { item -> item.toDomainModel() }

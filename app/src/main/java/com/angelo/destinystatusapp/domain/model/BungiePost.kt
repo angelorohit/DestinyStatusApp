@@ -2,7 +2,7 @@ package com.angelo.destinystatusapp.domain.model
 
 import kotlin.time.Duration
 
-data class BungieHelpPost(
+data class BungiePost(
     val id: String?,
     val createdAt: String?,
     val text: String?,

@@ -3,7 +3,7 @@ syntax = "proto3";
 option java_package = "com.angelo.destinystatusapp.proto";
 option java_multiple_files = true;
 
-message BungieHelpPostItem {
+message BungiePostItem {
   string id = 1 ;
   string created_at = 2;
   string text = 3;
@@ -11,6 +11,6 @@ message BungieHelpPostItem {
   string url = 5;
 }
 
-message BungieHelpPostItems {
-  repeated BungieHelpPostItem items = 1;
+message BungiePostItems {
+  repeated BungiePostItem items = 1;
 }

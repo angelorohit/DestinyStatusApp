@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.angelo.destinystatusapp.R
-import com.angelo.destinystatusapp.domain.model.BungieHelpPost
+import com.angelo.destinystatusapp.domain.model.BungiePost
 import com.angelo.destinystatusapp.presentation.helper.datetime.TimeAgoFormattingConfig
 import com.angelo.destinystatusapp.presentation.helper.datetime.ago
 import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
@@ -32,18 +32,18 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun DestinyStatusUpdateCard(bungieHelpPost: BungieHelpPost, modifier: Modifier = Modifier, clock: Clock = get()) {
+fun BungiePostCard(bungiePost: BungiePost, modifier: Modifier = Modifier, clock: Clock = get()) {
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            TimeAgoText(bungieHelpPost = bungieHelpPost, clock = clock)
+            TimeAgoText(bungiePost = bungiePost, clock = clock)
 
             Spacer(modifier = Modifier.height(16.dp))
 
             LinkifyText(
-                text = bungieHelpPost.text.orEmpty(),
+                text = bungiePost.text.orEmpty(),
                 linkColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 style = MaterialTheme.typography.bodyLarge,
             )
@@ -52,8 +52,8 @@ fun DestinyStatusUpdateCard(bungieHelpPost: BungieHelpPost, modifier: Modifier =
 }
 
 @Composable
-private fun TimeAgoText(bungieHelpPost: BungieHelpPost, clock: Clock, modifier: Modifier = Modifier) {
-    val timeAgoTextValue = bungieHelpPost.timestamp?.ago(
+private fun TimeAgoText(bungiePost: BungiePost, clock: Clock, modifier: Modifier = Modifier) {
+    val timeAgoTextValue = bungiePost.timestamp?.ago(
         LocalContext.current,
         clock,
         TimeAgoFormattingConfig(
@@ -64,7 +64,7 @@ private fun TimeAgoText(bungieHelpPost: BungieHelpPost, clock: Clock, modifier: 
             todayStringRes = R.string.today,
             yesterdayStringRes = R.string.yesterday,
         ),
-    ) ?: bungieHelpPost.createdAt
+    ) ?: bungiePost.createdAt
 
     timeAgoTextValue?.let {
         Box(
@@ -90,8 +90,8 @@ private fun DestinyStatusUpdateCardPreview(modifier: Modifier = Modifier) {
 
     DestinyStatusAppTheme {
         Surface {
-            DestinyStatusUpdateCard(
-                bungieHelpPost = BungieHelpPost(
+            BungiePostCard(
+                bungiePost = BungiePost(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
@@ -112,7 +112,7 @@ private fun TimeAgoTextMinsAgoPreview(modifier: Modifier = Modifier) {
     DestinyStatusAppTheme {
         Surface {
             TimeAgoText(
-                bungieHelpPost = BungieHelpPost(
+                bungiePost = BungiePost(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
@@ -133,7 +133,7 @@ private fun TimeAgoTextMomentsAgoPreview(modifier: Modifier = Modifier) {
     DestinyStatusAppTheme {
         Surface {
             TimeAgoText(
-                bungieHelpPost = BungieHelpPost(
+                bungiePost = BungiePost(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
@@ -154,7 +154,7 @@ private fun TimeAgoTextMissingTimestampPreview(modifier: Modifier = Modifier) {
     DestinyStatusAppTheme {
         Surface {
             TimeAgoText(
-                bungieHelpPost = BungieHelpPost(
+                bungiePost = BungiePost(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
