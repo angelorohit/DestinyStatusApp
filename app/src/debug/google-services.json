@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "747851621799",
+    "project_number": "123456789123",
     "project_id": "destinystatusapp",
     "storage_bucket": "destinystatusapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:747851621799:android:1efe6ddce3f955efd54282",
+        "mobilesdk_app_id": "dummy",
         "android_client_info": {
           "package_name": "com.angelo.destinystatusapp"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAD9PnSavY8tvJp5WWxA58dlgI9T56UwZ8"
+          "current_key": "dummykey"
         }
       ],
       "services": {
