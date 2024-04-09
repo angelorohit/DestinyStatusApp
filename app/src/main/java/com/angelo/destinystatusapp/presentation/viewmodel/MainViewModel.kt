@@ -64,6 +64,10 @@ class MainViewModel(
 
                 if (currentExistingData != existingData) {
                     bungieHelpDaoRepository.saveBungieHelpPosts(existingData.toList())
+                        .map { it.toImmutableList() }
+                        .also { state ->
+                            _uiState.update { state.toUiState() }
+                        }
                 }
 
                 lastUpdateTime = clock.now()

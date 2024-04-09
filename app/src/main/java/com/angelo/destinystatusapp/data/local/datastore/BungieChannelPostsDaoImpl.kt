@@ -8,6 +8,7 @@ import androidx.datastore.dataStore
 import com.angelo.destinystatusapp.proto.BungieChannelPosts
 import com.angelo.destinystatusapp.proto.BungiePostItem
 import com.angelo.destinystatusapp.proto.bungieChannelPosts
+import com.angelo.destinystatusapp.proto.bungieHelpPostItems
 import kotlinx.coroutines.flow.firstOrNull
 import java.io.IOException
 import java.io.InputStream
@@ -41,10 +42,12 @@ class BungieChannelPostsDaoImpl(context: Context) : BungieChannelPostsDao {
         dataStore.data.firstOrNull()?.bungieHelpPostItems?.itemsList ?: emptyList()
 
     override suspend fun saveBungieHelpPostItems(items: List<BungiePostItem>) {
-        dataStore.updateData { currentData ->
-            currentData.apply {
-                bungieHelpPostItems.itemsList.clear()
-                bungieHelpPostItems.itemsList.addAll(items)
+        dataStore.updateData {
+            bungieChannelPosts {
+                bungieHelpPostItems = bungieHelpPostItems {
+                    this.items.clear()
+                    this.items += items
+                }
             }
         }
     }

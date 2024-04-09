@@ -14,7 +14,7 @@ class BungieChannelPostsDaoRepositoryImpl(private val dao: BungieChannelPostsDao
             .fold(
                 onSuccess = { State.Success(posts) },
                 onFailure = { throwable ->
-                    Timber.e("Failed to save Bungie Help posts to storage", throwable)
+                    Timber.e(throwable, "Failed to save Bungie Help posts to storage")
                     State.Error(State.ErrorType.Local.Write)
                 }
             )
@@ -23,7 +23,7 @@ class BungieChannelPostsDaoRepositoryImpl(private val dao: BungieChannelPostsDao
     override suspend fun readBungieHelpPosts(): State<List<BungiePost>> {
         return runCatching { dao.readBungieHelpPostItems().toState() }
             .getOrElse { throwable ->
-                Timber.e("Failed to read Bungie Help posts from storage", throwable)
+                Timber.e(throwable, "Failed to read Bungie Help posts from storage")
                 State.Error(State.ErrorType.Local.Read)
             }
     }
