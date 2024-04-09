@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
@@ -48,31 +47,33 @@ class MainViewModel(
             _uiState.update { UiState.Loading(existingData) }
 
             if (clock.exceedsThreshold(lastUpdateTime, UPDATE_INTERVAL)) {
-                if (existingData.isEmpty()) {
-                    bungieHelpDaoRepository.readBungieHelpPosts()
-                        .map { it.toImmutableList() }
-                        .also { state ->
-                            Timber.d("Updated UI state from persistent storage.")
-                            _uiState.update { state.toUiState() }
-                        }
-                }
-                val currentExistingData = existingData
-
                 destinyStatusRepository.fetchBungieHelpPosts()
                     .map { it.toImmutableList() }
-                    .also { state -> _uiState.update { state.toUiState() } }
+                    .also { remoteFetchState ->
+                        _uiState.value = remoteFetchState.toUiState()
 
-                if (currentExistingData != existingData) {
-                    bungieHelpDaoRepository.saveBungieHelpPosts(existingData.toList())
-                        .map { it.toImmutableList() }
-                        .also { state ->
-                            _uiState.update { state.toUiState() }
+                        when (remoteFetchState) {
+                            is State.Success -> {
+                                bungieHelpDaoRepository.saveBungieHelpPosts(existingData.toList())
+                                    .map { it.toImmutableList() }
+                                    .also { localSaveState ->
+                                        _uiState.value = localSaveState.toUiState()
+                                    }
+                            }
+
+                            is State.Error -> {
+                                bungieHelpDaoRepository.readBungieHelpPosts()
+                                    .map { it.toImmutableList() }
+                                    .also { localFetchState ->
+                                        _uiState.value = localFetchState.toUiState()
+                                    }
+                            }
                         }
-                }
+                    }
 
                 lastUpdateTime = clock.now()
             } else {
-                _uiState.update { UiState.Success(existingData) }
+                _uiState.value = UiState.Success(existingData)
             }
         }
     }
