@@ -11,6 +11,10 @@ message BungiePostItem {
   string url = 5;
 }
 
-message BungiePostItems {
+message BungieHelpPostItems {
   repeated BungiePostItem items = 1;
+}
+
+message BungieChannelPosts {
+  BungieHelpPostItems bungie_help_post_items = 1;
 }

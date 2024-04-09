@@ -1,16 +1,16 @@
 package com.angelo.destinystatusapp.domain.repository
 
-import com.angelo.destinystatusapp.data.local.datastore.BungieHelpDao
+import com.angelo.destinystatusapp.data.local.datastore.BungieChannelPostsDao
 import com.angelo.destinystatusapp.domain.State
 import com.angelo.destinystatusapp.domain.mapper.toDao
 import com.angelo.destinystatusapp.domain.mapper.toDomainModel
 import com.angelo.destinystatusapp.domain.model.BungiePost
-import com.angelo.destinystatusapp.proto.BungiePostItems
+import com.angelo.destinystatusapp.proto.BungiePostItem
 import timber.log.Timber
 
-class BungieHelpDaoRepositoryImpl(private val dao: BungieHelpDao) : BungieHelpDaoRepository {
+class BungieChannelPostsDaoRepositoryImpl(private val dao: BungieChannelPostsDao) : BungieChannelPostsDaoRepository {
     override suspend fun saveBungieHelpPosts(posts: List<BungiePost>): State<List<BungiePost>> {
-        return runCatching { dao.saveBungieHelpPostItems(posts.toDao()) }
+        return runCatching { dao.saveBungieHelpPostItems(posts.map { it.toDao() }) }
             .fold(
                 onSuccess = { State.Success(posts) },
                 onFailure = { throwable ->
@@ -28,5 +28,5 @@ class BungieHelpDaoRepositoryImpl(private val dao: BungieHelpDao) : BungieHelpDa
             }
     }
 
-    private fun BungiePostItems.toState(): State<List<BungiePost>> = State.Success(toDomainModel())
+    private fun List<BungiePostItem>.toState(): State<List<BungiePost>> = State.Success(map { it.toDomainModel() })
 }

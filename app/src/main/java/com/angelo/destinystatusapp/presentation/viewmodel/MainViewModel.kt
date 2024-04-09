@@ -6,7 +6,7 @@ import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.domain.State
 import com.angelo.destinystatusapp.domain.map
 import com.angelo.destinystatusapp.domain.model.BungiePost
-import com.angelo.destinystatusapp.domain.repository.BungieHelpDaoRepository
+import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsDaoRepository
 import com.angelo.destinystatusapp.domain.repository.DestinyStatusRepository
 import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
 import com.angelo.destinystatusapp.presentation.viewmodel.UiString.StringResource
@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
@@ -27,7 +28,7 @@ typealias DestinyStatusUiState = UiState<UiDataType, UiString>
 
 class MainViewModel(
     private val destinyStatusRepository: DestinyStatusRepository,
-    private val bungieHelpDaoRepository: BungieHelpDaoRepository,
+    private val bungieHelpDaoRepository: BungieChannelPostsDaoRepository,
 ) : ViewModel(), KoinComponent {
     private companion object {
         // Only allow refresh to happen every one and a half minutes.
@@ -50,7 +51,10 @@ class MainViewModel(
                 if (existingData.isEmpty()) {
                     bungieHelpDaoRepository.readBungieHelpPosts()
                         .map { it.toImmutableList() }
-                        .also { state -> _uiState.update { state.toUiState() } }
+                        .also { state ->
+                            Timber.d("Updated UI state from persistent storage.")
+                            _uiState.update { state.toUiState() }
+                        }
                 }
                 val currentExistingData = existingData
 
