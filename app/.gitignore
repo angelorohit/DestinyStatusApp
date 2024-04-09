@@ -1,3 +1,4 @@
 /build
 /release
+/src/debugMini/google-services.json
 /src/release/google-services.json

@@ -84,7 +84,10 @@ fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) 
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                Text(text = "Version ${BuildConfig.VERSION_NAME}", style = MaterialTheme.typography.labelLarge)
+                Text(
+                    text = "${BuildConfig.BUILD_TYPE} - v${BuildConfig.VERSION_NAME}",
+                    style = MaterialTheme.typography.labelLarge,
+                )
             }
         }
     )
