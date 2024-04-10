@@ -6,9 +6,13 @@ import com.angelo.destinystatusapp.domain.mapper.toDao
 import com.angelo.destinystatusapp.domain.mapper.toDomainModel
 import com.angelo.destinystatusapp.domain.model.BungiePost
 import com.angelo.destinystatusapp.proto.BungiePostItem
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import timber.log.Timber
 
-class BungieChannelPostsDaoRepositoryImpl(private val dao: BungieChannelPostsDao) : BungieChannelPostsDaoRepository {
+class BungieChannelPostsDaoRepositoryImpl : BungieChannelPostsDaoRepository, KoinComponent {
+    private val dao: BungieChannelPostsDao by inject()
+
     override suspend fun saveBungieHelpPosts(posts: List<BungiePost>): State<List<BungiePost>> {
         return runCatching { dao.saveBungieHelpPostItems(posts.map { it.toDao() }) }
             .fold(

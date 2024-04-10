@@ -7,10 +7,14 @@ import com.angelo.destinystatusapp.data.remote.model.RemoteBungiePost
 import com.angelo.destinystatusapp.domain.State
 import com.angelo.destinystatusapp.domain.mapper.toDomainModel
 import com.angelo.destinystatusapp.domain.model.BungiePost
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import timber.log.Timber
 import java.net.SocketTimeoutException
 
-class DestinyStatusRepositoryImpl(private val remoteDataSource: RemoteDataSource) : DestinyStatusRepository {
+class DestinyStatusRepositoryImpl : DestinyStatusRepository, KoinComponent {
+    private val remoteDataSource: RemoteDataSource by inject()
+
     override suspend fun fetchBungieHelpPosts(): State<List<BungiePost>> {
         return runCatching { remoteDataSource.fetchBungieHelpPosts().toState() }
             .getOrElse { throwable ->

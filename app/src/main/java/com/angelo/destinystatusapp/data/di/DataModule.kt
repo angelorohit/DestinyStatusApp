@@ -43,7 +43,7 @@ val dataModule = module {
             .create(DestinyStatusService::class.java)
     }
 
-    single<RemoteDataSource> { RemoteDataSourceImpl(destinyStatusService = get()) }
+    single<RemoteDataSource> { RemoteDataSourceImpl() }
 
     single<BungieChannelPostsDao> { BungieChannelPostsDaoImpl(androidContext()) }
 }

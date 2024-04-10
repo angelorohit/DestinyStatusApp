@@ -4,84 +4,42 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.domain.State
-import com.angelo.destinystatusapp.domain.map
 import com.angelo.destinystatusapp.domain.model.BungiePost
-import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsDaoRepository
-import com.angelo.destinystatusapp.domain.repository.DestinyStatusRepository
-import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
+import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsCacheRepository
+import com.angelo.destinystatusapp.domain.usecase.FetchBungieHelpPostsUseCase
 import com.angelo.destinystatusapp.presentation.viewmodel.UiString.StringResource
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.minutes
 
 typealias UiDataType = ImmutableList<BungiePost>
 typealias DestinyStatusUiState = UiState<UiDataType, UiString>
 
-class MainViewModel(
-    private val destinyStatusRepository: DestinyStatusRepository,
-    private val bungieHelpDaoRepository: BungieChannelPostsDaoRepository,
-) : ViewModel(), KoinComponent {
-    private companion object {
-        // Only allow refresh to happen every one and a half minutes.
-        val UPDATE_INTERVAL = 1.5.minutes
-    }
-
-    private val clock: Clock by inject()
+class MainViewModel : ViewModel(), KoinComponent {
+    private val fetchBungieHelpPostsUseCase: FetchBungieHelpPostsUseCase by inject()
+    private val bungieChannelPostsCacheRepository: BungieChannelPostsCacheRepository by inject()
 
     private val _uiState = MutableStateFlow<DestinyStatusUiState>(UiState.Zero)
     val uiState = _uiState.asStateFlow()
 
-    private var lastUpdateTime: Duration = Duration.ZERO
-    private var existingData: UiDataType = persistentListOf()
-
-    fun fetchDestinyStatusUpdates() {
+    fun fetchBungieHelpPosts() {
         viewModelScope.launch {
-            _uiState.update { UiState.Loading(existingData) }
+            _uiState.update { UiState.Loading(bungieChannelPostsCacheRepository.readBungieHelpPosts()) }
 
-            if (clock.exceedsThreshold(lastUpdateTime, UPDATE_INTERVAL)) {
-                destinyStatusRepository.fetchBungieHelpPosts()
-                    .map { it.toImmutableList() }
-                    .also { remoteFetchState ->
-                        _uiState.value = remoteFetchState.toUiState()
-
-                        when (remoteFetchState) {
-                            is State.Success -> {
-                                bungieHelpDaoRepository.saveBungieHelpPosts(existingData.toList())
-                                    .map { it.toImmutableList() }
-                                    .also { localSaveState ->
-                                        _uiState.value = localSaveState.toUiState()
-                                    }
-                            }
-
-                            is State.Error -> {
-                                bungieHelpDaoRepository.readBungieHelpPosts()
-                                    .map { it.toImmutableList() }
-                                    .also { localFetchState ->
-                                        _uiState.value = localFetchState.toUiState()
-                                    }
-                            }
-                        }
-                    }
-
-                lastUpdateTime = clock.now()
-            } else {
-                _uiState.value = UiState.Success(existingData)
-            }
+            fetchBungieHelpPostsUseCase()
+                .collect { state ->
+                    _uiState.update { state.toUiState() }
+                }
         }
     }
 
     private fun State<UiDataType>.toUiState(): DestinyStatusUiState {
         return when (this) {
             is State.Success<UiDataType> -> {
-                existingData = data
                 UiState.Success(data)
             }
 
@@ -95,7 +53,7 @@ class MainViewModel(
                     else -> StringResource(R.string.generic_request_error)
                 }
 
-                return UiState.Error(existingData, errorUiString)
+                return UiState.Error(bungieChannelPostsCacheRepository.readBungieHelpPosts(), errorUiString)
             }
         }
     }

@@ -45,7 +45,6 @@ import com.angelo.destinystatusapp.presentation.viewmodel.UiDataType
 import com.angelo.destinystatusapp.presentation.viewmodel.UiState
 import com.angelo.destinystatusapp.presentation.widgets.BungiePostCard
 import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -64,14 +63,8 @@ fun MainScreen(
         }
     }
 
-    val requestExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        showSnackbar("Error: ${exception.message}")
-    }
-
     LaunchedEffect(true) {
-        scope.launch(requestExceptionHandler) {
-            viewModel.fetchDestinyStatusUpdates()
-        }
+        viewModel.fetchBungieHelpPosts()
     }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -93,9 +86,7 @@ fun MainScreen(
                     RefreshIconButton(
                         uiState = uiState,
                         onClickAction = {
-                            scope.launch(requestExceptionHandler) {
-                                viewModel.fetchDestinyStatusUpdates()
-                            }
+                            viewModel.fetchBungieHelpPosts()
                         },
                     )
                     SettingsIconButton(onClickAction = { navController.navigateTo(NavigationRoute.Settings) })
@@ -136,7 +127,7 @@ private fun RefreshIconButton(
         onClick = onClickAction,
         enabled = uiState !is UiState.Loading,
     ) {
-        if (uiState is UiState.Loading && !uiState.existingData.isEmpty()) {
+        if (uiState is UiState.Loading && uiState.existingData.isNotEmpty()) {
             CircularProgressIndicator(
                 modifier = Modifier.padding(12.dp),
                 strokeWidth = 1.8.dp,
