@@ -37,12 +37,17 @@ class FetchBungieHelpPostsUseCaseImpl : FetchBungieHelpPostsUseCase, KoinCompone
                 statusRepository.fetchBungieHelpPosts()
                     .map { it.toImmutableList() }
                     .also { remoteFetchState ->
-                        emit(remoteFetchState)
-
                         when (remoteFetchState) {
                             is State.Success -> {
                                 val existingData = remoteFetchState.data
+
+                                // First, save the remote data to the cache.
                                 cacheRepository.saveBungieHelpPosts(existingData)
+
+                                // Emit the remote fetch state only after updating the local cache.
+                                emit(remoteFetchState)
+
+                                // Then, save the remote data to the local database.
                                 daoRepository.saveBungieHelpPosts(existingData)
                                     .map { it.toImmutableList() }
                                     .also { localSaveState ->
@@ -51,6 +56,7 @@ class FetchBungieHelpPostsUseCaseImpl : FetchBungieHelpPostsUseCase, KoinCompone
                             }
 
                             is State.Error -> {
+                                emit(remoteFetchState)
                                 daoRepository.readBungieHelpPosts()
                                     .map { it.toImmutableList() }
                                     .also { localFetchState ->
