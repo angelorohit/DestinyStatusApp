@@ -6,70 +6,61 @@ import com.angelo.destinystatusapp.domain.model.BungiePost
 import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsCacheRepository
 import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsDaoRepository
 import com.angelo.destinystatusapp.domain.repository.DestinyStatusRepository
-import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.minutes
 
 class FetchBungieHelpPostsUseCaseImpl : FetchBungieHelpPostsUseCase, KoinComponent {
-    private companion object {
-        // Only allow refresh to happen every one and a half minutes.
-        val UPDATE_INTERVAL = 1.5.minutes
-    }
-
     private val statusRepository: DestinyStatusRepository by inject()
     private val daoRepository: BungieChannelPostsDaoRepository by inject()
     private val cacheRepository: BungieChannelPostsCacheRepository by inject()
-    private val clock: Clock by inject()
 
-    private var lastUpdateTime: Duration = Duration.ZERO
+    private suspend fun FlowCollector<State<ImmutableList<BungiePost>>>.fetchRemoteBungieHelpPosts() {
+        // Only fetch from remote source if the cache has expired.
+        if (cacheRepository.bungieHelpPosts.isExpired()) {
+            statusRepository.fetchBungieHelpPosts()
+                .map { it.toImmutableList() }
+                .also { remoteFetchState ->
+                    if (remoteFetchState is State.Success) {
+                        // First, save the remote data to the cache.
+                        val fetchedPosts = remoteFetchState.data
+                        cacheRepository.bungieHelpPosts.saveData(fetchedPosts)
+
+                        // Emit the remote fetch state only after updating the local cache.
+                        emit(remoteFetchState)
+
+                        // Then, save the remote data to the local database.
+                        daoRepository.saveBungieHelpPosts(fetchedPosts)
+                    } else {
+                        emit(remoteFetchState)
+                    }
+                }
+        } else {
+            emit(State.Success(cacheRepository.bungieHelpPosts.getData()))
+        }
+    }
 
     override suspend fun invoke(): Flow<State<ImmutableList<BungiePost>>> {
         return flow {
-            if (clock.exceedsThreshold(lastUpdateTime, UPDATE_INTERVAL)) {
-                lastUpdateTime = clock.now()
-
-                statusRepository.fetchBungieHelpPosts()
-                    .map { it.toImmutableList() }
-                    .also { remoteFetchState ->
-                        when (remoteFetchState) {
-                            is State.Success -> {
-                                val existingData = remoteFetchState.data
-
-                                // First, save the remote data to the cache.
-                                cacheRepository.saveBungieHelpPosts(existingData)
-
-                                // Emit the remote fetch state only after updating the local cache.
-                                emit(remoteFetchState)
-
-                                // Then, save the remote data to the local database.
-                                daoRepository.saveBungieHelpPosts(existingData)
-                                    .map { it.toImmutableList() }
-                                    .also { localSaveState ->
-                                        emit(localSaveState)
-                                    }
-                            }
-
-                            is State.Error -> {
-                                emit(remoteFetchState)
-                                daoRepository.readBungieHelpPosts()
-                                    .map { it.toImmutableList() }
-                                    .also { localFetchState ->
-                                        if (localFetchState is State.Success) {
-                                            cacheRepository.saveBungieHelpPosts(localFetchState.data)
-                                        }
-                                        emit(localFetchState)
-                                    }
-                            }
+            // If the cache is empty, then read from persistent storage, and then try to fetch from the remote source.
+            // Otherwise, try to fetch from the remote source.
+            if (cacheRepository.bungieHelpPosts.getData().isEmpty()) {
+                daoRepository.readBungieHelpPosts()
+                    .also { localFetchState ->
+                        if (localFetchState is State.Success) {
+                            cacheRepository.bungieHelpPosts = localFetchState.data
+                        } else {
+                            emit(localFetchState.map { it.getData() })
                         }
+
+                        fetchRemoteBungieHelpPosts()
                     }
             } else {
-                emit(State.Success(cacheRepository.readBungieHelpPosts()))
+                fetchRemoteBungieHelpPosts()
             }
         }
     }

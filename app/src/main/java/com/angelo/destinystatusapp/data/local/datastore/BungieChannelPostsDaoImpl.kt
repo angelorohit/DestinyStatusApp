@@ -6,7 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import com.angelo.destinystatusapp.proto.BungieChannelPosts
-import com.angelo.destinystatusapp.proto.BungiePostItem
+import com.angelo.destinystatusapp.proto.BungieHelpPostItems
 import com.angelo.destinystatusapp.proto.bungieChannelPosts
 import com.angelo.destinystatusapp.proto.bungieHelpPostItems
 import kotlinx.coroutines.flow.firstOrNull
@@ -38,17 +38,12 @@ private val Context.dataStore: DataStore<BungieChannelPosts> by dataStore(
 class BungieChannelPostsDaoImpl(context: Context) : BungieChannelPostsDao {
     private val dataStore = context.dataStore
 
-    override suspend fun readBungieHelpPostItems(): List<BungiePostItem> =
-        dataStore.data.firstOrNull()?.bungieHelpPostItems?.itemsList ?: emptyList()
+    override suspend fun readBungieHelpPostItems(): BungieHelpPostItems =
+        dataStore.data.firstOrNull()?.bungieHelpPostItems ?: bungieHelpPostItems {}
 
-    override suspend fun saveBungieHelpPostItems(items: List<BungiePostItem>) {
+    override suspend fun saveBungieHelpPostItems(bungieHelpPostItems: BungieHelpPostItems) {
         dataStore.updateData {
-            bungieChannelPosts {
-                bungieHelpPostItems = bungieHelpPostItems {
-                    this.items.clear()
-                    this.items += items
-                }
-            }
+            it.toBuilder().setBungieHelpPostItems(bungieHelpPostItems).build()
         }
     }
 }

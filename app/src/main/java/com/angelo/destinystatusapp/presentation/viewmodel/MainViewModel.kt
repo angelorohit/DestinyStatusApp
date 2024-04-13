@@ -9,6 +9,7 @@ import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsCacheRepo
 import com.angelo.destinystatusapp.domain.usecase.FetchBungieHelpPostsUseCase
 import com.angelo.destinystatusapp.presentation.viewmodel.UiString.StringResource
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -21,14 +22,20 @@ typealias DestinyStatusUiState = UiState<UiDataType, UiString>
 
 class MainViewModel : ViewModel(), KoinComponent {
     private val fetchBungieHelpPostsUseCase: FetchBungieHelpPostsUseCase by inject()
-    private val bungieChannelPostsCacheRepository: BungieChannelPostsCacheRepository by inject()
+    private val cacheRepository: BungieChannelPostsCacheRepository by inject()
 
     private val _uiState = MutableStateFlow<DestinyStatusUiState>(UiState.Zero)
     val uiState = _uiState.asStateFlow()
 
+    private var job: Job? = null
+
     fun fetchBungieHelpPosts() {
-        viewModelScope.launch {
-            _uiState.update { UiState.Loading(bungieChannelPostsCacheRepository.readBungieHelpPosts()) }
+        if (job?.isActive == true) {
+            return
+        }
+
+        job = viewModelScope.launch {
+            _uiState.update { UiState.Loading(cacheRepository.bungieHelpPosts.getData()) }
 
             fetchBungieHelpPostsUseCase()
                 .collect { state ->
@@ -53,7 +60,7 @@ class MainViewModel : ViewModel(), KoinComponent {
                     else -> StringResource(R.string.generic_request_error)
                 }
 
-                return UiState.Error(bungieChannelPostsCacheRepository.readBungieHelpPosts(), errorUiString)
+                return UiState.Error(cacheRepository.bungieHelpPosts.getData(), errorUiString)
             }
         }
     }

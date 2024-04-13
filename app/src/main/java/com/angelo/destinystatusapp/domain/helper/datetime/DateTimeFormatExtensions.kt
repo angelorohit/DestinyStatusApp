@@ -1,8 +1,8 @@
-package com.angelo.destinystatusapp.presentation.helper.datetime
+package com.angelo.destinystatusapp.domain.helper.datetime
 
 import android.content.Context
 import androidx.annotation.StringRes
-import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
+import com.angelo.destinystatusapp.domain.helper.datetime.clock.Clock
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.Calendar

@@ -11,13 +11,11 @@ plugins {
 android {
     namespace = "com.angelo.destinystatusapp"
     compileSdk = 34
-    compileSdkPreview = "VanillaIceCream"
 
     defaultConfig {
         applicationId = "com.angelo.destinystatusapp"
         minSdk = 24
         targetSdk = 34
-        targetSdkPreview = "VanillaIceCream"
 
         versionCode = 1
         versionName = "1.0.0"

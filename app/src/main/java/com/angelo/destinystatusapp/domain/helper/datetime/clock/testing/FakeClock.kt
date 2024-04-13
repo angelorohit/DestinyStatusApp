@@ -1,6 +1,6 @@
-package com.angelo.destinystatusapp.presentation.helper.datetime.clock.testing
+package com.angelo.destinystatusapp.domain.helper.datetime.clock.testing
 
-import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
+import com.angelo.destinystatusapp.domain.helper.datetime.clock.Clock
 import kotlin.time.Duration
 
 /**

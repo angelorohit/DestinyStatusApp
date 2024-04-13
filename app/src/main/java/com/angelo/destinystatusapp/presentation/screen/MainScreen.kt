@@ -152,8 +152,6 @@ private fun MainContent(
             is UiState.Loading -> {
                 if (it.existingData.isEmpty()) {
                     LoadingContent(modifier)
-                } else {
-                    DataContent(it.existingData, modifier)
                 }
             }
 

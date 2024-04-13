@@ -1,4 +1,4 @@
-package com.angelo.destinystatusapp.presentation.helper.datetime.clock
+package com.angelo.destinystatusapp.domain.helper.datetime.clock
 
 import kotlin.time.Duration.Companion.milliseconds
 

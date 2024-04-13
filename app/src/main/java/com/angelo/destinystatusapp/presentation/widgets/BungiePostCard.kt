@@ -21,11 +21,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.angelo.destinystatusapp.R
+import com.angelo.destinystatusapp.domain.helper.datetime.TimeAgoFormattingConfig
+import com.angelo.destinystatusapp.domain.helper.datetime.ago
+import com.angelo.destinystatusapp.domain.helper.datetime.clock.Clock
+import com.angelo.destinystatusapp.domain.helper.datetime.clock.testing.FakeClock
 import com.angelo.destinystatusapp.domain.model.BungiePost
-import com.angelo.destinystatusapp.presentation.helper.datetime.TimeAgoFormattingConfig
-import com.angelo.destinystatusapp.presentation.helper.datetime.ago
-import com.angelo.destinystatusapp.presentation.helper.datetime.clock.Clock
-import com.angelo.destinystatusapp.presentation.helper.datetime.clock.testing.FakeClock
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import org.koin.androidx.compose.get
 import kotlin.time.Duration.Companion.milliseconds
