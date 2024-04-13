@@ -4,9 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.domain.State
+import com.angelo.destinystatusapp.domain.model.BungieChannelType
 import com.angelo.destinystatusapp.domain.model.BungiePost
 import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsCacheRepository
-import com.angelo.destinystatusapp.domain.usecase.FetchBungieHelpPostsUseCase
+import com.angelo.destinystatusapp.domain.usecase.FetchPostsUseCase
 import com.angelo.destinystatusapp.presentation.viewmodel.UiString.StringResource
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.Job
@@ -21,7 +22,7 @@ typealias UiDataType = ImmutableList<BungiePost>
 typealias DestinyStatusUiState = UiState<UiDataType, UiString>
 
 class MainViewModel : ViewModel(), KoinComponent {
-    private val fetchBungieHelpPostsUseCase: FetchBungieHelpPostsUseCase by inject()
+    private val fetchPostsUseCase: FetchPostsUseCase by inject()
     private val cacheRepository: BungieChannelPostsCacheRepository by inject()
 
     private val _uiState = MutableStateFlow<DestinyStatusUiState>(UiState.Zero)
@@ -29,22 +30,22 @@ class MainViewModel : ViewModel(), KoinComponent {
 
     private var job: Job? = null
 
-    fun fetchBungieHelpPosts() {
+    fun fetchPosts(channelType: BungieChannelType) {
         if (job?.isActive == true) {
             return
         }
 
         job = viewModelScope.launch {
-            _uiState.update { UiState.Loading(cacheRepository.bungieHelpPosts.getData()) }
+            _uiState.update { UiState.Loading(cacheRepository.getPosts(channelType)) }
 
-            fetchBungieHelpPostsUseCase()
+            fetchPostsUseCase(channelType)
                 .collect { state ->
-                    _uiState.update { state.toUiState() }
+                    _uiState.update { state.toUiState(channelType) }
                 }
         }
     }
 
-    private fun State<UiDataType>.toUiState(): DestinyStatusUiState {
+    private fun State<UiDataType>.toUiState(channelType: BungieChannelType): DestinyStatusUiState {
         return when (this) {
             is State.Success<UiDataType> -> {
                 UiState.Success(data)
@@ -60,7 +61,7 @@ class MainViewModel : ViewModel(), KoinComponent {
                     else -> StringResource(R.string.generic_request_error)
                 }
 
-                return UiState.Error(cacheRepository.bungieHelpPosts.getData(), errorUiString)
+                return UiState.Error(cacheRepository.getPosts(channelType), errorUiString)
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.angelo.destinystatusapp.presentation.screen
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.angelo.destinystatusapp.R
+import com.angelo.destinystatusapp.domain.model.BungieChannelType
 import com.angelo.destinystatusapp.presentation.NavigationRoute
 import com.angelo.destinystatusapp.presentation.navigateTo
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
@@ -64,7 +64,7 @@ fun MainScreen(
     }
 
     LaunchedEffect(true) {
-        viewModel.fetchBungieHelpPosts()
+        viewModel.fetchPosts(BungieChannelType.BungieHelp)
     }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -86,7 +86,7 @@ fun MainScreen(
                     RefreshIconButton(
                         uiState = uiState,
                         onClickAction = {
-                            viewModel.fetchBungieHelpPosts()
+                            viewModel.fetchPosts(BungieChannelType.BungieHelp)
                         },
                     )
                     SettingsIconButton(onClickAction = { navController.navigateTo(NavigationRoute.Settings) })
@@ -147,32 +147,30 @@ private fun MainContent(
     modifier: Modifier = Modifier,
     onErrorAction: (String) -> Unit = {},
 ) {
-    AnimatedContent(targetState = uiState, label = "MainContentAnimatedContent") {
-        when (it) {
-            is UiState.Loading -> {
-                if (it.existingData.isEmpty()) {
-                    LoadingContent(modifier)
-                }
+    when (uiState) {
+        is UiState.Loading -> {
+            if (uiState.existingData.isEmpty()) {
+                LoadingContent(modifier)
             }
+        }
 
-            is UiState.Zero -> ZeroContent(modifier)
+        is UiState.Zero -> ZeroContent(modifier)
 
-            is UiState.Success -> {
-                if (it.data.isEmpty()) {
-                    EmptyContent(modifier)
-                } else {
-                    DataContent(it.data, modifier)
-                }
+        is UiState.Success -> {
+            if (uiState.data.isEmpty()) {
+                EmptyContent(modifier)
+            } else {
+                DataContent(uiState.data, modifier)
             }
+        }
 
-            is UiState.Error -> {
-                if (it.existingData.isEmpty()) {
-                    EmptyContent(modifier)
-                } else {
-                    DataContent(it.existingData, modifier)
-                }
-                onErrorAction(it.errorData.asString())
+        is UiState.Error -> {
+            if (uiState.existingData.isEmpty()) {
+                EmptyContent(modifier)
+            } else {
+                DataContent(uiState.existingData, modifier)
             }
+            onErrorAction(uiState.errorData.asString())
         }
     }
 }

@@ -3,19 +3,25 @@ package com.angelo.destinystatusapp.domain.mapper
 import com.angelo.destinystatusapp.data.remote.model.RemoteBungiePost
 import com.angelo.destinystatusapp.domain.cache.MemoryCache
 import com.angelo.destinystatusapp.domain.cache.MemoryCacheImpl
-import com.angelo.destinystatusapp.domain.model.BungiePost
-import com.angelo.destinystatusapp.proto.BungieHelpPostItems
-import com.angelo.destinystatusapp.proto.BungiePostItem
-import com.angelo.destinystatusapp.proto.bungieHelpPostItems
-import com.angelo.destinystatusapp.proto.bungiePostItem
+import com.angelo.destinystatusapp.proto.BungieChannelPosts
+import com.angelo.destinystatusapp.proto.bungieChannelPosts
+import com.angelo.destinystatusapp.proto.bungiePost
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
+import com.angelo.destinystatusapp.data.model.BungieChannelType as DataChannelType
+import com.angelo.destinystatusapp.domain.model.BungieChannelType as DomainChannelType
+import com.angelo.destinystatusapp.domain.model.BungiePost as DomainPost
+import com.angelo.destinystatusapp.proto.BungiePost as DaoPost
 
-fun RemoteBungiePost.toDomainModel() = BungiePost(
+fun DomainChannelType.toDataChannelType(): DataChannelType = when (this) {
+    DomainChannelType.BungieHelp -> DataChannelType.BungieHelp
+}
+
+fun RemoteBungiePost.toDomainPost() = DomainPost(
     id = id,
     createdAt = createdAt,
     text = text,
@@ -23,9 +29,9 @@ fun RemoteBungiePost.toDomainModel() = BungiePost(
     url = url,
 )
 
-fun BungiePost.toDao(): BungiePostItem {
-    val domainModel: BungiePost = this
-    return bungiePostItem {
+private fun DomainPost.toDaoPost(): DaoPost {
+    val domainModel: DomainPost = this
+    return bungiePost {
         id = domainModel.id.orEmpty()
         createdAt = domainModel.createdAt.orEmpty()
         text = domainModel.text.orEmpty()
@@ -34,12 +40,12 @@ fun BungiePost.toDao(): BungiePostItem {
     }
 }
 
-fun List<BungiePost>.toDao(updateTime: Duration): BungieHelpPostItems = bungieHelpPostItems {
+fun List<DomainPost>.toDaoPosts(updateTime: Duration): BungieChannelPosts = bungieChannelPosts {
     writeTimestampMillis = updateTime.inWholeMilliseconds
-    items += map { it.toDao() }
+    items += map { it.toDaoPost() }
 }
 
-fun BungiePostItem.toDomainModel() = BungiePost(
+private fun DaoPost.toDomainPost() = DomainPost(
     id = id,
     createdAt = createdAt,
     text = text,
@@ -47,13 +53,13 @@ fun BungiePostItem.toDomainModel() = BungiePost(
     url = url,
 )
 
-fun BungieHelpPostItems.toMemoryCache(freshnessDuration: Duration): MemoryCache<ImmutableList<BungiePost>> =
-    MemoryCacheImpl<ImmutableList<BungiePost>>(
+fun BungieChannelPosts.toMemoryCache(freshnessDuration: Duration): MemoryCache<ImmutableList<DomainPost>> =
+    MemoryCacheImpl<ImmutableList<DomainPost>>(
         freshnessDuration = freshnessDuration,
         emptyData = persistentListOf(),
     ).apply {
         saveData(
-            data = itemsList.map { it.toDomainModel() }.toImmutableList(),
+            data = itemsList.map { it.toDomainPost() }.toImmutableList(),
             updateTime = writeTimestampMillis.milliseconds,
         )
     }

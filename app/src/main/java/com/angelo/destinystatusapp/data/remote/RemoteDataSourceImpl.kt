@@ -1,5 +1,6 @@
 package com.angelo.destinystatusapp.data.remote
 
+import com.angelo.destinystatusapp.data.model.BungieChannelType
 import com.angelo.destinystatusapp.data.remote.api.DestinyStatusService
 import com.angelo.destinystatusapp.data.remote.exception.RequestErrorException
 import com.angelo.destinystatusapp.data.remote.model.RemoteBungiePost
@@ -14,10 +15,17 @@ class RemoteDataSourceImpl : RemoteDataSource, KoinComponent {
 
     private val statusService: DestinyStatusService by inject()
 
-    override suspend fun fetchBungieHelpPosts(): List<RemoteBungiePost> =
-        statusService.fetchBungieHelpPosts().parseResponse()
+    override suspend fun fetchPosts(channelType: BungieChannelType): List<RemoteBungiePost> {
+        val response = when (channelType) {
+            BungieChannelType.BungieHelp -> statusService.fetchBungieHelpPosts()
+            BungieChannelType.Destiny2Team -> statusService.fetchDestiny2TeamPosts()
+            BungieChannelType.DestinyTheGame -> statusService.fetchDestinyTheGamePosts()
+        }
 
-    private fun <T> Response<List<T>>.parseResponse(): List<T> {
+        return response.parse()
+    }
+
+    private fun <T> Response<List<T>>.parse(): List<T> {
         if (isSuccessful) {
             return body()?.take(MAX_UPDATE_ITEMS) ?: throw RequestErrorException(code(), "Empty response body")
         } else {

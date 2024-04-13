@@ -2,6 +2,7 @@ package com.angelo.destinystatusapp.domain.usecase
 
 import com.angelo.destinystatusapp.domain.State
 import com.angelo.destinystatusapp.domain.map
+import com.angelo.destinystatusapp.domain.model.BungieChannelType
 import com.angelo.destinystatusapp.domain.model.BungiePost
 import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsCacheRepository
 import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsDaoRepository
@@ -14,53 +15,56 @@ import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class FetchBungieHelpPostsUseCaseImpl : FetchBungieHelpPostsUseCase, KoinComponent {
+class FetchPostsUseCaseImpl : FetchPostsUseCase, KoinComponent {
     private val statusRepository: DestinyStatusRepository by inject()
     private val daoRepository: BungieChannelPostsDaoRepository by inject()
     private val cacheRepository: BungieChannelPostsCacheRepository by inject()
 
-    private suspend fun FlowCollector<State<ImmutableList<BungiePost>>>.fetchRemoteBungieHelpPosts() {
+    private suspend fun FlowCollector<State<ImmutableList<BungiePost>>>.fetchRemotePosts(
+        channelType: BungieChannelType,
+    ) {
         // Only fetch from remote source if the cache has expired.
-        if (cacheRepository.bungieHelpPosts.isExpired()) {
-            statusRepository.fetchBungieHelpPosts()
+        if (cacheRepository.isExpired(channelType)) {
+            statusRepository.fetchPosts(channelType)
                 .map { it.toImmutableList() }
                 .also { remoteFetchState ->
                     if (remoteFetchState is State.Success) {
                         // First, save the remote data to the cache.
                         val fetchedPosts = remoteFetchState.data
-                        cacheRepository.bungieHelpPosts.saveData(fetchedPosts)
-
-                        // Emit the remote fetch state only after updating the local cache.
-                        emit(remoteFetchState)
+                        cacheRepository.savePosts(channelType, fetchedPosts)
 
                         // Then, save the remote data to the local database.
-                        daoRepository.saveBungieHelpPosts(fetchedPosts)
-                    } else {
-                        emit(remoteFetchState)
+                        daoRepository.savePosts(channelType, fetchedPosts)
+                            .map { it.toImmutableList() }
+                            .also { localSavedState ->
+                                emit(localSavedState)
+                            }
                     }
+
+                    emit(remoteFetchState)
                 }
         } else {
-            emit(State.Success(cacheRepository.bungieHelpPosts.getData()))
+            emit(State.Success(cacheRepository.getPosts(channelType)))
         }
     }
 
-    override suspend fun invoke(): Flow<State<ImmutableList<BungiePost>>> {
+    override suspend fun invoke(channelType: BungieChannelType): Flow<State<ImmutableList<BungiePost>>> {
         return flow {
             // If the cache is empty, then read from persistent storage, and then try to fetch from the remote source.
             // Otherwise, try to fetch from the remote source.
-            if (cacheRepository.bungieHelpPosts.getData().isEmpty()) {
-                daoRepository.readBungieHelpPosts()
+            if (cacheRepository.getPosts(channelType).isEmpty()) {
+                daoRepository.readPosts(channelType)
                     .also { localFetchState ->
                         if (localFetchState is State.Success) {
-                            cacheRepository.bungieHelpPosts = localFetchState.data
+                            cacheRepository.updateCache(channelType, localFetchState.data)
                         } else {
                             emit(localFetchState.map { it.getData() })
                         }
 
-                        fetchRemoteBungieHelpPosts()
+                        fetchRemotePosts(channelType)
                     }
             } else {
-                fetchRemoteBungieHelpPosts()
+                fetchRemotePosts(channelType)
             }
         }
     }
