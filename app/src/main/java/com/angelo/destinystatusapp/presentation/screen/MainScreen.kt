@@ -1,5 +1,6 @@
 package com.angelo.destinystatusapp.presentation.screen
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -149,26 +150,32 @@ private fun MainContent(
 ) {
     when (uiState) {
         is UiState.Loading -> {
-            if (uiState.existingData.isEmpty()) {
-                LoadingContent(modifier)
+            AnimatedContent(targetState = uiState, label = "LoadingStateConent") {
+                if (it.existingData.isEmpty()) {
+                    LoadingContent(modifier)
+                }
             }
         }
 
         is UiState.Zero -> ZeroContent(modifier)
 
         is UiState.Success -> {
-            if (uiState.data.isEmpty()) {
-                EmptyContent(modifier)
-            } else {
-                DataContent(uiState.data, modifier)
+            AnimatedContent(targetState = uiState, label = "SuccessStateContent") {
+                if (it.data.isEmpty()) {
+                    EmptyContent(modifier)
+                } else {
+                    DataContent(it.data, modifier)
+                }
             }
         }
 
         is UiState.Error -> {
-            if (uiState.existingData.isEmpty()) {
-                EmptyContent(modifier)
-            } else {
-                DataContent(uiState.existingData, modifier)
+            AnimatedContent(targetState = uiState, label = "ErrorStateContent") {
+                if (it.existingData.isEmpty()) {
+                    EmptyContent(modifier)
+                } else {
+                    DataContent(it.existingData, modifier)
+                }
             }
             onErrorAction(uiState.errorData.asString())
         }
