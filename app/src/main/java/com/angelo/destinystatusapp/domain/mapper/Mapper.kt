@@ -19,6 +19,8 @@ import com.angelo.destinystatusapp.proto.BungiePost as DaoPost
 
 fun DomainChannelType.toDataChannelType(): DataChannelType = when (this) {
     DomainChannelType.BungieHelp -> DataChannelType.BungieHelp
+    DomainChannelType.Destiny2Team -> DataChannelType.Destiny2Team
+    DomainChannelType.DestinyTheGame -> DataChannelType.DestinyTheGame
 }
 
 fun RemoteBungiePost.toDomainPost() = DomainPost(
