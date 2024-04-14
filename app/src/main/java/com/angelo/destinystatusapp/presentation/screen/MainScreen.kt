@@ -79,14 +79,14 @@ fun MainScreen(
     var selectedChannelDropdownIndex by rememberSaveable { mutableIntStateOf(0) }
 
     fun showSnackbar(message: String) {
-        scope.launch {
-            snackbarHostState.showSnackbar(message)
-        }
+        scope.launch { snackbarHostState.showSnackbar(message) }
     }
 
-    LaunchedEffect(true) {
-        viewModel.fetchPosts(BungieChannelType.entries[selectedChannelDropdownIndex])
-    }
+    fun selectedChannel(): BungieChannelType = BungieChannelType.entries[selectedChannelDropdownIndex]
+
+    fun selectedChannelName(): String = selectedChannel().toDisplayHandle()
+
+    LaunchedEffect(true) { viewModel.fetchPosts(selectedChannel()) }
 
     Scaffold(
         modifier = modifier,
@@ -104,14 +104,12 @@ fun MainScreen(
                 navController = navController,
                 actions = {
                     ChannelFilterText(
-                        text = BungieChannelType.entries[selectedChannelDropdownIndex].name,
+                        text = selectedChannelName(),
                         onClickAction = { channelFilterDropdownExpanded = true },
                     )
                     RefreshIconButton(
                         uiState = uiState,
-                        onClickAction = {
-                            viewModel.fetchPosts(BungieChannelType.entries[selectedChannelDropdownIndex])
-                        },
+                        onClickAction = { viewModel.fetchPosts(selectedChannel()) },
                     )
                     SettingsIconButton(onClickAction = { navController.navigateTo(NavigationRoute.Settings) })
 
@@ -123,7 +121,7 @@ fun MainScreen(
                         onItemSelected = { index ->
                             selectedChannelDropdownIndex = index
                             channelFilterDropdownExpanded = false
-                            viewModel.fetchPosts(BungieChannelType.entries[selectedChannelDropdownIndex])
+                            viewModel.fetchPosts(selectedChannel())
                         },
                     )
                 }
@@ -218,7 +216,7 @@ private fun ChannelFilterDropdownMenu(
                 text = {
                     if (index == selectedIndex) {
                         Row {
-                            Text(text = channelType.name, color = MaterialTheme.colorScheme.onSurface)
+                            Text(text = channelType.toDisplayHandle(), color = MaterialTheme.colorScheme.onSurface)
                             Spacer(modifier = Modifier.weight(1f))
                             Icon(
                                 imageVector = Icons.Default.Check,
@@ -227,7 +225,7 @@ private fun ChannelFilterDropdownMenu(
                             )
                         }
                     } else {
-                        Text(text = channelType.name, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(text = channelType.toDisplayHandle(), color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 },
                 onClick = { onItemSelected(index) },

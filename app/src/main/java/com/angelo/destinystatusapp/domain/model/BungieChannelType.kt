@@ -3,5 +3,9 @@ package com.angelo.destinystatusapp.domain.model
 enum class BungieChannelType {
     BungieHelp,
     Destiny2Team,
-    DestinyTheGame,
+    DestinyTheGame;
+
+    fun toDisplayHandle(): String {
+        return "@$name"
+    }
 }

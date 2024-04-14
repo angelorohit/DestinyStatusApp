@@ -9,16 +9,22 @@ import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsDaoReposi
 import com.angelo.destinystatusapp.domain.repository.DestinyStatusRepository
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.time.Duration.Companion.seconds
 
 class FetchPostsUseCaseImpl : FetchPostsUseCase, KoinComponent {
     private val statusRepository: DestinyStatusRepository by inject()
     private val daoRepository: BungieChannelPostsDaoRepository by inject()
     private val cacheRepository: BungieChannelPostsCacheRepository by inject()
+
+    companion object {
+        private val ARTIFICIAL_DELAY = 1.seconds
+    }
 
     private suspend fun FlowCollector<State<ImmutableList<BungiePost>>>.fetchRemotePosts(
         channelType: BungieChannelType,
@@ -44,6 +50,7 @@ class FetchPostsUseCaseImpl : FetchPostsUseCase, KoinComponent {
                     emit(remoteFetchState)
                 }
         } else {
+            delay(ARTIFICIAL_DELAY)
             emit(State.Success(cacheRepository.getPosts(channelType)))
         }
     }
