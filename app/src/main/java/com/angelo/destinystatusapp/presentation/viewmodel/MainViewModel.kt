@@ -31,7 +31,7 @@ class MainViewModel : ViewModel(), KoinComponent {
     private var job: Job? = null
     private var selectedChannelType: BungieChannelType? = null
 
-    fun fetchPosts(channelType: BungieChannelType) {
+    fun fetchPosts(channelType: BungieChannelType, isForceRefresh: Boolean = false) {
         if (selectedChannelType != channelType) {
             selectedChannelType = channelType
             job?.cancel()
@@ -44,7 +44,7 @@ class MainViewModel : ViewModel(), KoinComponent {
         job = viewModelScope.launch {
             _uiState.update { UiState.Loading(cacheRepository.getPosts(channelType)) }
 
-            fetchPostsUseCase(channelType).collect { state ->
+            fetchPostsUseCase(channelType, isForceRefresh).collect { state ->
                 _uiState.update { state.toUiState(channelType) }
             }
         }

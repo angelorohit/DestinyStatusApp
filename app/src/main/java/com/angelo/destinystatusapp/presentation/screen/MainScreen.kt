@@ -109,7 +109,9 @@ fun MainScreen(
                     )
                     RefreshIconButton(
                         uiState = uiState,
-                        onClickAction = { viewModel.fetchPosts(selectedChannel()) },
+                        onClickAction = {
+                            viewModel.fetchPosts(channelType = selectedChannel(), isForceRefresh = true)
+                        },
                     )
                     SettingsIconButton(onClickAction = { navController.navigateTo(NavigationRoute.Settings) })
 

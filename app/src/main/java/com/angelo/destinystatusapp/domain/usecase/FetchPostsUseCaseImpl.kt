@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.milliseconds
 
 class FetchPostsUseCaseImpl : FetchPostsUseCase, KoinComponent {
     private val remoteRepository: RemoteBungieChannelPostsRepository by inject()
@@ -23,11 +23,12 @@ class FetchPostsUseCaseImpl : FetchPostsUseCase, KoinComponent {
     private val cacheRepository: BungieChannelPostsCacheRepository by inject()
 
     companion object {
-        private val ARTIFICIAL_DELAY = 1.seconds
+        private val ARTIFICIAL_DELAY = 500.milliseconds
     }
 
     private suspend fun FlowCollector<State<ImmutableList<BungiePost>>>.fetchRemotePosts(
         channelType: BungieChannelType,
+        isForceRefresh: Boolean,
     ) {
         // Only fetch from remote source if the cache has expired.
         if (cacheRepository.isExpired(channelType)) {
@@ -50,12 +51,17 @@ class FetchPostsUseCaseImpl : FetchPostsUseCase, KoinComponent {
                     emit(remoteFetchState)
                 }
         } else {
-            delay(ARTIFICIAL_DELAY)
+            if (isForceRefresh) {
+                delay(ARTIFICIAL_DELAY)
+            }
             emit(State.Success(cacheRepository.getPosts(channelType)))
         }
     }
 
-    override suspend fun invoke(channelType: BungieChannelType): Flow<State<ImmutableList<BungiePost>>> {
+    override suspend fun invoke(
+        channelType: BungieChannelType,
+        isForceRefresh: Boolean,
+    ): Flow<State<ImmutableList<BungiePost>>> {
         return flow {
             // If the cache is empty, then read from persistent storage, and then try to fetch from the remote source.
             // Otherwise, try to fetch from the remote source.
@@ -68,10 +74,10 @@ class FetchPostsUseCaseImpl : FetchPostsUseCase, KoinComponent {
                             emit(localFetchState.map { it.getData() })
                         }
 
-                        fetchRemotePosts(channelType)
+                        fetchRemotePosts(channelType, isForceRefresh)
                     }
             } else {
-                fetchRemotePosts(channelType)
+                fetchRemotePosts(channelType, isForceRefresh)
             }
         }
     }
