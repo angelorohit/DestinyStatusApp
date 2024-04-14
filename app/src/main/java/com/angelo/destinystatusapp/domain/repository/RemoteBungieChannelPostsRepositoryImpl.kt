@@ -14,7 +14,7 @@ import org.koin.core.component.inject
 import timber.log.Timber
 import java.net.SocketTimeoutException
 
-class DestinyStatusRepositoryImpl : DestinyStatusRepository, KoinComponent {
+class RemoteBungieChannelPostsRepositoryImpl : RemoteBungieChannelPostsRepository, KoinComponent {
     private val remoteDataSource: RemoteDataSource by inject()
 
     override suspend fun fetchPosts(channelType: BungieChannelType): State<List<BungiePost>> {

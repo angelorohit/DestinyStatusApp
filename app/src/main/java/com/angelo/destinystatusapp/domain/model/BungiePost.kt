@@ -8,4 +8,27 @@ data class BungiePost(
     val text: String?,
     val timestamp: Duration?,
     val url: String?,
+    val media: List<BungiePostMedia>?,
+)
+
+data class BungiePostMedia(
+    val imageUrl: String?,
+    val type: BungiePostMediaType?,
+    val sizes: BungiePostMediaSizes?,
+)
+
+enum class BungiePostMediaType {
+    Photo,
+}
+
+data class BungiePostMediaSizes(
+    val thumb: BungiePostMediaSize?,
+    val small: BungiePostMediaSize?,
+    val medium: BungiePostMediaSize?,
+    val large: BungiePostMediaSize?,
+)
+
+data class BungiePostMediaSize(
+    val width: Int?,
+    val height: Int?,
 )

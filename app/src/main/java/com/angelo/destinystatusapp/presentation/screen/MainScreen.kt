@@ -278,7 +278,7 @@ private fun MainContent(
 
 @Composable
 private fun DataContent(posts: UiDataType, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         items(posts) {
             BungiePostCard(
                 bungiePost = it,

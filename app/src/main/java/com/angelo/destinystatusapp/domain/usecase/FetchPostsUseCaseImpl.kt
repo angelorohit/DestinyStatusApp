@@ -6,7 +6,7 @@ import com.angelo.destinystatusapp.domain.model.BungieChannelType
 import com.angelo.destinystatusapp.domain.model.BungiePost
 import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsCacheRepository
 import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsDaoRepository
-import com.angelo.destinystatusapp.domain.repository.DestinyStatusRepository
+import com.angelo.destinystatusapp.domain.repository.RemoteBungieChannelPostsRepository
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
@@ -18,7 +18,7 @@ import org.koin.core.component.inject
 import kotlin.time.Duration.Companion.seconds
 
 class FetchPostsUseCaseImpl : FetchPostsUseCase, KoinComponent {
-    private val statusRepository: DestinyStatusRepository by inject()
+    private val remoteRepository: RemoteBungieChannelPostsRepository by inject()
     private val daoRepository: BungieChannelPostsDaoRepository by inject()
     private val cacheRepository: BungieChannelPostsCacheRepository by inject()
 
@@ -31,7 +31,7 @@ class FetchPostsUseCaseImpl : FetchPostsUseCase, KoinComponent {
     ) {
         // Only fetch from remote source if the cache has expired.
         if (cacheRepository.isExpired(channelType)) {
-            statusRepository.fetchPosts(channelType)
+            remoteRepository.fetchPosts(channelType)
                 .map { it.toImmutableList() }
                 .also { remoteFetchState ->
                     if (remoteFetchState is State.Success) {

@@ -4,8 +4,8 @@ import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsCacheRepo
 import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsCacheRepositoryImpl
 import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsDaoRepository
 import com.angelo.destinystatusapp.domain.repository.BungieChannelPostsDaoRepositoryImpl
-import com.angelo.destinystatusapp.domain.repository.DestinyStatusRepository
-import com.angelo.destinystatusapp.domain.repository.DestinyStatusRepositoryImpl
+import com.angelo.destinystatusapp.domain.repository.RemoteBungieChannelPostsRepository
+import com.angelo.destinystatusapp.domain.repository.RemoteBungieChannelPostsRepositoryImpl
 import com.angelo.destinystatusapp.domain.usecase.FetchPostsUseCase
 import com.angelo.destinystatusapp.domain.usecase.FetchPostsUseCaseImpl
 import org.koin.core.qualifier.named
@@ -18,7 +18,7 @@ val domainModule = module {
     single<BungieChannelPostsCacheRepository> { BungieChannelPostsCacheRepositoryImpl() }
 
     single<BungieChannelPostsDaoRepository> { BungieChannelPostsDaoRepositoryImpl() }
-    single<DestinyStatusRepository> { DestinyStatusRepositoryImpl() }
+    single<RemoteBungieChannelPostsRepository> { RemoteBungieChannelPostsRepositoryImpl() }
 
     single<FetchPostsUseCase> { FetchPostsUseCaseImpl() }
 }

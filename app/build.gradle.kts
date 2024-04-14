@@ -77,6 +77,9 @@ dependencies {
     // Browser
     implementation(libs.androidx.browser)
 
+    // Coil
+    implementation(libs.coil.compose)
+
     // DataStore
     implementation(libs.androidx.datastore)
 
