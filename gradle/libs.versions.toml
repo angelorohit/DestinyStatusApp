@@ -26,6 +26,7 @@ ossLicensesPlugin = "0.10.6"
 protobufPlugin = "0.9.4"
 protobuf = "4.26.1"
 retrofit = "2.9.0"
+splashScreen = "1.0.1"
 timber = "5.0.1"
 
 
@@ -85,6 +86,9 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name="kotlinx-corou
 
 # Lottie
 lottie-compose = { group = "com.airbnb.android", name="lottie-compose", version.ref = "lottieCompose" }
+
+# Splash Screen
+splashscreen = { group = "androidx.core", name="core-splashscreen", version.ref = "splashScreen" }
 
 # Timber
 timber = { group = "com.jakewharton.timber", name="timber", version.ref = "timber" }

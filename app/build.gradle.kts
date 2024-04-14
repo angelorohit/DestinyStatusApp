@@ -122,6 +122,9 @@ dependencies {
     // Lottie
     implementation(libs.lottie.compose)
 
+    // SplashScreen API
+    implementation(libs.splashscreen)
+
     // Timber
     implementation(libs.timber)
 

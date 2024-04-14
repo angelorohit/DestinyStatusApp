@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DestinyStatusApp"
+        android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
 
         <!-- This allows us to conditionally disable Crashlytics in code -->
@@ -26,8 +26,7 @@
 
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.DestinyStatusApp">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
