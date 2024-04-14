@@ -59,7 +59,7 @@ fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) 
                     contentScale = ContentScale.Fit,
                 )
 
-                Card {
+                Card(modifier = Modifier.padding(16.dp)) {
                     Text(
                         text = stringResource(R.string.community_driven),
                         modifier = Modifier.padding(16.dp),

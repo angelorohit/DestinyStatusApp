@@ -1,6 +1,7 @@
 [versions]
 androidComposeCompiler = "1.5.2" # https://developer.android.com/jetpack/androidx/releases/compose-kotlin#pre-release_kotlin_compatibility
 androidGradlePlugin = "8.3.2"
+androidxActivity = "1.8.2"
 androidxJunit = "1.1.5"
 browser = "1.8.0"
 coil = "2.6.0"
@@ -33,6 +34,7 @@ timber = "5.0.1"
 
 [libraries]
 # AndroidX
+androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 androidx-junit = { group = "androidx.test.ext", name="junit", version.ref = "androidxJunit" }
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
