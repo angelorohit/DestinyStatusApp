@@ -11,22 +11,20 @@ import com.angelo.destinystatusapp.domain.model.BungiePostMediaSizes
 import com.angelo.destinystatusapp.domain.model.BungiePostMediaType
 import kotlin.time.Duration.Companion.seconds
 
-private fun RemoteBungiePostMediaSize.toDomainSize() = BungiePostMediaSize(
+private fun RemoteBungiePostMediaSize.toDomainSize(largeImageUrl: String?) = BungiePostMediaSize(
+    imageUrl = largeImageUrl,
     width = width,
     height = height,
 )
 
-private fun RemoteBungiePostMediaSizes.toDomainSizes() = BungiePostMediaSizes(
-    thumb = thumb?.toDomainSize(),
-    small = small?.toDomainSize(),
-    medium = medium?.toDomainSize(),
-    large = large?.toDomainSize(),
+private fun RemoteBungiePostMediaSizes.toDomainSizes(largeImageUrl: String?) = BungiePostMediaSizes(
+    large = large?.toDomainSize(largeImageUrl),
 )
 
 private fun RemoteBungiePostMedia.toDomainMedia() = BungiePostMedia(
     imageUrl = imageUrl,
     type = type?.let { BungiePostMediaType.Photo },
-    sizes = sizes?.toDomainSizes(),
+    sizes = sizes?.toDomainSizes(largeImageUrl = getLargeImageUrl()),
 )
 
 fun RemoteBungiePost.toDomainPost() = BungiePost(

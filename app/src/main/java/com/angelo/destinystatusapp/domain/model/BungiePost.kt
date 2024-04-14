@@ -1,5 +1,8 @@
 package com.angelo.destinystatusapp.domain.model
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlin.time.Duration
 
 data class BungiePost(
@@ -9,26 +12,29 @@ data class BungiePost(
     val timestamp: Duration?,
     val url: String?,
     val media: List<BungiePostMedia>?,
-)
+) {
+    fun getValidMedia(): ImmutableList<BungiePostMedia> =
+        media?.filter { it.hasImageUrl() }?.toImmutableList() ?: persistentListOf()
+}
 
 data class BungiePostMedia(
     val imageUrl: String?,
     val type: BungiePostMediaType?,
     val sizes: BungiePostMediaSizes?,
-)
+) {
+    fun hasImageUrl() = !imageUrl.isNullOrBlank()
+}
 
 enum class BungiePostMediaType {
     Photo,
 }
 
 data class BungiePostMediaSizes(
-    val thumb: BungiePostMediaSize?,
-    val small: BungiePostMediaSize?,
-    val medium: BungiePostMediaSize?,
     val large: BungiePostMediaSize?,
 )
 
 data class BungiePostMediaSize(
+    val imageUrl: String?,
     val width: Int?,
     val height: Int?,
 )

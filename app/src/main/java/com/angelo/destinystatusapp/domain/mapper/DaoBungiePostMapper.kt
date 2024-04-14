@@ -40,9 +40,6 @@ private fun DomainPostMedia.toDaoPostMedia(): DaoPostMedia {
 private fun DomainPostMediaSizes.toDaoPostMediaSizes(): DaoPostMediaSizes {
     val domainModel: DomainPostMediaSizes = this
     return bungiePostMediaSizes {
-        thumb = domainModel.thumb?.toDaoPostMediaSize() ?: bungiePostMediaSize {}
-        small = domainModel.small?.toDaoPostMediaSize() ?: bungiePostMediaSize {}
-        medium = domainModel.medium?.toDaoPostMediaSize() ?: bungiePostMediaSize {}
         large = domainModel.large?.toDaoPostMediaSize() ?: bungiePostMediaSize {}
     }
 }
@@ -50,6 +47,7 @@ private fun DomainPostMediaSizes.toDaoPostMediaSizes(): DaoPostMediaSizes {
 private fun DomainPostMediaSize.toDaoPostMediaSize(): DaoPostMediaSize {
     val domainModel: DomainPostMediaSize = this
     return bungiePostMediaSize {
+        imageUrl = domainModel.imageUrl.orEmpty()
         width = domainModel.width ?: 0
         height = domainModel.height ?: 0
     }
@@ -75,13 +73,11 @@ fun List<DomainPost>.toDaoPosts(updateTime: Duration): BungieChannelPosts = bung
 private fun DaoPostMediaSize.toDomainPostMediaSize() = DomainPostMediaSize(
     width = width,
     height = height,
+    imageUrl = imageUrl,
 )
 
 private fun DaoPostMediaSizes.toDomainPostMediaSizes() = DomainPostMediaSizes(
-    thumb = thumb?.toDomainPostMediaSize(),
-    small = small?.toDomainPostMediaSize(),
-    medium = medium?.toDomainPostMediaSize(),
-    large = large?.toDomainPostMediaSize(),
+    large = large.takeIf { it.width > 0 && it.height > 0 }?.toDomainPostMediaSize(),
 )
 
 private fun DaoPostMediaType.toDomainPostMediaType() = when (this) {

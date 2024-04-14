@@ -14,15 +14,13 @@ enum BungiePostMediaType {
 }
 
 message BungiePostMediaSizes {
-  BungiePostMediaSize thumb = 1;
-  BungiePostMediaSize small = 2;
-  BungiePostMediaSize medium = 3;
-  BungiePostMediaSize large = 4;
+  BungiePostMediaSize large = 1;
 }
 
 message BungiePostMediaSize {
-  int32 width = 1;
-  int32 height = 2;
+  string image_url = 1;
+  int32 width = 2;
+  int32 height = 3;
 }
 
 message BungiePost {

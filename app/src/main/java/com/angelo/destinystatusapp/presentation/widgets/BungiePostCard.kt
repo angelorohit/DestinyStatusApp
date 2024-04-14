@@ -1,6 +1,7 @@
 package com.angelo.destinystatusapp.presentation.widgets
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +29,7 @@ import com.angelo.destinystatusapp.domain.helper.datetime.clock.testing.FakeCloc
 import com.angelo.destinystatusapp.domain.model.BungiePost
 import com.angelo.destinystatusapp.domain.model.BungiePostMedia
 import com.angelo.destinystatusapp.domain.model.BungiePostMediaType
+import com.angelo.destinystatusapp.presentation.helper.modifier.conditional
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import org.koin.androidx.compose.get
 import kotlin.time.Duration.Companion.milliseconds
@@ -48,14 +50,17 @@ fun BungiePostCard(bungiePost: BungiePost, modifier: Modifier = Modifier, clock:
                 style = MaterialTheme.typography.bodyLarge,
             )
 
-            if (bungiePost.media?.isNotEmpty() == true) {
-                bungiePost.media.forEach { bungiePostMedia ->
-                    Spacer(modifier = Modifier.height(2.dp))
-                    BungiePostPhoto(
-                        bungiePostMedia = bungiePostMedia,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
+            bungiePost.getValidMedia().forEach { bungiePostMedia ->
+                Spacer(modifier = Modifier.height(2.dp))
+                val largeImageUrl = bungiePostMedia.sizes?.large?.imageUrl
+                BungiePostPhoto(
+                    bungiePostMedia = bungiePostMedia,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .conditional(largeImageUrl != null) {
+                            clickable {}
+                        },
+                )
             }
         }
     }

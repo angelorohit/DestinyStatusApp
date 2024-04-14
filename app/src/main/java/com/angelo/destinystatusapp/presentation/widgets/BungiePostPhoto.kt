@@ -19,10 +19,6 @@ import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 
 @Composable
 fun BungiePostPhoto(bungiePostMedia: BungiePostMedia, modifier: Modifier = Modifier) {
-    if (bungiePostMedia.imageUrl.isNullOrBlank()) {
-        return
-    }
-
     SubcomposeAsyncImage(
         modifier = modifier
             .background(MaterialTheme.colorScheme.onSurfaceVariant),

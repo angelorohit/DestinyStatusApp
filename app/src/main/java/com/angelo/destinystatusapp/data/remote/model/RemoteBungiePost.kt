@@ -15,12 +15,32 @@ data class RemoteBungiePostMedia(
     @Json(name = "media_url_https") val imageUrl: String? = null,
     @Json(name = "type") val type: String? = null,
     @Json(name = "sizes") val sizes: RemoteBungiePostMediaSizes? = null,
-)
+) {
+    private fun hasImageUrl() = !imageUrl.isNullOrBlank()
+
+    private fun hasLargeSize(): Boolean =
+        sizes?.large?.width?.takeIf { it > 0 } != null && sizes.large.height?.takeIf { it > 0 } != null
+
+    fun getLargeImageUrl(): String? {
+        if (!hasImageUrl()) return null
+        if (!hasLargeSize()) return imageUrl
+
+        return imageUrl?.let { fullPath ->
+            val extensionDelimiter = '.'
+            val format = if (fullPath.contains(extensionDelimiter)) {
+                fullPath.substringAfterLast(extensionDelimiter).lowercase()
+            } else {
+                // Assume default JPG format if no extension is found.
+                "jpg"
+            }
+
+            val basePath = fullPath.substringBeforeLast(extensionDelimiter)
+            "$basePath?format=$format&name=large"
+        }
+    }
+}
 
 data class RemoteBungiePostMediaSizes(
-    @Json(name = "thumb") val thumb: RemoteBungiePostMediaSize? = null,
-    @Json(name = "small") val small: RemoteBungiePostMediaSize? = null,
-    @Json(name = "medium") val medium: RemoteBungiePostMediaSize? = null,
     @Json(name = "large") val large: RemoteBungiePostMediaSize? = null,
 )
 
