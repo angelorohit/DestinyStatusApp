@@ -247,6 +247,8 @@ private fun MainContent(
             AnimatedContent(targetState = uiState, label = "LoadingStateConent") {
                 if (it.existingData.isEmpty()) {
                     LoadingContent(modifier)
+                } else {
+                    DataContent(it.existingData, modifier)
                 }
             }
         }
@@ -277,9 +279,9 @@ private fun MainContent(
 }
 
 @Composable
-private fun DataContent(destinyStatusUpdates: UiDataType, modifier: Modifier = Modifier) {
+private fun DataContent(posts: UiDataType, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        items(destinyStatusUpdates) {
+        items(posts) {
             BungiePostCard(
                 bungiePost = it,
                 modifier = Modifier
