@@ -86,7 +86,11 @@ fun MainScreen(
 
     fun selectedChannelName(): String = selectedChannel().toDisplayHandle()
 
-    LaunchedEffect(true) { viewModel.fetchPosts(selectedChannel()) }
+    LaunchedEffect(true) {
+        if (uiState is UiState.Zero) {
+            viewModel.fetchPosts(selectedChannel())
+        }
+    }
 
     Scaffold(
         modifier = modifier,
