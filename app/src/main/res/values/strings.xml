@@ -21,10 +21,9 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
 
-    <string name="main_screen_title">@string/app_name</string>
     <string name="attributions_screen_title">Attributions</string>
 
-    <string name="community_driven">A community driven effort for Guardians!</string>
+    <string name="community_driven">A community driven effort for flightless Guardians!</string>
     <string name="open_source_licenses">Open source licenses</string>
     <string name="attributions">Attributions</string>
     <string name="service_attribution">Original service provided at bungiehelp.org</string>
