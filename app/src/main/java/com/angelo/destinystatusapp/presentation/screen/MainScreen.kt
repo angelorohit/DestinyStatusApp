@@ -54,8 +54,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.domain.model.BungieChannelType
-import com.angelo.destinystatusapp.presentation.NavigationRoute
-import com.angelo.destinystatusapp.presentation.navigateTo
+import com.angelo.destinystatusapp.presentation.launchPhotoDetailsScreen
+import com.angelo.destinystatusapp.presentation.launchSettingsScreen
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import com.angelo.destinystatusapp.presentation.viewmodel.DestinyStatusUiState
 import com.angelo.destinystatusapp.presentation.viewmodel.MainViewModel
@@ -117,7 +117,7 @@ fun MainScreen(
                             viewModel.fetchPosts(channelType = selectedChannel(), isForceRefresh = true)
                         },
                     )
-                    SettingsIconButton(onClickAction = { navController.navigateTo(NavigationRoute.Settings) })
+                    SettingsIconButton(onClickAction = { navController.launchSettingsScreen() })
 
                     ChannelFilterDropdownMenu(
                         modifier = Modifier.fillMaxWidth(),
@@ -135,6 +135,7 @@ fun MainScreen(
         },
         content = { innerPadding ->
             MainContent(
+                navController = navController,
                 uiState = uiState,
                 modifier = Modifier.padding(innerPadding),
                 onErrorAction = ::showSnackbar,
@@ -242,6 +243,7 @@ private fun ChannelFilterDropdownMenu(
 
 @Composable
 private fun MainContent(
+    navController: NavController,
     uiState: DestinyStatusUiState,
     modifier: Modifier = Modifier,
     onErrorAction: (String) -> Unit = {},
@@ -252,7 +254,11 @@ private fun MainContent(
                 if (it.existingData.isEmpty()) {
                     LoadingContent(modifier)
                 } else {
-                    DataContent(it.existingData, modifier)
+                    DataContent(
+                        navController = navController,
+                        posts = it.existingData,
+                        modifier = modifier,
+                    )
                 }
             }
         }
@@ -264,7 +270,11 @@ private fun MainContent(
                 if (it.data.isEmpty()) {
                     EmptyContent(modifier)
                 } else {
-                    DataContent(it.data, modifier)
+                    DataContent(
+                        navController = navController,
+                        posts = it.data,
+                        modifier = modifier,
+                    )
                 }
             }
         }
@@ -274,7 +284,11 @@ private fun MainContent(
                 if (it.existingData.isEmpty()) {
                     EmptyContent(modifier)
                 } else {
-                    DataContent(it.existingData, modifier)
+                    DataContent(
+                        navController = navController,
+                        posts = it.existingData,
+                        modifier = modifier,
+                    )
                 }
             }
             onErrorAction(uiState.errorData.asString())
@@ -283,7 +297,7 @@ private fun MainContent(
 }
 
 @Composable
-private fun DataContent(posts: UiDataType, modifier: Modifier = Modifier) {
+private fun DataContent(navController: NavController, posts: UiDataType, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         items(posts) {
             BungiePostCard(
@@ -291,6 +305,9 @@ private fun DataContent(posts: UiDataType, modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
+                onPhotoClick = { photoUrl ->
+                    navController.launchPhotoDetailsScreen(photoUrl)
+                }
             )
         }
         // Empty space below the last item in the list.

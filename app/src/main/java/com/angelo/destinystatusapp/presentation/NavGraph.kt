@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.angelo.destinystatusapp.presentation.screen.AttributionsScreen
 import com.angelo.destinystatusapp.presentation.screen.MainScreen
+import com.angelo.destinystatusapp.presentation.screen.PhotoDetailsScreen
 import com.angelo.destinystatusapp.presentation.screen.SettingsScreen
 
 @Composable
@@ -28,15 +29,37 @@ fun NavGraph(navController: NavHostController) {
         composable(NavigationRoute.Attributions.route) {
             AttributionsScreen(navController)
         }
+        composable(NavigationRoute.PhotoDetailsScreen.route) {
+            PhotoDetailsScreen(navController)
+        }
     }
 }
 
-enum class NavigationRoute(val route: String) {
+private enum class NavigationRoute(val route: String) {
     Main("main"),
     Settings("settings"),
     Attributions("attributions"),
+    PhotoDetailsScreen("photoDetailsScreen?photoUrl={photoUrl}");
+
+    fun withArgs(argumentMap: Map<String, String>): String {
+        val routeWithoutArgs = route.substringBefore("?")
+        return "$routeWithoutArgs?${argumentMap.map { "${it.key}=${it.value}" }.joinToString("&")}"
+    }
 }
 
-fun NavController.navigateTo(route: NavigationRoute) {
+private fun NavController.navigateTo(route: NavigationRoute) {
     navigate(route.route)
 }
+
+private fun NavController.navigateTo(route: NavigationRoute, argumentMap: Map<String, String>) {
+    navigate(route.withArgs(argumentMap))
+}
+
+fun NavController.launchSettingsScreen() = navigateTo(NavigationRoute.Settings)
+fun NavController.launchAttributionsScreen() = navigateTo(NavigationRoute.Attributions)
+fun NavController.launchPhotoDetailsScreen(photoUrl: String) = navigateTo(
+    NavigationRoute.PhotoDetailsScreen,
+    mapOf(
+        "photoUrl" to photoUrl,
+    ),
+)

@@ -29,14 +29,18 @@ import com.angelo.destinystatusapp.domain.helper.datetime.clock.testing.FakeCloc
 import com.angelo.destinystatusapp.domain.model.BungiePost
 import com.angelo.destinystatusapp.domain.model.BungiePostMedia
 import com.angelo.destinystatusapp.domain.model.BungiePostMediaType
-import com.angelo.destinystatusapp.presentation.helper.modifier.conditional
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import org.koin.androidx.compose.get
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
-fun BungiePostCard(bungiePost: BungiePost, modifier: Modifier = Modifier, clock: Clock = get()) {
+fun BungiePostCard(
+    bungiePost: BungiePost,
+    modifier: Modifier = Modifier,
+    onPhotoClick: (photoUrl: String) -> Unit = {},
+    clock: Clock = get(),
+) {
     ElevatedCard(
         modifier = modifier,
     ) {
@@ -52,13 +56,12 @@ fun BungiePostCard(bungiePost: BungiePost, modifier: Modifier = Modifier, clock:
 
             bungiePost.getValidMedia().forEach { bungiePostMedia ->
                 Spacer(modifier = Modifier.height(2.dp))
-                val largeImageUrl = bungiePostMedia.sizes?.large?.imageUrl
                 BungiePostPhoto(
                     bungiePostMedia = bungiePostMedia,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .conditional(largeImageUrl != null) {
-                            clickable {}
+                        .clickable {
+                            bungiePostMedia.sizes?.large?.imageUrl?.let { onPhotoClick(it) }
                         },
                 )
             }

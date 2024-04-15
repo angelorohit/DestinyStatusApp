@@ -38,7 +38,7 @@ fun BungiePostPhoto(bungiePostMedia: BungiePostMedia, modifier: Modifier = Modif
 }
 
 @Composable
-fun LoadingErrorPlaceholder(modifier: Modifier = Modifier) {
+private fun LoadingErrorPlaceholder(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .height(100.dp)
@@ -48,7 +48,7 @@ fun LoadingErrorPlaceholder(modifier: Modifier = Modifier) {
 
 @PreviewLightDark
 @Composable
-fun BungiePostPhotoPreview(modifier: Modifier = Modifier) {
+private fun BungiePostPhotoPreview(modifier: Modifier = Modifier) {
     DestinyStatusAppTheme {
         Surface {
             BungiePostPhoto(
@@ -65,7 +65,7 @@ fun BungiePostPhotoPreview(modifier: Modifier = Modifier) {
 
 @PreviewLightDark
 @Composable
-fun LoadingErrorPlaceholderPreview(modifier: Modifier = Modifier) {
+private fun LoadingErrorPlaceholderPreview(modifier: Modifier = Modifier) {
     DestinyStatusAppTheme {
         Surface {
             LoadingErrorPlaceholder(modifier = modifier)

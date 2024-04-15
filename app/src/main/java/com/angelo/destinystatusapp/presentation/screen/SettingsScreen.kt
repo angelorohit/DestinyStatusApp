@@ -30,8 +30,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.angelo.destinystatusapp.BuildConfig
 import com.angelo.destinystatusapp.R
-import com.angelo.destinystatusapp.presentation.NavigationRoute
-import com.angelo.destinystatusapp.presentation.navigateTo
+import com.angelo.destinystatusapp.presentation.launchAttributionsScreen
 import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
@@ -80,7 +79,7 @@ fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) 
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.attributions)) },
                     modifier = Modifier.clickable {
-                        navController.navigateTo(NavigationRoute.Attributions)
+                        navController.launchAttributionsScreen()
                     },
                 )
 
