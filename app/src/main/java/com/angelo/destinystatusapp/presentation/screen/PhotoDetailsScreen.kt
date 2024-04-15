@@ -1,7 +1,11 @@
 package com.angelo.destinystatusapp.presentation.screen
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,6 +16,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,14 +38,22 @@ import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhotoDetailsScreen(navController: NavController, args: PhotoDetailsArgs, modifier: Modifier = Modifier) {
+    var showAppBar by remember { mutableStateOf(true) }
+    val interactionSource = remember { MutableInteractionSource() }
+
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.clickable(
+            interactionSource = interactionSource,
+            indication = null,
+            onClick = { showAppBar = !showAppBar },
+        ),
         topBar = {
             // We put the image inside the topBar content, so that it can go edge to edge.
-            Box(
+            BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(),
+                    .fillMaxHeight()
+                    .aspectRatio(args.photoAspectRatio),
             ) {
                 SubcomposeAsyncImage(
                     modifier = Modifier
@@ -57,13 +73,17 @@ fun PhotoDetailsScreen(navController: NavController, args: PhotoDetailsArgs, mod
                 )
             }
 
-            StandardTopAppBar(
-                navController = navController,
-                title = { Text(text = args.title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
-                ),
-            )
+            AnimatedContent(showAppBar, label = "TopAppBar") {
+                if (it) {
+                    StandardTopAppBar(
+                        navController = navController,
+                        title = { Text(text = args.title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
+                        ),
+                    )
+                }
+            }
         },
     ) {
         Spacer(modifier = Modifier.padding(it))
