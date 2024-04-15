@@ -38,6 +38,7 @@ private fun BungiePostPhotoPreview(modifier: Modifier = Modifier) {
         Surface {
             BungiePostPhoto(
                 bungiePostMedia = BungiePostMedia(
+                    id = "1",
                     imageUrl = "https://pbs.twimg.com/media/GLEtYt7WgAAWojF.jpg",
                     type = BungiePostMediaType.Photo,
                     sizes = null,

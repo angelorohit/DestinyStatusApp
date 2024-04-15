@@ -18,6 +18,7 @@ data class BungiePost(
 }
 
 data class BungiePostMedia(
+    val id: String?,
     val imageUrl: String?,
     val type: BungiePostMediaType?,
     val sizes: BungiePostMediaSizes?,

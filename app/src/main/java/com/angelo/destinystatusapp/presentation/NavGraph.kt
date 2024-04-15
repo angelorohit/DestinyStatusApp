@@ -70,24 +70,24 @@ fun NavController.launchPhotoDetailsScreen(photoDetailsArgs: PhotoDetailsArgs) =
     photoDetailsArgs.toArgumentMap(),
 )
 
-data class PhotoDetailsArgs(val title: String = "", val photoUrl: String = "", val photoAspectRatio: Float = 0f) {
+data class PhotoDetailsArgs(val channelTypeName: String = "", val postId: String = "", val mediaId: String = "") {
     companion object {
-        const val ROUTE = "photoDetailsScreen?title={title}&photoUrl={photoUrl}&photoAspectRatio={photoAspectRatio}"
+        const val ROUTE = "photoDetailsScreen?channelTypeName={channelTypeName}&postId={postId}&mediaId={mediaId}"
 
         fun NavBackStackEntry.extractPhotoDetailsArgs(): PhotoDetailsArgs {
             return arguments?.let { bundle ->
                 PhotoDetailsArgs(
-                    title = bundle.getString("title").orEmpty(),
-                    photoUrl = bundle.getString("photoUrl").orEmpty(),
-                    photoAspectRatio = bundle.getString("photoAspectRatio")?.toFloatOrNull() ?: 0f,
+                    channelTypeName = bundle.getString("channelTypeName").orEmpty(),
+                    postId = bundle.getString("postId").orEmpty(),
+                    mediaId = bundle.getString("mediaId").orEmpty(),
                 )
             } ?: PhotoDetailsArgs()
         }
     }
 
     fun toArgumentMap(): Map<String, String> = mapOf(
-        "title" to title,
-        "photoUrl" to photoUrl,
-        "photoAspectRatio" to photoAspectRatio.toString(),
+        "channelTypeName" to channelTypeName,
+        "postId" to postId,
+        "mediaId" to mediaId,
     )
 }

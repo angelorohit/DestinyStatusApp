@@ -28,6 +28,7 @@ import com.angelo.destinystatusapp.proto.BungiePostMediaType as DaoPostMediaType
 private fun DomainPostMedia.toDaoPostMedia(): DaoPostMedia {
     val domainModel: DomainPostMedia = this
     return bungiePostMedia {
+        id = domainModel.id.orEmpty()
         imageUrl = domainModel.imageUrl.orEmpty()
         type = when (domainModel.type) {
             DomainPostMediaType.Photo -> DaoPostMediaType.PHOTO
@@ -86,6 +87,7 @@ private fun DaoPostMediaType.toDomainPostMediaType() = when (this) {
 }
 
 private fun DaoPostMedia.toDomainPostMedia() = DomainPostMedia(
+    id = id,
     imageUrl = imageUrl,
     type = type.toDomainPostMediaType(),
     sizes = sizes?.toDomainPostMediaSizes(),

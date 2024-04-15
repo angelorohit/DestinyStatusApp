@@ -38,7 +38,7 @@ import kotlin.time.Duration.Companion.seconds
 fun BungiePostCard(
     bungiePost: BungiePost,
     modifier: Modifier = Modifier,
-    onPhotoClick: (photoUrl: String, photoAspectRatio: Float) -> Unit = { _, _ -> },
+    onPhotoClick: (mediaId: String) -> Unit = { },
     clock: Clock = get(),
 ) {
     ElevatedCard(
@@ -60,14 +60,7 @@ fun BungiePostCard(
                     bungiePostMedia = bungiePostMedia,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            bungiePostMedia.sizes?.large?.let {
-                                onPhotoClick(
-                                    it.imageUrl.orEmpty(),
-                                    it.aspectRatio,
-                                )
-                            }
-                        },
+                        .clickable { onPhotoClick(bungiePostMedia.id.orEmpty()) },
                 )
             }
         }
@@ -122,11 +115,13 @@ private fun BungiePostCardPreview(modifier: Modifier = Modifier) {
                     url = "https://twitter.com/BungieHelp/status/1770932153981050919",
                     media = listOf(
                         BungiePostMedia(
+                            id = "",
                             imageUrl = "https://pbs.twimg.com/media/GLEtYt7WgAAWojF.jpg",
                             type = BungiePostMediaType.Photo,
                             sizes = null,
                         ),
                         BungiePostMedia(
+                            id = "",
                             imageUrl = "https://pbs.twimg.com/media/GLEtYt7WgAAWojF.jpg",
                             type = BungiePostMediaType.Photo,
                             sizes = null,

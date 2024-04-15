@@ -4,9 +4,10 @@ option java_package = "com.angelo.destinystatusapp.proto";
 option java_multiple_files = true;
 
 message BungiePostMedia {
-  string image_url = 1;
-  BungiePostMediaType type = 2;
-  BungiePostMediaSizes sizes = 3;
+  string id = 1;
+  string image_url = 2;
+  BungiePostMediaType type = 3;
+  BungiePostMediaSizes sizes = 4;
 }
 
 enum BungiePostMediaType {

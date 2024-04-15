@@ -18,14 +18,14 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-typealias UiDataType = ImmutableList<BungiePost>
-typealias DestinyStatusUiState = UiState<UiDataType, UiString>
+typealias FeedUiDataType = ImmutableList<BungiePost>
+typealias FeedUiState = UiState<FeedUiDataType, UiString>
 
 class MainViewModel : ViewModel(), KoinComponent {
     private val fetchPostsUseCase: FetchPostsUseCase by inject()
     private val cacheRepository: BungieChannelPostsCacheRepository by inject()
 
-    private val _uiState = MutableStateFlow<DestinyStatusUiState>(UiState.Zero)
+    private val _uiState = MutableStateFlow<FeedUiState>(UiState.Zero)
     val uiState = _uiState.asStateFlow()
 
     private var job: Job? = null
@@ -50,9 +50,9 @@ class MainViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    private fun State<UiDataType>.toUiState(channelType: BungieChannelType): DestinyStatusUiState {
+    private fun State<FeedUiDataType>.toUiState(channelType: BungieChannelType): FeedUiState {
         return when (this) {
-            is State.Success<UiDataType> -> {
+            is State.Success<FeedUiDataType> -> {
                 UiState.Success(data)
             }
 

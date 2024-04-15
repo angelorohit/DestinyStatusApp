@@ -22,6 +22,7 @@ private fun RemoteBungiePostMediaSizes.toDomainSizes(largeImageUrl: String?) = B
 )
 
 private fun RemoteBungiePostMedia.toDomainMedia() = BungiePostMedia(
+    id = id,
     imageUrl = imageUrl,
     type = type?.let { BungiePostMediaType.Photo },
     sizes = sizes?.toDomainSizes(largeImageUrl = getLargeImageUrl()),

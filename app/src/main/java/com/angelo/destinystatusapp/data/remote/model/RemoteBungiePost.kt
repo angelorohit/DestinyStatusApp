@@ -12,6 +12,7 @@ data class RemoteBungiePost(
 )
 
 data class RemoteBungiePostMedia(
+    @Json(name = "id_str") val id: String? = null,
     @Json(name = "media_url_https") val imageUrl: String? = null,
     @Json(name = "type") val type: String? = null,
     @Json(name = "sizes") val sizes: RemoteBungiePostMediaSizes? = null,

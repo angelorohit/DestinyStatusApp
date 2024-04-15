@@ -59,9 +59,9 @@ import com.angelo.destinystatusapp.presentation.PhotoDetailsArgs
 import com.angelo.destinystatusapp.presentation.launchPhotoDetailsScreen
 import com.angelo.destinystatusapp.presentation.launchSettingsScreen
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
-import com.angelo.destinystatusapp.presentation.viewmodel.DestinyStatusUiState
+import com.angelo.destinystatusapp.presentation.viewmodel.FeedUiDataType
+import com.angelo.destinystatusapp.presentation.viewmodel.FeedUiState
 import com.angelo.destinystatusapp.presentation.viewmodel.MainViewModel
-import com.angelo.destinystatusapp.presentation.viewmodel.UiDataType
 import com.angelo.destinystatusapp.presentation.viewmodel.UiState
 import com.angelo.destinystatusapp.presentation.widgets.BungiePostCard
 import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
@@ -139,6 +139,7 @@ fun MainScreen(
         content = { innerPadding ->
             MainContent(
                 navController = navController,
+                channelType = selectedChannel(),
                 uiState = uiState,
                 modifier = Modifier.padding(innerPadding),
                 onErrorAction = ::showSnackbar,
@@ -184,11 +185,7 @@ private fun SettingsIconButton(onClickAction: () -> Unit, modifier: Modifier = M
 }
 
 @Composable
-private fun RefreshIconButton(
-    uiState: DestinyStatusUiState,
-    onClickAction: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
+private fun RefreshIconButton(uiState: FeedUiState, onClickAction: () -> Unit, modifier: Modifier = Modifier) {
     IconButton(
         modifier = modifier,
         onClick = onClickAction,
@@ -247,7 +244,8 @@ private fun ChannelFilterDropdownMenu(
 @Composable
 private fun MainContent(
     navController: NavController,
-    uiState: DestinyStatusUiState,
+    channelType: BungieChannelType,
+    uiState: FeedUiState,
     modifier: Modifier = Modifier,
     onErrorAction: (String) -> Unit = {},
 ) {
@@ -259,6 +257,7 @@ private fun MainContent(
                 } else {
                     DataContent(
                         navController = navController,
+                        channelType = channelType,
                         posts = it.existingData,
                         modifier = modifier,
                     )
@@ -275,6 +274,7 @@ private fun MainContent(
                 } else {
                     DataContent(
                         navController = navController,
+                        channelType = channelType,
                         posts = it.data,
                         modifier = modifier,
                     )
@@ -289,6 +289,7 @@ private fun MainContent(
                 } else {
                     DataContent(
                         navController = navController,
+                        channelType = channelType,
                         posts = it.existingData,
                         modifier = modifier,
                     )
@@ -300,7 +301,12 @@ private fun MainContent(
 }
 
 @Composable
-private fun DataContent(navController: NavController, posts: UiDataType, modifier: Modifier = Modifier) {
+private fun DataContent(
+    navController: NavController,
+    channelType: BungieChannelType,
+    posts: FeedUiDataType,
+    modifier: Modifier = Modifier,
+) {
     LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         items(posts) { bungiePost ->
             BungiePostCard(
@@ -308,12 +314,12 @@ private fun DataContent(navController: NavController, posts: UiDataType, modifie
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
-                onPhotoClick = { photoUrl, photoAspectRatio ->
+                onPhotoClick = { mediaId ->
                     navController.launchPhotoDetailsScreen(
                         PhotoDetailsArgs(
-                            title = bungiePost.text?.replace("\n", " ").orEmpty(),
-                            photoUrl = photoUrl,
-                            photoAspectRatio = photoAspectRatio,
+                            channelTypeName = channelType.name,
+                            postId = bungiePost.id.orEmpty(),
+                            mediaId = mediaId,
                         ),
                     )
                 }
