@@ -37,4 +37,6 @@ data class BungiePostMediaSize(
     val imageUrl: String?,
     val width: Int?,
     val height: Int?,
-)
+) {
+    val aspectRatio = width?.toFloat()?.div(height ?: 1) ?: 1f
+}

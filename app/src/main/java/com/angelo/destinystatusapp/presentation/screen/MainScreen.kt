@@ -55,6 +55,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.domain.model.BungieChannelType
+import com.angelo.destinystatusapp.presentation.PhotoDetailsArgs
 import com.angelo.destinystatusapp.presentation.launchPhotoDetailsScreen
 import com.angelo.destinystatusapp.presentation.launchSettingsScreen
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
@@ -307,10 +308,13 @@ private fun DataContent(navController: NavController, posts: UiDataType, modifie
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
-                onPhotoClick = { photoUrl ->
+                onPhotoClick = { photoUrl, photoAspectRatio ->
                     navController.launchPhotoDetailsScreen(
-                        title = bungiePost.text?.replace("\n", " ").orEmpty(),
-                        photoUrl = photoUrl,
+                        PhotoDetailsArgs(
+                            title = bungiePost.text?.replace("\n", " ").orEmpty(),
+                            photoUrl = photoUrl,
+                            photoAspectRatio = photoAspectRatio,
+                        ),
                     )
                 }
             )
