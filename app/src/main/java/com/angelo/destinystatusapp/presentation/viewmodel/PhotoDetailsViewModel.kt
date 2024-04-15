@@ -15,7 +15,6 @@ class PhotoDetailsViewModel(
 
     var title: String private set
     var photoUrl: String private set
-    var photoAspectRatio: Float private set
 
     init {
         val bungiePost = cacheRepository.getPosts(channelType).find { bungiePost -> bungiePost.id == postId }
@@ -23,6 +22,5 @@ class PhotoDetailsViewModel(
 
         title = bungiePost?.text.orEmpty()
         photoUrl = bungiePostMedia?.sizes?.large?.imageUrl.orEmpty()
-        photoAspectRatio = bungiePostMedia?.sizes?.large?.aspectRatio ?: 1f
     }
 }
