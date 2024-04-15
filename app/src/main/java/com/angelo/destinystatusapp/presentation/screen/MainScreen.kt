@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -66,6 +67,7 @@ import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navController: NavController,
@@ -299,14 +301,17 @@ private fun MainContent(
 @Composable
 private fun DataContent(navController: NavController, posts: UiDataType, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        items(posts) {
+        items(posts) { bungiePost ->
             BungiePostCard(
-                bungiePost = it,
+                bungiePost = bungiePost,
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
                 onPhotoClick = { photoUrl ->
-                    navController.launchPhotoDetailsScreen(photoUrl)
+                    navController.launchPhotoDetailsScreen(
+                        title = bungiePost.text?.replace("\n", " ").orEmpty(),
+                        photoUrl = photoUrl,
+                    )
                 }
             )
         }

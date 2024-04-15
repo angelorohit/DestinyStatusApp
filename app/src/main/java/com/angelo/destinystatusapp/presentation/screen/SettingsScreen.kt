@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +35,7 @@ import com.angelo.destinystatusapp.presentation.launchAttributionsScreen
 import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) {
     val context = LocalContext.current

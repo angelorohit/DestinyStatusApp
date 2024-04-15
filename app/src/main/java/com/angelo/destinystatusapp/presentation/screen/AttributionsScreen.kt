@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
@@ -18,6 +19,7 @@ import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.presentation.helper.customtabs.launchCustomTabs
 import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AttributionsScreen(navController: NavController, modifier: Modifier = Modifier) {
     val context = LocalContext.current

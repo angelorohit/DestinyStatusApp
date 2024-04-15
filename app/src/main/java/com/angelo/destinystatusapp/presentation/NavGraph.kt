@@ -39,7 +39,7 @@ private enum class NavigationRoute(val route: String) {
     Main("main"),
     Settings("settings"),
     Attributions("attributions"),
-    PhotoDetailsScreen("photoDetailsScreen?photoUrl={photoUrl}");
+    PhotoDetailsScreen("photoDetailsScreen?title={title}&photoUrl={photoUrl}");
 
     fun withArgs(argumentMap: Map<String, String>): String {
         val routeWithoutArgs = route.substringBefore("?")
@@ -57,9 +57,10 @@ private fun NavController.navigateTo(route: NavigationRoute, argumentMap: Map<St
 
 fun NavController.launchSettingsScreen() = navigateTo(NavigationRoute.Settings)
 fun NavController.launchAttributionsScreen() = navigateTo(NavigationRoute.Attributions)
-fun NavController.launchPhotoDetailsScreen(photoUrl: String) = navigateTo(
+fun NavController.launchPhotoDetailsScreen(title: String, photoUrl: String) = navigateTo(
     NavigationRoute.PhotoDetailsScreen,
     mapOf(
+        "title" to title,
         "photoUrl" to photoUrl,
     ),
 )

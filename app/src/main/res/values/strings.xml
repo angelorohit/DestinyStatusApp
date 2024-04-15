@@ -30,4 +30,6 @@
     <string name="app_icon_attribution">App icon by Tom Chapman\'s destiny-icons</string>
     <string name="lottie_animation_attribution">Animation by Pierre Blavette / LottieFiles</string>
     <string name="ip_attribution">Original Destiny IP by Bungie</string>
+
+    <string name="image_load_error">Failed to load image</string>
 </resources>
