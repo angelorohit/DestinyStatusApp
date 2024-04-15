@@ -7,6 +7,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.angelo.destinystatusapp.presentation.helper.transitions.fadeInEnterTransition
+import com.angelo.destinystatusapp.presentation.helper.transitions.fadeOutExitTransition
 import com.angelo.destinystatusapp.presentation.screen.AttributionsScreen
 import com.angelo.destinystatusapp.presentation.screen.MainScreen
 import com.angelo.destinystatusapp.presentation.screen.PhotoDetailsScreen
@@ -29,8 +31,15 @@ fun NavGraph(navController: NavHostController) {
         composable(NavigationRoute.Attributions.route) {
             AttributionsScreen(navController)
         }
-        composable(NavigationRoute.PhotoDetailsScreen.route) {
-            PhotoDetailsScreen(navController)
+        composable(
+            route = NavigationRoute.PhotoDetailsScreen.route,
+            enterTransition = fadeInEnterTransition,
+            exitTransition = fadeOutExitTransition,
+        ) { backStackEntry ->
+            val arguments = backStackEntry.arguments
+            val title = arguments?.getString("title").orEmpty()
+            val photoUrl = arguments?.getString("photoUrl").orEmpty()
+            PhotoDetailsScreen(navController, title, photoUrl)
         }
     }
 }
