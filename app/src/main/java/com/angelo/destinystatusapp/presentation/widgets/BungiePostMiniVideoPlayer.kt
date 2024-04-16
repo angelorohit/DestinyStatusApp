@@ -16,7 +16,7 @@ import androidx.media3.ui.PlayerView
 import com.angelo.destinystatusapp.domain.model.BungiePostMedia
 
 @Composable
-fun BungiePostVideoPreview(bungiePostMedia: BungiePostMedia, modifier: Modifier = Modifier) {
+fun BungiePostMiniVideoPlayer(bungiePostMedia: BungiePostMedia, modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
     val exoPlayer = ExoPlayer.Builder(context).build()

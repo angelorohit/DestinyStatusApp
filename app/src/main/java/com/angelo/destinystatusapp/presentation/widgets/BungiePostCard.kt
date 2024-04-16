@@ -39,6 +39,7 @@ fun BungiePostCard(
     bungiePost: BungiePost,
     modifier: Modifier = Modifier,
     onPhotoClick: (mediaId: String) -> Unit = { },
+    onVideoClick: (mediaId: String) -> Unit = { },
     clock: Clock = get(),
 ) {
     ElevatedCard(
@@ -68,9 +69,11 @@ fun BungiePostCard(
                     }
 
                     BungiePostMediaType.Video -> {
-                        BungiePostVideoPreview(
+                        BungiePostVideoCover(
                             bungiePostMedia = bungiePostMedia,
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onVideoClick(bungiePostMedia.id.orEmpty()) },
                         )
                     }
 

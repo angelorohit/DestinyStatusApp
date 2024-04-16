@@ -1,5 +1,7 @@
 package com.angelo.destinystatusapp.presentation.screen
 
+import android.content.res.Configuration
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.rememberTransformableState
@@ -29,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -53,7 +56,11 @@ fun PhotoDetailsScreen(
     args: PhotoDetailsArgs,
     modifier: Modifier = Modifier,
     photoDetailsViewModel: PhotoDetailsViewModel = getViewModel {
-        parametersOf(BungieChannelType.fromName(args.channelTypeName), args.postId, args.mediaId)
+        parametersOf(
+            BungieChannelType.fromName(args.channelTypeName),
+            args.postId,
+            args.mediaId,
+        )
     },
 ) {
     var showAppBar by remember { mutableStateOf(true) }
@@ -61,6 +68,10 @@ fun PhotoDetailsScreen(
 
     var scale by remember { mutableFloatStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
+    val aspectRatio = minOf(
+        photoDetailsViewModel.photoAspectRatio,
+        calculateScreenAspectRatio(LocalConfiguration.current),
+    )
 
     Scaffold(
         modifier = modifier.clickable(
@@ -71,12 +82,16 @@ fun PhotoDetailsScreen(
         topBar = {
             // We put the image inside the topBar content, so that it can go edge to edge.
             Column(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 BoxWithConstraints(
-                    modifier = Modifier.fillMaxWidth().aspectRatio(photoDetailsViewModel.photoAspectRatio),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(aspectRatio),
                 ) {
                     val state = rememberTransformableState { zoomChange, panChange, _ ->
                         scale = (scale * zoomChange).coerceIn(1f, 2f)
@@ -133,6 +148,17 @@ fun PhotoDetailsScreen(
         },
     ) {
         Spacer(modifier = Modifier.padding(it))
+    }
+}
+
+private fun calculateScreenAspectRatio(configuration: Configuration): Float {
+    val screenWidthDp = configuration.screenWidthDp
+    val screenHeightDp = configuration.screenHeightDp
+
+    return if (configuration.orientation == ORIENTATION_LANDSCAPE) {
+        screenWidthDp.toFloat() / screenHeightDp
+    } else {
+        screenHeightDp.toFloat() / screenWidthDp
     }
 }
 
