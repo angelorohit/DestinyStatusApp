@@ -32,7 +32,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.angelo.destinystatusapp.BuildConfig
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.presentation.launchAttributionsScreen
-import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
+import com.angelo.destinystatusapp.presentation.widget.StandardTopAppBar
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 
 @OptIn(ExperimentalMaterial3Api::class)

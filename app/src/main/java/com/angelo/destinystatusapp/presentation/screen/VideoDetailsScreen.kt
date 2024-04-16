@@ -17,8 +17,8 @@ import androidx.navigation.NavController
 import com.angelo.destinystatusapp.domain.model.BungieChannelType
 import com.angelo.destinystatusapp.presentation.MediaDetailsArgs
 import com.angelo.destinystatusapp.presentation.viewmodel.VideoDetailsViewModel
-import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
-import com.angelo.destinystatusapp.presentation.widgets.VideoPlayer
+import com.angelo.destinystatusapp.presentation.widget.StandardTopAppBar
+import com.angelo.destinystatusapp.presentation.widget.VideoPlayer
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 

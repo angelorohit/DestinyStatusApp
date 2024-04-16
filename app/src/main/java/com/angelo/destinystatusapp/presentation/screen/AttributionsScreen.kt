@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.presentation.helper.customtabs.launchCustomTabs
-import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
+import com.angelo.destinystatusapp.presentation.widget.StandardTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

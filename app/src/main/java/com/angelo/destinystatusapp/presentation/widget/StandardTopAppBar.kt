@@ -1,4 +1,4 @@
-package com.angelo.destinystatusapp.presentation.widgets
+package com.angelo.destinystatusapp.presentation.widget
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons

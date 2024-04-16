@@ -7,9 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -43,9 +42,9 @@ import com.angelo.destinystatusapp.domain.model.BungieChannelType
 import com.angelo.destinystatusapp.presentation.MediaDetailsArgs
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import com.angelo.destinystatusapp.presentation.viewmodel.PhotoDetailsViewModel
-import com.angelo.destinystatusapp.presentation.widgets.ImageErrorPlaceholder
-import com.angelo.destinystatusapp.presentation.widgets.ImageLoadingPlaceholder
-import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
+import com.angelo.destinystatusapp.presentation.widget.ImageErrorPlaceholder
+import com.angelo.destinystatusapp.presentation.widget.ImageLoadingPlaceholder
+import com.angelo.destinystatusapp.presentation.widget.StandardTopAppBar
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -81,16 +80,15 @@ fun PhotoDetailsScreen(
         ),
         topBar = {
             // We put the image inside the topBar content, so that it can go edge to edge.
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 BoxWithConstraints(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .align(Alignment.Center)
                         .aspectRatio(aspectRatio),
                 ) {
                     val state = rememberTransformableState { zoomChange, panChange, _ ->

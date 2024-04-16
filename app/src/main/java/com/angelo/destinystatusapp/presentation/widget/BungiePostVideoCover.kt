@@ -1,4 +1,4 @@
-package com.angelo.destinystatusapp.presentation.widgets
+package com.angelo.destinystatusapp.presentation.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

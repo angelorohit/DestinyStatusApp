@@ -24,7 +24,7 @@
  * SOFTWARE.
  */
 
-package com.angelo.destinystatusapp.presentation.widgets
+package com.angelo.destinystatusapp.presentation.widget
 
 import android.content.ActivityNotFoundException
 import android.text.SpannableString

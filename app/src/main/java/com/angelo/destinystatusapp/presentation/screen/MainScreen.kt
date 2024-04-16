@@ -64,8 +64,8 @@ import com.angelo.destinystatusapp.presentation.viewmodel.FeedUiDataType
 import com.angelo.destinystatusapp.presentation.viewmodel.FeedUiState
 import com.angelo.destinystatusapp.presentation.viewmodel.MainViewModel
 import com.angelo.destinystatusapp.presentation.viewmodel.UiState
-import com.angelo.destinystatusapp.presentation.widgets.BungiePostCard
-import com.angelo.destinystatusapp.presentation.widgets.StandardTopAppBar
+import com.angelo.destinystatusapp.presentation.widget.BungiePostCard
+import com.angelo.destinystatusapp.presentation.widget.StandardTopAppBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -102,12 +102,7 @@ fun MainScreen(
         topBar = {
             StandardTopAppBar(
                 title = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_launcher_foreground),
-                        contentDescription = null,
-                        modifier = Modifier.size(56.dp),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                    )
+                    Logo()
                 },
                 navController = navController,
                 actions = {
@@ -146,6 +141,16 @@ fun MainScreen(
                 onErrorAction = ::showSnackbar,
             )
         }
+    )
+}
+
+@Composable
+private fun Logo(modifier: Modifier = Modifier) {
+    Icon(
+        imageVector = ImageVector.vectorResource(R.drawable.ic_launcher_foreground),
+        contentDescription = null,
+        modifier = modifier.size(56.dp),
+        tint = MaterialTheme.colorScheme.onSurface,
     )
 }
 
