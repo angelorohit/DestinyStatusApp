@@ -25,27 +25,39 @@ import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 
 @Composable
 fun ImageLoadingPlaceholder(modifier: Modifier = Modifier) {
-    Box {
-        CircularProgressIndicator(modifier = modifier.align(Alignment.Center).size(48.dp).padding(8.dp))
+    Box(modifier) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(48.dp)
+                .padding(8.dp),
+        )
     }
 }
 
 @Composable
 fun ImageErrorPlaceholder(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(
-            imageVector = Icons.Outlined.Warning,
-            contentDescription = null,
-            modifier = Modifier.size(48.dp),
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(id = R.string.image_load_error),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.error,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+    Box(modifier = modifier) {
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Warning,
+                contentDescription = null,
+                modifier = Modifier.size(48.dp),
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(id = R.string.image_load_error),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.error,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
 

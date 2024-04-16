@@ -122,10 +122,10 @@ fun PhotoDetailsScreen(
                             .crossfade(true)
                             .build(),
                         loading = {
-                            ImageLoadingPlaceholder()
+                            ImageLoadingPlaceholder(modifier = Modifier.fillMaxWidth().fillMaxHeight())
                         },
                         error = {
-                            ImageErrorPlaceholder()
+                            ImageErrorPlaceholder(modifier = Modifier.fillMaxWidth().fillMaxHeight())
                         },
                         contentDescription = null,
                     )
