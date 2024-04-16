@@ -35,7 +35,12 @@ private fun RemoteBungiePostVideoInfo.toDomainVideoInfo(): BungiePostVideoInfo {
         variant?.toDomainVideoVariant()
     }
 
-    return BungiePostVideoInfo(variants = domainVariants)
+    return BungiePostVideoInfo(
+        aspectRatio = aspectRatio?.takeIf { it.size == 2 }?.let { aspectRatio ->
+            aspectRatio[0].toFloat() / aspectRatio[1]
+        },
+        variants = domainVariants,
+    )
 }
 
 private fun RemoteBungiePostVideoVariant.toDomainVideoVariant() = BungiePostVideoVariant(

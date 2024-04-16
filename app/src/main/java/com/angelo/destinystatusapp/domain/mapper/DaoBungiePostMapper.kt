@@ -51,6 +51,7 @@ private fun DomainPostMedia.toDaoPostMedia(): DaoPostMedia {
 private fun DomainPostVideoInfo.toDaoPostVideoInfo(): DaoPostVideoInfo {
     val domainModel: DomainPostVideoInfo = this
     return bungiePostVideoInfo {
+        aspectRatio = domainModel.aspectRatio ?: 0f
         variants += domainModel.variants?.map { it.toDaoPostVideoVariant() }.orEmpty()
     }
 }
@@ -127,6 +128,7 @@ private fun DaoPostMedia.toDomainPostMedia() = DomainPostMedia(
 )
 
 private fun DaoPostVideoInfo.toDomainPostVideoInfo() = DomainPostVideoInfo(
+    aspectRatio = aspectRatio.takeIf { it > 0 },
     variants = variantsList.map { it.toDomainPostVideoVariant() },
 )
 

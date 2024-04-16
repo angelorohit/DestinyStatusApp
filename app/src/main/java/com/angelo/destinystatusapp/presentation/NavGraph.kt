@@ -8,13 +8,14 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.angelo.destinystatusapp.presentation.MediaDetailsArgs.Companion.extractPhotoDetailsArgs
+import com.angelo.destinystatusapp.presentation.MediaDetailsArgs.Companion.extractMediaDetailsArgs
 import com.angelo.destinystatusapp.presentation.helper.transitions.fadeInEnterTransition
 import com.angelo.destinystatusapp.presentation.helper.transitions.fadeOutExitTransition
 import com.angelo.destinystatusapp.presentation.screen.AttributionsScreen
 import com.angelo.destinystatusapp.presentation.screen.MainScreen
 import com.angelo.destinystatusapp.presentation.screen.PhotoDetailsScreen
 import com.angelo.destinystatusapp.presentation.screen.SettingsScreen
+import com.angelo.destinystatusapp.presentation.screen.VideoDetailsScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -40,7 +41,17 @@ fun NavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             PhotoDetailsScreen(
                 navController = navController,
-                args = backStackEntry.extractPhotoDetailsArgs(),
+                args = backStackEntry.extractMediaDetailsArgs(),
+            )
+        }
+        composable(
+            route = NavigationRoute.VideoDetailsScreen.route,
+            enterTransition = fadeInEnterTransition,
+            exitTransition = fadeOutExitTransition,
+        ) { backStackEntry ->
+            VideoDetailsScreen(
+                navController = navController,
+                args = backStackEntry.extractMediaDetailsArgs(),
             )
         }
     }
@@ -50,7 +61,9 @@ private enum class NavigationRoute(val route: String) {
     Main("main"),
     Settings("settings"),
     Attributions("attributions"),
-    PhotoDetailsScreen(MediaDetailsArgs.ROUTE);
+    PhotoDetailsScreen("photoDetailsScreen?${MediaDetailsArgs.ROUTE}"),
+    VideoDetailsScreen("videoDetailsScreen?${MediaDetailsArgs.ROUTE}"),
+    ;
 
     fun withArgs(argumentMap: Map<String, String>): String {
         val routeWithoutArgs = route.substringBefore("?")
@@ -72,12 +85,16 @@ fun NavController.launchPhotoDetailsScreen(detailsArgs: MediaDetailsArgs) = navi
     NavigationRoute.PhotoDetailsScreen,
     detailsArgs.toArgumentMap(),
 )
+fun NavController.launchVideoDetailsScreen(detailsArgs: MediaDetailsArgs) = navigateTo(
+    NavigationRoute.VideoDetailsScreen,
+    detailsArgs.toArgumentMap(),
+)
 
 data class MediaDetailsArgs(val channelTypeName: String = "", val postId: String = "", val mediaId: String = "") {
     companion object {
-        const val ROUTE = "photoDetailsScreen?channelTypeName={channelTypeName}&postId={postId}&mediaId={mediaId}"
+        const val ROUTE = "channelTypeName={channelTypeName}&postId={postId}&mediaId={mediaId}"
 
-        fun NavBackStackEntry.extractPhotoDetailsArgs(): MediaDetailsArgs {
+        fun NavBackStackEntry.extractMediaDetailsArgs(): MediaDetailsArgs {
             return arguments?.let { bundle ->
                 MediaDetailsArgs(
                     channelTypeName = bundle.getString("channelTypeName").orEmpty(),

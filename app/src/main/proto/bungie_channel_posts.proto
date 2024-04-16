@@ -27,7 +27,8 @@ message BungiePostMediaSize {
 }
 
 message BungiePostVideoInfo {
-  repeated BungiePostVideoVariant variants = 1;
+  float aspect_ratio = 1;
+  repeated BungiePostVideoVariant variants = 2;
 }
 
 message BungiePostVideoVariant {

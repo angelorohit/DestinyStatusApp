@@ -58,6 +58,7 @@ import com.angelo.destinystatusapp.domain.model.BungieChannelType
 import com.angelo.destinystatusapp.presentation.MediaDetailsArgs
 import com.angelo.destinystatusapp.presentation.launchPhotoDetailsScreen
 import com.angelo.destinystatusapp.presentation.launchSettingsScreen
+import com.angelo.destinystatusapp.presentation.launchVideoDetailsScreen
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import com.angelo.destinystatusapp.presentation.viewmodel.FeedUiDataType
 import com.angelo.destinystatusapp.presentation.viewmodel.FeedUiState
@@ -322,7 +323,16 @@ private fun DataContent(
                             mediaId = mediaId,
                         ),
                     )
-                }
+                },
+                onVideoClick = { mediaId ->
+                    navController.launchVideoDetailsScreen(
+                        MediaDetailsArgs(
+                            channelTypeName = channelType.name,
+                            postId = bungiePost.id.orEmpty(),
+                            mediaId = mediaId,
+                        ),
+                    )
+                },
             )
         }
         // Empty space below the last item in the list.

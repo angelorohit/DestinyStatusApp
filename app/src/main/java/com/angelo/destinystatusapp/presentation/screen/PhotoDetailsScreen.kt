@@ -55,7 +55,7 @@ fun PhotoDetailsScreen(
     navController: NavController,
     args: MediaDetailsArgs,
     modifier: Modifier = Modifier,
-    photoDetailsViewModel: PhotoDetailsViewModel = getViewModel {
+    viewModel: PhotoDetailsViewModel = getViewModel {
         parametersOf(
             BungieChannelType.fromName(args.channelTypeName),
             args.postId,
@@ -69,7 +69,7 @@ fun PhotoDetailsScreen(
     var scale by remember { mutableFloatStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
     val aspectRatio = minOf(
-        photoDetailsViewModel.photoAspectRatio,
+        viewModel.photoAspectRatio,
         calculateScreenAspectRatio(LocalConfiguration.current),
     )
 
@@ -118,7 +118,7 @@ fun PhotoDetailsScreen(
                             }
                             .transformable(state = state),
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(photoDetailsViewModel.photoUrl)
+                            .data(viewModel.photoUrl)
                             .crossfade(true)
                             .build(),
                         loading = {
@@ -137,7 +137,7 @@ fun PhotoDetailsScreen(
                     StandardTopAppBar(
                         navController = navController,
                         title = {
-                            Text(text = photoDetailsViewModel.title, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Text(text = viewModel.title, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),

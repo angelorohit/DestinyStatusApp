@@ -51,6 +51,7 @@ data class RemoteBungiePostMediaSize(
 )
 
 data class RemoteBungiePostVideoInfo(
+    @Json(name = "aspect_ratio") val aspectRatio: List<Int>? = null,
     @Json(name = "variants") val variants: List<RemoteBungiePostVideoVariant>? = null,
 )
 

@@ -45,10 +45,11 @@ data class BungiePostMediaSize(
 }
 
 data class BungiePostVideoInfo(
+    val aspectRatio: Float?,
     val variants: List<BungiePostVideoVariant>?,
 ) {
-    fun getLowestQualityUrl(): String? {
-        return BungiePostVideoQuality.entries.firstNotNullOfOrNull { quality ->
+    fun getHighestQualityUrl(): String? {
+        return BungiePostVideoQuality.entries.reversed().firstNotNullOfOrNull { quality ->
             variants?.find { it.quality == quality }
         }?.url
     }
