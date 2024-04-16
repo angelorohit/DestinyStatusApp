@@ -8,10 +8,12 @@ message BungiePostMedia {
   string image_url = 2;
   BungiePostMediaType type = 3;
   BungiePostMediaSizes sizes = 4;
+  BungiePostVideoInfo video_info = 5;
 }
 
 enum BungiePostMediaType {
   PHOTO = 0;
+  VIDEO = 1;
 }
 
 message BungiePostMediaSizes {
@@ -22,6 +24,22 @@ message BungiePostMediaSize {
   string image_url = 1;
   int32 width = 2;
   int32 height = 3;
+}
+
+message BungiePostVideoInfo {
+  repeated BungiePostVideoVariant variants = 1;
+}
+
+message BungiePostVideoVariant {
+  BungiePostVideoQuality quality = 1;
+  string url = 2;
+}
+
+enum BungiePostVideoQuality {
+  LOW = 0;
+  MEDIUM = 1;
+  HD720 = 2;
+  HD1080 = 3;
 }
 
 message BungiePost {

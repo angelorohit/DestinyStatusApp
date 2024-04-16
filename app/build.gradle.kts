@@ -81,6 +81,11 @@ dependencies {
     // Coil
     implementation(libs.coil.compose)
 
+    // Exoplayer
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.exoplayer.dash)
+    implementation(libs.media3.ui)
+
     // DataStore
     implementation(libs.androidx.datastore)
 

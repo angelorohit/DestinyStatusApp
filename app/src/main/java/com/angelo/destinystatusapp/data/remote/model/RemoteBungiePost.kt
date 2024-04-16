@@ -16,6 +16,7 @@ data class RemoteBungiePostMedia(
     @Json(name = "media_url_https") val imageUrl: String? = null,
     @Json(name = "type") val type: String? = null,
     @Json(name = "sizes") val sizes: RemoteBungiePostMediaSizes? = null,
+    @Json(name = "video_info") val videoInfo: RemoteBungiePostVideoInfo? = null,
 ) {
     private fun hasImageUrl() = !imageUrl.isNullOrBlank()
 
@@ -48,4 +49,14 @@ data class RemoteBungiePostMediaSizes(
 data class RemoteBungiePostMediaSize(
     @Json(name = "w") val width: Int? = null,
     @Json(name = "h") val height: Int? = null,
+)
+
+data class RemoteBungiePostVideoInfo(
+    @Json(name = "variants") val variants: List<RemoteBungiePostVideoVariant>? = null,
+)
+
+data class RemoteBungiePostVideoVariant(
+    @Json(name = "bitrate") val bitrate: Int? = null,
+    @Json(name = "content_type") val contentType: String? = null,
+    @Json(name = "url") val url: String? = null,
 )

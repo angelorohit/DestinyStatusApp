@@ -22,12 +22,14 @@ data class BungiePostMedia(
     val imageUrl: String?,
     val type: BungiePostMediaType?,
     val sizes: BungiePostMediaSizes?,
+    val videoInfo: BungiePostVideoInfo?,
 ) {
     fun hasImageUrl() = !imageUrl.isNullOrBlank()
 }
 
 enum class BungiePostMediaType {
     Photo,
+    Video,
 }
 
 data class BungiePostMediaSizes(
@@ -40,4 +42,27 @@ data class BungiePostMediaSize(
     val height: Int?,
 ) {
     val aspectRatio = width?.toFloat()?.div(height ?: 1) ?: 1f
+}
+
+data class BungiePostVideoInfo(
+    val variants: List<BungiePostVideoVariant>?,
+) {
+    fun getLowestQualityUrl(): String? {
+        return BungiePostVideoQuality.entries.firstNotNullOfOrNull { quality ->
+            variants?.find { it.quality == quality }
+        }?.url
+    }
+}
+
+data class BungiePostVideoVariant(
+    val quality: BungiePostVideoQuality?,
+    val url: String?,
+)
+
+// Make sure this is in order of lowest quality to highest.
+enum class BungiePostVideoQuality {
+    Low,
+    Medium,
+    HD720,
+    HD1080,
 }

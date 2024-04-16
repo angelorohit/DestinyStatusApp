@@ -42,6 +42,7 @@ private fun BungiePostPhotoPreview(modifier: Modifier = Modifier) {
                     imageUrl = "https://pbs.twimg.com/media/GLEtYt7WgAAWojF.jpg",
                     type = BungiePostMediaType.Photo,
                     sizes = null,
+                    videoInfo = null,
                 ),
                 modifier = modifier,
             )

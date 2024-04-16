@@ -20,6 +20,7 @@ kotlinxCoroutinesCore = "1.8.0"
 ktx = "1.12.0"
 lifecycleRuntime = "2.7.0"
 lottieCompose = "6.4.0"
+media3 = "1.3.1"
 moshi = "1.15.0"
 navigationCompose = "2.7.7"
 okhttpBom = "4.12.0"
@@ -56,6 +57,11 @@ compose-lint-checks = { group = "com.slack.lint.compose", name="compose-lint-che
 
 # Coil
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
+# Exoplayer
+media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref="media3" }
+media3-exoplayer-dash = { group = "androidx.media3", name = "media3-exoplayer-dash", version.ref="media3" }
+media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref="media3" }
 
 # Retrofit2 + OkHttp3
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }

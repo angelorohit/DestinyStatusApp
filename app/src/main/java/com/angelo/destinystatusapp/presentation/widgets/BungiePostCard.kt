@@ -56,12 +56,26 @@ fun BungiePostCard(
 
             bungiePost.getValidMedia().forEach { bungiePostMedia ->
                 Spacer(modifier = Modifier.height(2.dp))
-                BungiePostPhoto(
-                    bungiePostMedia = bungiePostMedia,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onPhotoClick(bungiePostMedia.id.orEmpty()) },
-                )
+
+                when (bungiePostMedia.type) {
+                    BungiePostMediaType.Photo -> {
+                        BungiePostPhoto(
+                            bungiePostMedia = bungiePostMedia,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onPhotoClick(bungiePostMedia.id.orEmpty()) },
+                        )
+                    }
+
+                    BungiePostMediaType.Video -> {
+                        BungiePostVideoPreview(
+                            bungiePostMedia = bungiePostMedia,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+
+                    null -> Unit
+                }
             }
         }
     }
@@ -119,12 +133,14 @@ private fun BungiePostCardPreview(modifier: Modifier = Modifier) {
                             imageUrl = "https://pbs.twimg.com/media/GLEtYt7WgAAWojF.jpg",
                             type = BungiePostMediaType.Photo,
                             sizes = null,
+                            videoInfo = null,
                         ),
                         BungiePostMedia(
                             id = "",
                             imageUrl = "https://pbs.twimg.com/media/GLEtYt7WgAAWojF.jpg",
                             type = BungiePostMediaType.Photo,
                             sizes = null,
+                            videoInfo = null,
                         ),
                     ),
                 ),
