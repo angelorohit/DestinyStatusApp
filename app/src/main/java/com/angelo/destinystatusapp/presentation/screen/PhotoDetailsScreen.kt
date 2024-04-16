@@ -40,7 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.angelo.destinystatusapp.domain.model.BungieChannelType
-import com.angelo.destinystatusapp.presentation.PhotoDetailsArgs
+import com.angelo.destinystatusapp.presentation.MediaDetailsArgs
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import com.angelo.destinystatusapp.presentation.viewmodel.PhotoDetailsViewModel
 import com.angelo.destinystatusapp.presentation.widgets.ImageErrorPlaceholder
@@ -53,7 +53,7 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun PhotoDetailsScreen(
     navController: NavController,
-    args: PhotoDetailsArgs,
+    args: MediaDetailsArgs,
     modifier: Modifier = Modifier,
     photoDetailsViewModel: PhotoDetailsViewModel = getViewModel {
         parametersOf(
@@ -169,7 +169,7 @@ private fun PhotoDetailsScreenPreview() {
         Surface {
             PhotoDetailsScreen(
                 navController = rememberNavController(),
-                args = PhotoDetailsArgs(),
+                args = MediaDetailsArgs(),
             )
         }
     }

@@ -8,7 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.angelo.destinystatusapp.presentation.PhotoDetailsArgs.Companion.extractPhotoDetailsArgs
+import com.angelo.destinystatusapp.presentation.MediaDetailsArgs.Companion.extractPhotoDetailsArgs
 import com.angelo.destinystatusapp.presentation.helper.transitions.fadeInEnterTransition
 import com.angelo.destinystatusapp.presentation.helper.transitions.fadeOutExitTransition
 import com.angelo.destinystatusapp.presentation.screen.AttributionsScreen
@@ -38,7 +38,10 @@ fun NavGraph(navController: NavHostController) {
             enterTransition = fadeInEnterTransition,
             exitTransition = fadeOutExitTransition,
         ) { backStackEntry ->
-            PhotoDetailsScreen(navController, backStackEntry.extractPhotoDetailsArgs())
+            PhotoDetailsScreen(
+                navController = navController,
+                args = backStackEntry.extractPhotoDetailsArgs(),
+            )
         }
     }
 }
@@ -47,7 +50,7 @@ private enum class NavigationRoute(val route: String) {
     Main("main"),
     Settings("settings"),
     Attributions("attributions"),
-    PhotoDetailsScreen(PhotoDetailsArgs.ROUTE);
+    PhotoDetailsScreen(MediaDetailsArgs.ROUTE);
 
     fun withArgs(argumentMap: Map<String, String>): String {
         val routeWithoutArgs = route.substringBefore("?")
@@ -65,23 +68,23 @@ private fun NavController.navigateTo(route: NavigationRoute, argumentMap: Map<St
 
 fun NavController.launchSettingsScreen() = navigateTo(NavigationRoute.Settings)
 fun NavController.launchAttributionsScreen() = navigateTo(NavigationRoute.Attributions)
-fun NavController.launchPhotoDetailsScreen(photoDetailsArgs: PhotoDetailsArgs) = navigateTo(
+fun NavController.launchPhotoDetailsScreen(detailsArgs: MediaDetailsArgs) = navigateTo(
     NavigationRoute.PhotoDetailsScreen,
-    photoDetailsArgs.toArgumentMap(),
+    detailsArgs.toArgumentMap(),
 )
 
-data class PhotoDetailsArgs(val channelTypeName: String = "", val postId: String = "", val mediaId: String = "") {
+data class MediaDetailsArgs(val channelTypeName: String = "", val postId: String = "", val mediaId: String = "") {
     companion object {
         const val ROUTE = "photoDetailsScreen?channelTypeName={channelTypeName}&postId={postId}&mediaId={mediaId}"
 
-        fun NavBackStackEntry.extractPhotoDetailsArgs(): PhotoDetailsArgs {
+        fun NavBackStackEntry.extractPhotoDetailsArgs(): MediaDetailsArgs {
             return arguments?.let { bundle ->
-                PhotoDetailsArgs(
+                MediaDetailsArgs(
                     channelTypeName = bundle.getString("channelTypeName").orEmpty(),
                     postId = bundle.getString("postId").orEmpty(),
                     mediaId = bundle.getString("mediaId").orEmpty(),
                 )
-            } ?: PhotoDetailsArgs()
+            } ?: MediaDetailsArgs()
         }
     }
 

@@ -24,8 +24,7 @@ data class RemoteBungiePostMedia(
         sizes?.large?.width?.takeIf { it > 0 } != null && sizes.large.height?.takeIf { it > 0 } != null
 
     fun getLargeImageUrl(): String? {
-        if (!hasImageUrl()) return null
-        if (!hasLargeSize()) return imageUrl
+        if (!hasImageUrl() || !hasLargeSize()) return null
 
         return imageUrl?.let { fullPath ->
             val extensionDelimiter = '.'
