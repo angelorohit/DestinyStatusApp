@@ -49,25 +49,27 @@ fun PhotoDetailsScreen(
     },
 ) {
     var showAppBar by remember { mutableStateOf(true) }
-    val interactionSource = remember { MutableInteractionSource() }
 
     Scaffold(
-        modifier = modifier.clickable(
-            interactionSource = interactionSource,
-            indication = null,
-            onClick = { showAppBar = !showAppBar },
-        ),
+        modifier = modifier,
         topBar = {
             // We put the image inside the topBar content, so that it can go edge to edge.
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(),
+                    .fillMaxHeight()
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = { showAppBar = !showAppBar },
+                    ),
             ) {
                 ZoomableImage(
                     photoAspectRatio = viewModel.photoAspectRatio,
                     photoUrl = viewModel.photoUrl,
-                    modifier = Modifier.align(Alignment.Center).fillMaxWidth(),
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .fillMaxWidth(),
                 )
             }
 
