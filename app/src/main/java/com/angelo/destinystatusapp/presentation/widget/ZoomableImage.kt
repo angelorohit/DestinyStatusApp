@@ -20,7 +20,12 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 
 @Composable
-fun ZoomableImage(photoUrl: String, photoAspectRatio: Float, modifier: Modifier = Modifier) {
+fun ZoomableImage(
+    photoUrl: String,
+    photoAspectRatio: Float,
+    modifier: Modifier = Modifier,
+    maxZoomMultiplier: Float = 2f,
+) {
     var scale by remember { mutableFloatStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
 
@@ -28,7 +33,7 @@ fun ZoomableImage(photoUrl: String, photoAspectRatio: Float, modifier: Modifier 
         modifier = modifier.aspectRatio(photoAspectRatio),
     ) {
         val state = rememberTransformableState { zoomChange, panChange, _ ->
-            scale = (scale * zoomChange).coerceIn(1f, 2f)
+            scale = (scale * zoomChange).coerceIn(1f, maxZoomMultiplier)
 
             val extraWidth = (scale - 1) * constraints.maxWidth
             val extraHeight = (scale - 1) * constraints.maxHeight
