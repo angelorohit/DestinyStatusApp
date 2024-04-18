@@ -5,11 +5,19 @@ import com.squareup.moshi.Json
 data class RemoteBungiePost(
     @Json(name = "id") val id: String? = null,
     @Json(name = "created_at") val createdAt: String? = null,
+    @Json(name = "user") val userName: String? = null,
     @Json(name = "text") val text: String? = null,
+    @Json(name = "thread_text") val threadText: String? = null,
     @Json(name = "unix") val timestamp: Long? = null,
     @Json(name = "url") val url: String? = null,
     @Json(name = "media") val media: List<RemoteBungiePostMedia>? = emptyList(),
-)
+    @Json(name = "retweeted_tweet") val repost: RemoteBungiePost? = null,
+) {
+    fun RemoteBungiePost.getLastRepost(): RemoteBungiePost {
+        return generateSequence(this) { it.repost }
+            .lastOrNull() ?: this
+    }
+}
 
 data class RemoteBungiePostMedia(
     @Json(name = "id_str") val id: String? = null,

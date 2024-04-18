@@ -91,10 +91,12 @@ private fun DomainPost.toDaoPost(): DaoPost {
     return bungiePost {
         id = domainModel.id.orEmpty()
         createdAt = domainModel.createdAt.orEmpty()
+        userName = domainModel.userName.orEmpty()
         text = domainModel.text.orEmpty()
         timestampSeconds = domainModel.timestamp?.inWholeSeconds ?: 0L
         url = domainModel.url.orEmpty()
         media += domainModel.media?.map { it.toDaoPostMedia() }.orEmpty()
+        isRepost = domainModel.isRepost ?: false
     }
 }
 
@@ -148,10 +150,12 @@ private fun DaoPostVideoQuality.toDomainPostVideoQuality() = when (this) {
 private fun DaoPost.toDomainPost() = DomainPost(
     id = id,
     createdAt = createdAt,
+    userName = userName,
     text = text,
     timestamp = timestampSeconds.seconds,
     url = url,
     media = mediaList.map { it.toDomainPostMedia() },
+    isRepost = isRepost,
 )
 
 fun BungieChannelPosts.toMemoryCache(freshnessDuration: Duration): MemoryCache<ImmutableList<DomainPost>> =

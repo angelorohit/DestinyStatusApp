@@ -4,19 +4,25 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -46,7 +52,13 @@ fun BungiePostCard(
         modifier = modifier,
     ) {
         Column {
-            TimeAgoText(modifier = Modifier.padding(16.dp), bungiePost = bungiePost, clock = clock)
+            Row(modifier = Modifier.padding(16.dp)) {
+                TimeAgoText(bungiePost = bungiePost, clock = clock)
+                if (bungiePost.isRepost == true) {
+                    Spacer(modifier = Modifier.width(16.dp))
+                    RepostText(bungiePost = bungiePost)
+                }
+            }
 
             LinkifyText(
                 modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
@@ -80,6 +92,32 @@ fun BungiePostCard(
                     null -> Unit
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun RepostText(bungiePost: BungiePost, modifier: Modifier = Modifier) {
+    bungiePost.userName?.let {
+        Row(
+            modifier = modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.onSecondary),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_repeat_24),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.padding(start = 8.dp),
+            )
+            Text(
+                text = "@$it",
+                modifier = Modifier.padding(8.dp),
+                style = MaterialTheme.typography.labelMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
         }
     }
 }
@@ -127,6 +165,7 @@ private fun BungiePostCardPreview(modifier: Modifier = Modifier) {
                 bungiePost = BungiePost(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
+                    userName = "BungieHelp",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
                     timestamp = 1711058102.seconds,
                     url = "https://twitter.com/BungieHelp/status/1770932153981050919",
@@ -146,6 +185,7 @@ private fun BungiePostCardPreview(modifier: Modifier = Modifier) {
                             videoInfo = null,
                         ),
                     ),
+                    isRepost = true,
                 ),
                 modifier = modifier,
                 clock = fakeClock,
@@ -164,10 +204,12 @@ private fun TimeAgoTextMinsAgoPreview(modifier: Modifier = Modifier) {
                 bungiePost = BungiePost(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
+                    userName = "BungieHelp",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
                     timestamp = 1711058102.seconds,
                     url = "https://twitter.com/BungieHelp/status/1770932153981050919",
                     media = emptyList(),
+                    isRepost = false,
                 ),
                 clock = fakeClock,
                 modifier = modifier,
@@ -186,10 +228,12 @@ private fun TimeAgoTextMomentsAgoPreview(modifier: Modifier = Modifier) {
                 bungiePost = BungiePost(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
+                    userName = "BungieHelp",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
                     timestamp = 1711999999.seconds,
                     url = "https://twitter.com/BungieHelp/status/1770932153981050919",
                     media = emptyList(),
+                    isRepost = false,
                 ),
                 clock = fakeClock,
                 modifier = modifier,
@@ -208,12 +252,36 @@ private fun TimeAgoTextMissingTimestampPreview(modifier: Modifier = Modifier) {
                 bungiePost = BungiePost(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
+                    userName = "BungieHelp",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
                     timestamp = null,
                     url = "https://twitter.com/BungieHelp/status/1770932153981050919",
                     media = emptyList(),
+                    isRepost = false,
                 ),
                 clock = fakeClock,
+                modifier = modifier,
+            )
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun RepostTextPreview(modifier: Modifier = Modifier) {
+    DestinyStatusAppTheme {
+        Surface {
+            RepostText(
+                bungiePost = BungiePost(
+                    id = "0",
+                    createdAt = "March 21, 2024, 21:55:02 UTC",
+                    userName = "BungieHelp",
+                    text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
+                    timestamp = 1711058102.seconds,
+                    url = "https://twitter.com/BungieHelp/status/1770932153981050919",
+                    media = emptyList(),
+                    isRepost = true,
+                ),
                 modifier = modifier,
             )
         }

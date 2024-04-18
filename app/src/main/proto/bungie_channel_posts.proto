@@ -46,10 +46,12 @@ enum BungiePostVideoQuality {
 message BungiePost {
   string id = 1 ;
   string created_at = 2;
-  string text = 3;
-  int64 timestamp_seconds = 4;
-  string url = 5;
-  repeated BungiePostMedia media = 6;
+  string user_name = 3;
+  string text = 4;
+  int64 timestamp_seconds = 5;
+  string url = 6;
+  repeated BungiePostMedia media = 7;
+  bool is_repost = 8;
 }
 
 message BungieChannelPosts {

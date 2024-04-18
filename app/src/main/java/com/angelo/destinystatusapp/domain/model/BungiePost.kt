@@ -8,10 +8,12 @@ import kotlin.time.Duration
 data class BungiePost(
     val id: String?,
     val createdAt: String?,
+    val userName: String?,
     val text: String?,
     val timestamp: Duration?,
     val url: String?,
     val media: List<BungiePostMedia>?,
+    val isRepost: Boolean?,
 ) {
     fun getValidMedia(): ImmutableList<BungiePostMedia> =
         media?.filter { it.hasImageUrl() }?.toImmutableList() ?: persistentListOf()

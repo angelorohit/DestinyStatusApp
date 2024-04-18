@@ -65,11 +65,18 @@ private fun RemoteBungiePostMedia.toDomainMedia() = BungiePostMedia(
     videoInfo = videoInfo?.toDomainVideoInfo(),
 )
 
-fun RemoteBungiePost.toDomainPost() = BungiePost(
-    id = id,
-    createdAt = createdAt,
-    text = text,
-    timestamp = timestamp?.seconds,
-    url = url,
-    media = media?.map { it.toDomainMedia() },
-)
+fun RemoteBungiePost.toDomainPost(): BungiePost {
+    val firstPost = this
+    return with(getLastRepost()) {
+        BungiePost(
+            id = id,
+            createdAt = createdAt,
+            userName = userName,
+            text = threadText ?: text,
+            timestamp = timestamp?.seconds,
+            url = url,
+            media = media?.map { it.toDomainMedia() },
+            isRepost = this != firstPost,
+        )
+    }
+}
