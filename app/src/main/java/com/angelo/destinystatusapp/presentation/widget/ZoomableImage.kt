@@ -1,26 +1,25 @@
 package com.angelo.destinystatusapp.presentation.widget
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
@@ -28,61 +27,96 @@ import kotlinx.coroutines.launch
 
 private const val ZOOM_ANIMATION_MILLIS = 300
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ZoomableImage(
     photoUrl: String,
     photoAspectRatio: Float,
+    contentDescription: String?,
     modifier: Modifier = Modifier,
-    maxZoomMultiplier: Float = 3f,
+    maxZoomMultiplier: Float = 4f,
     onTap: () -> Unit = {},
-    onDoubleTapZoomChange: (Float, Float) -> Unit = { _, _ -> },
-    onPinchZoomChange: (Float, Float) -> Unit = { _, _ -> },
+    onZoomChange: (Float, Float) -> Unit = { _, _ -> },
+    forceZoomOut: Boolean = false,
 ) {
     val scope = rememberCoroutineScope()
-    var offset by remember { mutableStateOf(Offset.Zero) }
+    val offsetAnimation = remember { Animatable(Offset(0f, 0f), Offset.VectorConverter) }
+    val offset by remember(offsetAnimation.value) { derivedStateOf { offsetAnimation.value } }
     val scaleAnimation = remember { Animatable(1f) }
     val scale by remember(scaleAnimation.value) { derivedStateOf { scaleAnimation.value } }
+
+    LaunchedEffect(forceZoomOut) {
+        if (forceZoomOut) {
+            scope.launch { scaleAnimation.animateTo(1f, tween(ZOOM_ANIMATION_MILLIS)) }
+            scope.launch { offsetAnimation.animateTo(Offset.Zero, tween(ZOOM_ANIMATION_MILLIS)) }
+        }
+    }
 
     BoxWithConstraints(
         modifier = modifier
             .aspectRatio(photoAspectRatio)
-            .combinedClickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = { onTap() },
-                onDoubleClick = {
-                    val oldScale = scale
-                    val newScale = if (scale == 1f) maxZoomMultiplier else 1f
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { onTap() },
+                    onDoubleTap = { pos ->
+                        val oldScale = scale
+                        val newScale = if (scale == 1f) {
+                            maxZoomMultiplier
+                        } else {
+                            1f
+                        }
 
-                    scope.launch {
-                        scaleAnimation.animateTo(newScale, tween(ZOOM_ANIMATION_MILLIS))
-                    }
-                    onDoubleTapZoomChange(newScale, oldScale)
-                }
-            ),
+                        val newOffset = if (newScale == 1f) {
+                            Offset(0f, 0f)
+                        } else {
+                            val halfWidth = size.width / 2
+                            val halfHeight = size.height / 2
+
+                            // Calculate new offset of the clicked point after scaling.
+                            val newClickOffsetXFromCenter = (pos.x * newScale) - halfWidth
+                            val newClickOffsetYFromCenter = (pos.y * newScale) - halfHeight
+
+                            // Calculate the difference between original and new offsets.
+                            val offsetDiffX = newClickOffsetXFromCenter - (pos.x - halfWidth)
+                            val offsetDiffY = newClickOffsetYFromCenter - (pos.y - halfHeight)
+
+                            // Translate the image by the calculated difference.
+                            Offset(
+                                x = offset.x - offsetDiffX + size.width + halfWidth,
+                                y = offset.y - offsetDiffY + size.height + halfHeight,
+                            )
+                        }
+
+                        scope.launch { scaleAnimation.animateTo(newScale, tween(ZOOM_ANIMATION_MILLIS)) }
+                        scope.launch { offsetAnimation.animateTo(newOffset, tween(ZOOM_ANIMATION_MILLIS)) }
+
+                        onZoomChange(newScale, oldScale)
+                    },
+                )
+            },
     ) {
         val state = rememberTransformableState { zoomChange, panChange, _ ->
             val oldScale = scale
             val newScale = (scale * zoomChange).coerceIn(1f, maxZoomMultiplier)
-
-            scope.launch {
-                scaleAnimation.snapTo(newScale)
-            }
-            onPinchZoomChange(newScale, oldScale)
-
-            val extraWidth = (scale - 1) * constraints.maxWidth
-            val extraHeight = (scale - 1) * constraints.maxHeight
+            val extraWidth = (newScale - 1) * constraints.maxWidth
+            val extraHeight = (newScale - 1) * constraints.maxHeight
 
             val maxX = extraWidth / 2
             val maxY = extraHeight / 2
 
-            offset = Offset(
-                x = (offset.x + scale * panChange.x).coerceIn(-maxX, maxX),
-                y = (offset.y + scale * panChange.y).coerceIn(-maxY, maxY),
+            val newOffset = Offset(
+                x = (offset.x + panChange.x * newScale).coerceIn(-maxX, maxX),
+                y = (offset.y + panChange.y * newScale).coerceIn(-maxY, maxY),
             )
+
+            scope.launch {
+                scaleAnimation.snapTo(newScale)
+                offsetAnimation.snapTo(newOffset)
+            }
+
+            onZoomChange(newScale, oldScale)
         }
         SubcomposeAsyncImage(
+            contentDescription = contentDescription,
             modifier = Modifier
                 .fillMaxWidth()
                 .graphicsLayer {
@@ -110,7 +144,6 @@ fun ZoomableImage(
                         .fillMaxHeight(),
                 )
             },
-            contentDescription = null,
         )
     }
 }
