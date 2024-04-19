@@ -70,6 +70,17 @@ fun PhotoDetailsScreen(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .fillMaxWidth(),
+                    onTap = { showAppBar = !showAppBar },
+                    onDoubleTapZoomChange = { newScale, oldScale ->
+                        if (newScale > oldScale) {
+                            showAppBar = false
+                        }
+                    },
+                    onPinchZoomChange = { newScale, oldScale ->
+                        if (newScale > oldScale) {
+                            showAppBar = false
+                        }
+                    }
                 )
             }
 
