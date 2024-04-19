@@ -2,6 +2,7 @@ package com.angelo.destinystatusapp.presentation.screen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -158,6 +159,7 @@ private fun Logo(modifier: Modifier = Modifier) {
 private fun ChannelFilterText(text: String, onClickAction: () -> Unit, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
+            .border(width = 1.dp, color = MaterialTheme.colorScheme.onSurfaceVariant, shape = RoundedCornerShape(8.dp))
             .clip(RoundedCornerShape(8.dp))
             .background(MaterialTheme.colorScheme.onSecondary)
             .clickable { onClickAction() },
