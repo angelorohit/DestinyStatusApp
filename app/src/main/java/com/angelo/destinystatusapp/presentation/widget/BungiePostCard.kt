@@ -77,7 +77,7 @@ fun BungiePostCard(
                             .align(Alignment.CenterVertically)
                             .padding(top = 8.dp)
                     ) {
-                        OrignalPostButton(originalPostUrl = it)
+                        OriginalPostButton(originalPostUrl = it)
                     }
                 }
             }
@@ -119,7 +119,7 @@ fun BungiePostCard(
 }
 
 @Composable
-private fun OrignalPostButton(originalPostUrl: String, modifier: Modifier = Modifier) {
+private fun OriginalPostButton(originalPostUrl: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     IconButton(onClick = { context.launchCustomTabs(originalPostUrl) }) {
         Icon(

@@ -3,8 +3,7 @@ package com.angelo.destinystatusapp.presentation.screen
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -44,9 +43,7 @@ fun VideoDetailsScreen(
             VideoPlayer(
                 videoUri = viewModel.bungiePostMedia?.videoInfo?.getHighestQualityUrl().orEmpty(),
                 aspectRatio = viewModel.bungiePostMedia?.videoInfo?.aspectRatio ?: 1f,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
+                modifier = Modifier.fillMaxSize(),
             )
             AnimatedContent(
                 configuration.orientation == ORIENTATION_PORTRAIT,
