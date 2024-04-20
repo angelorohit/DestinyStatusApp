@@ -1,5 +1,6 @@
 package com.angelo.destinystatusapp.presentation.screen
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -8,12 +9,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.presentation.helper.customtabs.launchCustomTabs
@@ -38,41 +43,59 @@ fun AttributionsScreen(navController: NavController, modifier: Modifier = Modifi
                     .padding(innerPadding)
                     .verticalScroll(rememberScrollState()),
             ) {
-                ListItem(
-                    headlineContent = { Text(stringResource(R.string.service_attribution)) },
-                    modifier = Modifier.clickable {
-                        context.launchCustomTabs(AttributionLinks.BUNGIE_HELP_SERVICE)
-                    },
-                )
-                HorizontalDivider()
-                ListItem(
-                    headlineContent = { Text(stringResource(R.string.app_icon_attribution)) },
-                    modifier = Modifier.clickable {
-                        context.launchCustomTabs(AttributionLinks.APP_ICON)
-                    },
-                )
-                HorizontalDivider()
-                ListItem(
-                    headlineContent = { Text(stringResource(R.string.lottie_animation_attribution)) },
-                    modifier = Modifier.clickable {
-                        context.launchCustomTabs(AttributionLinks.ANIMATION)
-                    },
-                )
-                HorizontalDivider()
-                ListItem(
-                    headlineContent = { Text(stringResource(R.string.ip_attribution)) },
-                    modifier = Modifier.clickable {
-                        context.launchCustomTabs(AttributionLinks.INTELLECTUAL_PROPERTY)
-                    },
-                )
+                AttributionItem.entries.forEachIndexed { index, attributionItem ->
+                    val labelText = stringResource(attributionItem.stringRes, attributionItem.highlightText)
+                    ListItem(
+                        headlineContent = {
+                            Text(
+                                buildAnnotatedString {
+                                    val startIndex = labelText.indexOf(attributionItem.highlightText)
+                                    val endIndex = startIndex + attributionItem.highlightText.length
+
+                                    append(labelText)
+                                    addStyle(
+                                        style = SpanStyle(
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            fontWeight = FontWeight.Bold,
+                                        ),
+                                        start = startIndex,
+                                        end = endIndex,
+                                    )
+                                },
+                            )
+                        },
+                        modifier = Modifier.clickable {
+                            context.launchCustomTabs(attributionItem.url)
+                        },
+                    )
+                    if (index < AttributionItem.entries.size - 1) {
+                        HorizontalDivider()
+                    }
+                }
             }
         }
     )
 }
 
-private object AttributionLinks {
-    const val BUNGIE_HELP_SERVICE = "https://www.bungiehelp.org/"
-    const val APP_ICON = "https://github.com/justrealmilk/destiny-icons"
-    const val ANIMATION = "https://lottiefiles.com/pierreblavette"
-    const val INTELLECTUAL_PROPERTY = "https://www.bungie.net/7/en/Legal/intellectualpropertytrademarks"
+private enum class AttributionItem(@StringRes val stringRes: Int, val highlightText: String, val url: String) {
+    BUNGIE_HELP_SERVICE(
+        stringRes = R.string.service_attribution,
+        highlightText = "bungiehelp.org",
+        url = "https://www.bungiehelp.org/",
+    ),
+    APP_ICON(
+        stringRes = R.string.app_icon_attribution,
+        highlightText = "Tom Chapman's destiny-icons",
+        url = "https://github.com/justrealmilk/destiny-icons",
+    ),
+    ANIMATION(
+        stringRes = R.string.lottie_animation_attribution,
+        highlightText = "Pierre Blavette / LottieFiles",
+        url = "https://lottiefiles.com/pierreblavette",
+    ),
+    INTELLECTUAL_PROPERTY(
+        stringRes = R.string.ip_attribution,
+        highlightText = "Bungie, Inc.",
+        url = "https://www.bungie.net/7/en/Legal/intellectualpropertytrademarks",
+    ),
 }

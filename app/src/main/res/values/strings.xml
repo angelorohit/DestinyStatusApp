@@ -26,10 +26,10 @@
     <string name="community_driven">A community driven effort for flightless Guardians!</string>
     <string name="open_source_licenses">Open source licenses</string>
     <string name="attributions">Attributions</string>
-    <string name="service_attribution">Original service provided at bungiehelp.org</string>
-    <string name="app_icon_attribution">App icon by Tom Chapman\'s destiny-icons</string>
-    <string name="lottie_animation_attribution">Animation by Pierre Blavette / LottieFiles</string>
-    <string name="ip_attribution">Original Destiny IP by Bungie</string>
+    <string name="service_attribution">Original service provided at %1$s</string>
+    <string name="app_icon_attribution">App icon by %1$s</string>
+    <string name="lottie_animation_attribution">Animation by %1$s</string>
+    <string name="ip_attribution">Original Destiny IP by %1$s</string>
 
     <string name="image_load_error">Failed to load image</string>
 </resources>
