@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,15 +27,18 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.domain.helper.datetime.TimeAgoFormattingConfig
 import com.angelo.destinystatusapp.domain.helper.datetime.ago
 import com.angelo.destinystatusapp.domain.helper.datetime.clock.Clock
 import com.angelo.destinystatusapp.domain.helper.datetime.clock.testing.FakeClock
+import com.angelo.destinystatusapp.domain.model.BungieChannelType
 import com.angelo.destinystatusapp.domain.model.BungiePost
 import com.angelo.destinystatusapp.domain.model.BungiePostMedia
 import com.angelo.destinystatusapp.domain.model.BungiePostMediaType
+import com.angelo.destinystatusapp.presentation.helper.customtabs.launchCustomTabs
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import org.koin.androidx.compose.get
 import kotlin.time.Duration.Companion.milliseconds
@@ -43,6 +47,7 @@ import kotlin.time.Duration.Companion.seconds
 @Composable
 fun BungiePostCard(
     bungiePost: BungiePost,
+    channelType: BungieChannelType,
     modifier: Modifier = Modifier,
     onPhotoClick: (mediaId: String) -> Unit = { },
     onVideoClick: (mediaId: String) -> Unit = { },
@@ -52,11 +57,28 @@ fun BungiePostCard(
         modifier = modifier,
     ) {
         Column {
-            Row(modifier = Modifier.padding(16.dp)) {
-                TimeAgoText(bungiePost = bungiePost, clock = clock)
-                if (bungiePost.isRepost == true) {
-                    Spacer(modifier = Modifier.width(16.dp))
-                    RepostText(bungiePost = bungiePost)
+            Row {
+                Row(modifier = Modifier.padding(start = 16.dp).weight(1f)) {
+                    TimeAgoText(bungiePost = bungiePost, clock = clock, modifier = Modifier.padding(top = 16.dp))
+                    val userName = bungiePost.userName
+                    if (bungiePost.isRepost == true || (!userName.isNullOrBlank() && userName != channelType.name)) {
+                        Spacer(modifier = Modifier.width(16.dp))
+                        RepostLabel(
+                            userName = userName.orEmpty(),
+                            modifier = Modifier
+                                .padding(top = 16.dp),
+                        )
+                    }
+                }
+
+                bungiePost.url?.let {
+                    Box(
+                        Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(top = 8.dp)
+                    ) {
+                        OrignalPostButton(originalPostUrl = it)
+                    }
                 }
             }
 
@@ -97,28 +119,38 @@ fun BungiePostCard(
 }
 
 @Composable
-private fun RepostText(bungiePost: BungiePost, modifier: Modifier = Modifier) {
-    bungiePost.userName?.let {
-        Row(
-            modifier = modifier
-                .clip(RoundedCornerShape(8.dp))
-                .background(MaterialTheme.colorScheme.onSecondary),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_repeat_24),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.padding(start = 8.dp),
-            )
-            Text(
-                text = "@$it",
-                modifier = Modifier.padding(8.dp),
-                style = MaterialTheme.typography.labelMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
+private fun OrignalPostButton(originalPostUrl: String, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    IconButton(onClick = { context.launchCustomTabs(originalPostUrl) }) {
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_post_24),
+            contentDescription = null,
+            modifier = modifier,
+        )
+    }
+}
+
+@Composable
+private fun RepostLabel(userName: String, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.onSecondary),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_repeat_24),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.secondary,
+            modifier = Modifier.padding(start = 8.dp),
+        )
+        Text(
+            text = "@$userName",
+            modifier = Modifier.padding(8.dp),
+            style = MaterialTheme.typography.labelMedium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
@@ -155,6 +187,7 @@ private fun TimeAgoText(bungiePost: BungiePost, clock: Clock, modifier: Modifier
 }
 
 @PreviewLightDark
+@PreviewScreenSizes
 @Composable
 private fun BungiePostCardPreview(modifier: Modifier = Modifier) {
     val fakeClock = FakeClock(1711999999.milliseconds)
@@ -165,7 +198,7 @@ private fun BungiePostCardPreview(modifier: Modifier = Modifier) {
                 bungiePost = BungiePost(
                     id = "0",
                     createdAt = "March 21, 2024, 21:55:02 UTC",
-                    userName = "BungieHelp",
+                    userName = "LoremIpsumDolorSitAmet",
                     text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
                     timestamp = 1711058102.seconds,
                     url = "https://twitter.com/BungieHelp/status/1770932153981050919",
@@ -187,6 +220,7 @@ private fun BungiePostCardPreview(modifier: Modifier = Modifier) {
                     ),
                     isRepost = true,
                 ),
+                channelType = BungieChannelType.BungieHelp,
                 modifier = modifier,
                 clock = fakeClock,
             )
@@ -271,17 +305,8 @@ private fun TimeAgoTextMissingTimestampPreview(modifier: Modifier = Modifier) {
 private fun RepostTextPreview(modifier: Modifier = Modifier) {
     DestinyStatusAppTheme {
         Surface {
-            RepostText(
-                bungiePost = BungiePost(
-                    id = "0",
-                    createdAt = "March 21, 2024, 21:55:02 UTC",
-                    userName = "BungieHelp",
-                    text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
-                    timestamp = 1711058102.seconds,
-                    url = "https://twitter.com/BungieHelp/status/1770932153981050919",
-                    media = emptyList(),
-                    isRepost = true,
-                ),
+            RepostLabel(
+                userName = "LoremIpsumDolorSitAmet",
                 modifier = modifier,
             )
         }

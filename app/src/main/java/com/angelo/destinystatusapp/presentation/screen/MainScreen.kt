@@ -319,6 +319,7 @@ private fun DataContent(
         items(posts) { bungiePost ->
             BungiePostCard(
                 bungiePost = bungiePost,
+                channelType = channelType,
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
