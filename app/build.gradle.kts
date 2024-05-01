@@ -83,6 +83,8 @@ dependencies {
 
     // Exoplayer
     implementation(libs.media3.exoplayer)
+    implementation(libs.media3.exoplayer.hls)
+    implementation(libs.media3.exoplayer.smoothstreaming)
     implementation(libs.media3.ui)
 
     // DataStore
