@@ -72,7 +72,7 @@ fun RemoteBungiePost.toDomainPost(): BungiePost {
             id = id,
             createdAt = createdAt,
             userName = userName,
-            text = threadText ?: text,
+            text = (threadText ?: text).fixErrantNewlines(),
             timestamp = timestamp?.seconds,
             url = url,
             media = media?.map { it.toDomainMedia() },
@@ -80,3 +80,5 @@ fun RemoteBungiePost.toDomainPost(): BungiePost {
         )
     }
 }
+
+private fun String?.fixErrantNewlines() = this?.replace("\\\\n", "\n")
