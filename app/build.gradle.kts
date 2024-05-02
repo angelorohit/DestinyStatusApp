@@ -30,15 +30,6 @@ android {
         debug {
             isMinifyEnabled = false
         }
-        create("debugMini") {
-            initWith(buildTypes["debug"])
-            isShrinkResources = true
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
         release {
             isShrinkResources = true
             isMinifyEnabled = true
