@@ -79,6 +79,8 @@ fun PhotoDetailsScreen(
                     onZoomChange = { newScale, oldScale ->
                         if (newScale > oldScale) {
                             showAppBar = false
+                        } else if (newScale == 1f) {
+                            showAppBar = true
                         }
                         forceZoomOut = false
                     },
