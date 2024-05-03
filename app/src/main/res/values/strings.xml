@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Destiny Status</string>
+    <string name="app_name">Destiny Herald</string>
 
     <string name="no_connectivity_error">No internet connection</string>
     <string name="timeout_error">Timed out when fetching the latest updates</string>

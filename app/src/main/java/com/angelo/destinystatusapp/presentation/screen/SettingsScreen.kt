@@ -49,6 +49,7 @@ fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) 
             LottieAnimation(
                 composition = composition,
                 modifier = Modifier
+                    .padding(top = 64.dp)
                     .fillMaxWidth()
                     .height(150.dp),
                 contentScale = ContentScale.Fit,

@@ -49,7 +49,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -66,6 +65,7 @@ import com.angelo.destinystatusapp.presentation.viewmodel.FeedUiState
 import com.angelo.destinystatusapp.presentation.viewmodel.MainViewModel
 import com.angelo.destinystatusapp.presentation.viewmodel.UiState
 import com.angelo.destinystatusapp.presentation.widget.BungiePostCard
+import com.angelo.destinystatusapp.presentation.widget.SingleLineText
 import com.angelo.destinystatusapp.presentation.widget.StandardTopAppBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -165,12 +165,10 @@ private fun ChannelFilterText(text: String, onClickAction: () -> Unit, modifier:
             .clickable { onClickAction() },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
+        SingleLineText(
             text = text,
             modifier = Modifier.padding(8.dp),
             style = MaterialTheme.typography.labelMedium,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
         )
         Icon(
             imageVector = Icons.Default.ArrowDropDown,

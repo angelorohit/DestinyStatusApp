@@ -11,7 +11,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -29,6 +27,7 @@ import com.angelo.destinystatusapp.domain.model.BungieChannelType
 import com.angelo.destinystatusapp.presentation.MediaDetailsArgs
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import com.angelo.destinystatusapp.presentation.viewmodel.PhotoDetailsViewModel
+import com.angelo.destinystatusapp.presentation.widget.SingleLineText
 import com.angelo.destinystatusapp.presentation.widget.StandardTopAppBar
 import com.angelo.destinystatusapp.presentation.widget.ZoomableImage
 import org.koin.androidx.compose.getViewModel
@@ -93,7 +92,7 @@ fun PhotoDetailsScreen(
                     StandardTopAppBar(
                         navController = navController,
                         title = {
-                            Text(text = viewModel.title, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            SingleLineText(text = viewModel.title)
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
