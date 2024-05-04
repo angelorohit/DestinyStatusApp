@@ -23,6 +23,10 @@ We *will not* share crash reports and related information with third-party servi
 
 We may disclose crash reports and related information if required to do so by law or in the good faith belief that such action is necessary to comply with legal obligations, or investigate and prevent wrongdoing or misuse of the App.
 
+## Data Retention
+
+All crash reports we collect are retained for a maximum of 90 days on Google's servers before starting the process of removing the data from live and backup systems.
+
 ## Permissions
 The list of permissions required by the app can be found in the `AndroidManifest.xml` file.
 https://github.com/angelorohit/DestinyStatusApp/blob/3bc084edd36fc168dcbd525a4bbad9a298b106a6/app/src/main/AndroidManifest.xml#L5-L9
