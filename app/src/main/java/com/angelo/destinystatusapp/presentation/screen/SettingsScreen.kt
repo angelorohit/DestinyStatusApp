@@ -88,6 +88,15 @@ fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) 
                 )
                 HorizontalDivider()
                 ListItem(
+                    headlineContent = { Text(stringResource(R.string.privacy_policy)) },
+                    modifier = Modifier.clickable {
+                        context.launchCustomTabs(
+                            "https://github.com/angelorohit/DestinyStatusApp/blob/main/PRIVACY_POLICY.md",
+                        )
+                    },
+                )
+                HorizontalDivider()
+                ListItem(
                     headlineContent = { Text(stringResource(R.string.open_source_licenses)) },
                     modifier = Modifier.clickable {
                         context.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
