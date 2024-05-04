@@ -33,6 +33,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.angelo.destinystatusapp.BuildConfig
 import com.angelo.destinystatusapp.R
+import com.angelo.destinystatusapp.presentation.helper.customtabs.launchCustomTabs
 import com.angelo.destinystatusapp.presentation.launchAttributionsScreen
 import com.angelo.destinystatusapp.presentation.widget.StandardTopAppBar
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
@@ -79,6 +80,13 @@ fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) 
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.open_source)) },
+                    modifier = Modifier.clickable {
+                        context.launchCustomTabs("https://github.com/angelorohit/DestinyStatusApp")
+                    },
+                )
+                HorizontalDivider()
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.open_source_licenses)) },
                     modifier = Modifier.clickable {

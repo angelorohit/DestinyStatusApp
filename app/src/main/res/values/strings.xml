@@ -24,6 +24,7 @@
     <string name="attributions_screen_title">Attributions</string>
 
     <string name="community_driven">A community driven effort for flightless Guardians!</string>
+    <string name="open_source">Project source on GitHub</string>
     <string name="open_source_licenses">Open source licenses</string>
     <string name="attributions">Attributions</string>
     <string name="service_attribution">Original service provided at %1$s</string>
