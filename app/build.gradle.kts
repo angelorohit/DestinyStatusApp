@@ -11,13 +11,14 @@ plugins {
 android {
     namespace = "com.angelo.destinystatusapp"
     compileSdk = 34
+    ndkVersion = "27.0.117180114"
 
     defaultConfig {
         applicationId = "com.angelo.destinystatusapp"
         minSdk = 24
         targetSdk = 34
 
-        versionCode = 2
+        versionCode = 4
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -38,7 +39,7 @@ android {
                 "proguard-rules.pro"
             )
             ndk {
-                debugSymbolLevel = "FULL"
+                debugSymbolLevel = "SYMBOL_TABLE"
             }
         }
     }
