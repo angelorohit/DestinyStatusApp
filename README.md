@@ -1,4 +1,4 @@
-# Destiny Status App
+# Destiny Herald
 A native Android app for [bungiehelp.org](https://bungiehelp.org/)
 
 Made with ❤️ for Guardians who'd like to view Bungie's Tweets without a Twitter account!
