@@ -58,7 +58,7 @@ private fun RemoteBungiePostMedia.toDomainMedia() = BungiePostMedia(
     imageUrl = imageUrl,
     type = when (type) {
         "photo" -> BungiePostMediaType.Photo
-        "video" -> BungiePostMediaType.Video
+        "animated_gif", "video" -> BungiePostMediaType.Video
         else -> null
     },
     sizes = sizes?.toDomainSizes(largeImageUrl = getLargeImageUrl()),
