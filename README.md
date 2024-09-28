@@ -12,5 +12,7 @@ As a Destiny2 player, I've found it difficult to stay up-to-date with Bungie's s
 |---|---|---|
 |![1_bungie_help](https://github.com/angelorohit/DestinyStatusApp/assets/1012057/41580336-3371-4690-814d-73aae87d3a2a)|![2_destiny2team_light_mode](https://github.com/angelorohit/DestinyStatusApp/assets/1012057/ca10a543-ff10-4265-a7a2-15624512e570)|![4_material_you](https://github.com/angelorohit/DestinyStatusApp/assets/1012057/2f477b26-1e23-4d39-b8cf-d89428a659f2)|
 
-Feel free to contribute or raise an issue.
-Release build coming soon.
+## Release
+If you're interested in trying out Destiny Herald, please sign up for the closed beta test at https://groups.google.com/g/destiny-herald-android-pioneers.
+Once you're approved, you can download the app from https://play.google.com/store/apps/details?id=com.angelo.destinystatusapp.
+
