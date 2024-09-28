@@ -1,5 +1,4 @@
 [versions]
-androidComposeCompiler = "1.5.12" # https://developer.android.com/jetpack/androidx/releases/compose-kotlin#pre-release_kotlin_compatibility
 androidGradlePlugin = "8.6.1"
 androidxActivity = "1.9.2"
 androidxJunit = "1.2.1"
@@ -14,7 +13,7 @@ firebaseBom = "33.3.0"
 googleServices = "4.4.2"
 junit = "4.13.2"
 koinAndroid = "3.3.0"
-kotlinAndroid = "1.9.23"
+kotlinAndroid = "2.0.20"
 kotlinxCollectionsImmutable = "0.3.5"
 kotlinxCoroutinesCore = "1.8.0"
 ktx = "1.13.1"
@@ -122,6 +121,7 @@ oss-licenses = { group = "com.google.android.gms", name="play-services-oss-licen
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid" }
+kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinAndroid" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 oss-licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "ossLicensesPlugin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
