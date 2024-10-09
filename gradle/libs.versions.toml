@@ -16,6 +16,7 @@ koinAndroid = "3.3.0"
 kotlinAndroid = "2.0.20"
 kotlinxCollectionsImmutable = "0.3.5"
 kotlinxCoroutinesCore = "1.8.0"
+kover = "0.8.3"
 ktx = "1.13.1"
 leakCanary = "2.13"
 lifecycleRuntime = "2.8.6"
@@ -122,6 +123,7 @@ oss-licenses = { group = "com.google.android.gms", name="play-services-oss-licen
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinAndroid" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 oss-licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "ossLicensesPlugin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
