@@ -150,6 +150,8 @@ dependencies {
     androidTestImplementation(libs.compose.ui.test.junit4)
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
+    androidTestImplementation(libs.androidx.ui.automator)
+    androidTestImplementation(libs.androidx.test.runner)
 
     // Detekt
     detektPlugins(libs.detekt.formatting)
