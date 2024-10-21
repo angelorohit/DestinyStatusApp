@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kover)
     alias(libs.plugins.detekt)
     alias(libs.plugins.oss.licenses)
@@ -106,7 +107,7 @@ dependencies {
 
     // Retrofit
     implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.retrofit.converter.kotlinx.serialization)
 
     // OkHttp
     implementation(platform(libs.okhttp.bom))
@@ -117,8 +118,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics)
 
-    // Moshi
-    implementation(libs.moshi)
+    // KotlinX Serialization
+    implementation(libs.kotlinx.serialization.json)
 
     // Immutable collections
     implementation(libs.kotlinx.collections)

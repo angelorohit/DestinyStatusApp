@@ -1,17 +1,19 @@
 package com.angelo.destinystatusapp.data.remote.model
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RemoteBungiePost(
-    @Json(name = "id") val id: String? = null,
-    @Json(name = "created_at") val createdAt: String? = null,
-    @Json(name = "user") val userName: String? = null,
-    @Json(name = "text") val text: String? = null,
-    @Json(name = "thread_text") val threadText: String? = null,
-    @Json(name = "unix") val timestamp: Long? = null,
-    @Json(name = "url") val url: String? = null,
-    @Json(name = "media") val media: List<RemoteBungiePostMedia>? = emptyList(),
-    @Json(name = "retweeted_tweet") val repost: RemoteBungiePost? = null,
+    @SerialName("id") val id: String? = null,
+    @SerialName("created_at") val createdAt: String? = null,
+    @SerialName("user") val userName: String? = null,
+    @SerialName("text") val text: String? = null,
+    @SerialName("thread_text") val threadText: String? = null,
+    @SerialName("unix") val timestamp: Double? = null,
+    @SerialName("url") val url: String? = null,
+    @SerialName("media") val media: List<RemoteBungiePostMedia>? = emptyList(),
+    @SerialName("retweeted_tweet") val repost: RemoteBungiePost? = null,
 ) {
     fun RemoteBungiePost.getLastRepost(): RemoteBungiePost {
         return generateSequence(this) { it.repost }
@@ -19,12 +21,13 @@ data class RemoteBungiePost(
     }
 }
 
+@Serializable
 data class RemoteBungiePostMedia(
-    @Json(name = "id_str") val id: String? = null,
-    @Json(name = "media_url_https") val imageUrl: String? = null,
-    @Json(name = "type") val type: String? = null,
-    @Json(name = "sizes") val sizes: RemoteBungiePostMediaSizes? = null,
-    @Json(name = "video_info") val videoInfo: RemoteBungiePostVideoInfo? = null,
+    @SerialName("id_str") val id: String? = null,
+    @SerialName("media_url_https") val imageUrl: String? = null,
+    @SerialName("type") val type: String? = null,
+    @SerialName("sizes") val sizes: RemoteBungiePostMediaSizes? = null,
+    @SerialName("video_info") val videoInfo: RemoteBungiePostVideoInfo? = null,
 ) {
     private fun hasImageUrl() = !imageUrl.isNullOrBlank()
 
@@ -49,22 +52,26 @@ data class RemoteBungiePostMedia(
     }
 }
 
+@Serializable
 data class RemoteBungiePostMediaSizes(
-    @Json(name = "large") val large: RemoteBungiePostMediaSize? = null,
+    @SerialName("large") val large: RemoteBungiePostMediaSize? = null,
 )
 
+@Serializable
 data class RemoteBungiePostMediaSize(
-    @Json(name = "w") val width: Int? = null,
-    @Json(name = "h") val height: Int? = null,
+    @SerialName("w") val width: Int? = null,
+    @SerialName("h") val height: Int? = null,
 )
 
+@Serializable
 data class RemoteBungiePostVideoInfo(
-    @Json(name = "aspect_ratio") val aspectRatio: List<Int>? = null,
-    @Json(name = "variants") val variants: List<RemoteBungiePostVideoVariant>? = null,
+    @SerialName("aspect_ratio") val aspectRatio: List<Int>? = null,
+    @SerialName("variants") val variants: List<RemoteBungiePostVideoVariant>? = null,
 )
 
+@Serializable
 data class RemoteBungiePostVideoVariant(
-    @Json(name = "bitrate") val bitrate: Int? = null,
-    @Json(name = "content_type") val contentType: String? = null,
-    @Json(name = "url") val url: String? = null,
+    @SerialName("bitrate") val bitrate: Int? = null,
+    @SerialName("content_type") val contentType: String? = null,
+    @SerialName("url") val url: String? = null,
 )
