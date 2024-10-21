@@ -27,11 +27,13 @@ class SettingsScreen(private val device: UiDevice) {
         device.findObject(By.text("${BuildConfig.BUILD_TYPE} - v${BuildConfig.VERSION_NAME}"))
     }
 
-    fun isDisplayed() = backButton != null &&
+    fun isDisplayed(): Boolean {
+        return backButton != null &&
             communityDrivenBlurb != null &&
             openSourceItem != null &&
             privacyPolicyItem != null &&
             licensesItem != null &&
             attributionsItem != null &&
             versionItem != null
+    }
 }

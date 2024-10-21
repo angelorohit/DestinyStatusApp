@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.Flow
 
 interface FetchPostsUseCase {
-    suspend operator fun invoke(
+    operator fun invoke(
         channelType: BungieChannelType,
         isForceRefresh: Boolean,
     ): Flow<State<ImmutableList<BungiePost>>>

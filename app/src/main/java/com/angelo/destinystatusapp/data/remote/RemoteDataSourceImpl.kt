@@ -29,7 +29,7 @@ class RemoteDataSourceImpl : RemoteDataSource, KoinComponent {
         if (isSuccessful) {
             return body()?.take(MAX_UPDATE_ITEMS) ?: throw RequestErrorException(code(), "Empty response body")
         } else {
-            throw RequestErrorException(code(), errorBody()?.string() ?: "")
+            throw RequestErrorException(code(), errorBody()?.string().orEmpty())
         }
     }
 }

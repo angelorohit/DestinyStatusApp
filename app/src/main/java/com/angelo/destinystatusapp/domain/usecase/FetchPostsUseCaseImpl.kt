@@ -58,7 +58,7 @@ class FetchPostsUseCaseImpl : FetchPostsUseCase, KoinComponent {
         }
     }
 
-    override suspend fun invoke(
+    override fun invoke(
         channelType: BungieChannelType,
         isForceRefresh: Boolean,
     ): Flow<State<ImmutableList<BungiePost>>> {
