@@ -59,8 +59,8 @@ class LaunchTest {
         mainScreen.settingsButton?.click()
 
         assertThat(
-            "Community Driven blurb not found",
-            settingsScreen.communityDrivenBlurb != null,
+            "One or more items in the Settings Screen could not be found.",
+            settingsScreen.isDisplayed(),
         )
     }
 }
