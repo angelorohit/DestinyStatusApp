@@ -12,12 +12,16 @@ plugins {
     alias(libs.plugins.crashlytics)
     alias(libs.plugins.protobuf)
     alias(libs.plugins.junit)
+    alias(libs.plugins.screenshot)
 }
 
 android {
     namespace = "com.angelo.destinystatusapp"
     compileSdk = 34
     ndkVersion = "27.0.117180114"
+
+    @Suppress("UnstableApiUsage")
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 
     defaultConfig {
         applicationId = "com.angelo.destinystatusapp"

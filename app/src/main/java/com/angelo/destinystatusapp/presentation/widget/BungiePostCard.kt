@@ -129,7 +129,7 @@ private fun OriginalPostButton(originalPostUrl: String, modifier: Modifier = Mod
 }
 
 @Composable
-private fun RepostLabel(userName: String, modifier: Modifier = Modifier) {
+fun RepostLabel(userName: String, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
@@ -294,15 +294,3 @@ private fun TimeAgoTextMissingTimestampPreview(modifier: Modifier = Modifier) {
     }
 }
 
-@PreviewLightDark
-@Composable
-private fun RepostTextPreview(modifier: Modifier = Modifier) {
-    DestinyStatusAppTheme {
-        Surface {
-            RepostLabel(
-                userName = "LoremIpsumDolorSitAmet",
-                modifier = modifier,
-            )
-        }
-    }
-}
