@@ -4,8 +4,6 @@ import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.Until
-import com.angelo.destinystatusapp.test.BuildConfig
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -15,10 +13,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @SdkSuppress(minSdkVersion = 24)
 class LaunchTest {
-    companion object {
-        private const val LAUNCH_TIMEOUT = 5000L
-    }
-
     private lateinit var device: UiDevice
 
     @Before
@@ -31,10 +25,7 @@ class LaunchTest {
         // Wait for launcher
         val launcherPackage: String = device.launcherPackageName
         assertThat(launcherPackage, notNullValue())
-        device.wait(
-            Until.hasObject(By.pkg(launcherPackage).depth(0)),
-            LAUNCH_TIMEOUT,
-        )
+        device.waitForObject(By.pkg(launcherPackage).depth(0))
 
         // Launch the app
         val context = InstrumentationRegistry.getInstrumentation().context
@@ -45,10 +36,7 @@ class LaunchTest {
         context.startActivity(intent)
 
         // Wait for the app to appear
-        device.wait(
-            Until.hasObject(By.pkg(BuildConfig.APPLICATION_ID).depth(0)),
-            LAUNCH_TIMEOUT,
-        )
+        device.waitForObject(By.pkg(packageName).depth(0))
     }
 
     @Test
@@ -61,6 +49,13 @@ class LaunchTest {
         assertThat(
             "One or more items in the Settings Screen could not be found.",
             settingsScreen.isDisplayed(),
+        )
+
+        device.pressBack()
+
+        assertThat(
+            "The Main Screen could not be found after pressing the back button.",
+            mainScreen.isDisplayed(),
         )
     }
 }
