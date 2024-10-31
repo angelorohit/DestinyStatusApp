@@ -1,6 +1,7 @@
 package com.angelo.destinystatusapp.domain.helper.datetime.clock.testing
 
 import com.angelo.destinystatusapp.domain.helper.datetime.clock.Clock
+import org.jetbrains.annotations.TestOnly
 import kotlin.time.Duration
 
 /**
@@ -10,4 +11,9 @@ import kotlin.time.Duration
  */
 class FakeClock(private var currentTime: Duration = Duration.ZERO) : Clock {
     override fun now() = currentTime
+
+    @TestOnly
+    fun setCurrentTime(duration: Duration) {
+        currentTime = duration
+    }
 }
