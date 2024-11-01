@@ -1,0 +1,8 @@
+<resources>
+    <string name="moments_ago">Moments ago</string>
+    <string name="hour_ago">An hour ago</string>
+    <string name="hours_ago">%1$d hours ago</string>
+    <string name="minutes_ago">%1$d minutes ago</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+</resources>
