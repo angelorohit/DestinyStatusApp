@@ -10,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,13 +18,10 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.angelo.destinystatusapp.domain.model.BungiePostMedia
-import com.angelo.destinystatusapp.domain.model.BungiePostMediaType
-import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 
 @Composable
 fun BungiePostVideoCover(bungiePostMedia: BungiePostMedia, modifier: Modifier = Modifier) {
@@ -64,24 +60,5 @@ fun BungiePostVideoCover(bungiePostMedia: BungiePostMedia, modifier: Modifier = 
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.inverseOnSurface.copy(alpha = 0.8f)),
         )
-    }
-}
-
-@PreviewLightDark
-@Composable
-private fun BungiePostVideoCoverPreview(modifier: Modifier = Modifier) {
-    DestinyStatusAppTheme {
-        Surface {
-            BungiePostVideoCover(
-                bungiePostMedia = BungiePostMedia(
-                    id = "1",
-                    imageUrl = "https://pbs.twimg.com/media/GLEtYt7WgAAWojF.jpg",
-                    type = BungiePostMediaType.Photo,
-                    sizes = null,
-                    videoInfo = null,
-                ),
-                modifier = modifier,
-            )
-        }
     }
 }

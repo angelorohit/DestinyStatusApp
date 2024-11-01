@@ -1,25 +1,27 @@
 package com.angelo.destinystatusapp
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
-import com.angelo.destinystatusapp.presentation.widget.RepostLabel
+import com.angelo.destinystatusapp.presentation.widget.SingleLineText
 
 @Stable
 @Suppress("unused")
-class RepostLabelPreviewsScreenshots {
+class SingleLineTextPreviewScreenshots {
 
-    @PreviewLightDark
     @Composable
-    fun RepostLabelPreview(modifier: Modifier = Modifier) {
+    @PreviewLightDark
+    private fun SingleLineTextPreview() {
         DestinyStatusAppTheme {
             Surface {
-                RepostLabel(
-                    userName = "LoremIpsumDolorSitAmet",
-                    modifier = modifier,
+                SingleLineText(
+                    modifier = Modifier.padding(16.dp),
+                    text = "Hello world!",
                 )
             }
         }

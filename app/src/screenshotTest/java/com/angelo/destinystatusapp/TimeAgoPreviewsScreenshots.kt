@@ -14,6 +14,7 @@ import kotlin.time.Duration.Companion.milliseconds
 @Stable
 @Suppress("unused")
 class TimeAgoPreviewsScreenshots {
+
     @PreviewLightDark
     @Composable
     fun TimeAgoTextMissingTimestampPreview(modifier: Modifier = Modifier) {

@@ -19,6 +19,7 @@ import kotlin.time.Duration.Companion.seconds
 @Stable
 @Suppress("unused")
 class BungiePostCardPreviewScreenshots {
+
     @PreviewLightDark
     @PreviewScreenSizes
     @Composable
