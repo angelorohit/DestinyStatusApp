@@ -32,7 +32,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,7 +48,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -59,7 +57,6 @@ import com.angelo.destinystatusapp.presentation.MediaDetailsArgs
 import com.angelo.destinystatusapp.presentation.launchPhotoDetailsScreen
 import com.angelo.destinystatusapp.presentation.launchSettingsScreen
 import com.angelo.destinystatusapp.presentation.launchVideoDetailsScreen
-import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import com.angelo.destinystatusapp.presentation.viewmodel.FeedUiDataType
 import com.angelo.destinystatusapp.presentation.viewmodel.FeedUiState
 import com.angelo.destinystatusapp.presentation.viewmodel.MainViewModel
@@ -374,35 +371,5 @@ private fun LoadingContent(modifier: Modifier = Modifier) {
                 .width(64.dp)
                 .align(Alignment.Center),
         )
-    }
-}
-
-@PreviewLightDark
-@Composable
-private fun EmptyContentPreview() {
-    DestinyStatusAppTheme {
-        Surface {
-            EmptyContent()
-        }
-    }
-}
-
-@PreviewLightDark
-@Composable
-private fun ZeroContentPreview() {
-    DestinyStatusAppTheme {
-        Surface {
-            ZeroContent()
-        }
-    }
-}
-
-@PreviewLightDark
-@Composable
-private fun LoadingContentPreview() {
-    DestinyStatusAppTheme {
-        Surface {
-            LoadingContent()
-        }
     }
 }
