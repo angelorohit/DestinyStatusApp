@@ -23,7 +23,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
@@ -150,19 +149,21 @@ fun RepostLabel(userName: String, modifier: Modifier = Modifier) {
     }
 }
 
+private val timeAgoFormattingConfig = TimeAgoFormattingConfig(
+    momentsAgoStringRes = R.string.moments_ago,
+    minsAgoStringRes = R.string.minutes_ago,
+    hourAgoStringRes = R.string.hour_ago,
+    hoursAgoStringRes = R.string.hours_ago,
+    todayStringRes = R.string.today,
+    yesterdayStringRes = R.string.yesterday,
+)
+
 @Composable
-private fun TimeAgoText(bungiePost: BungiePost, clock: Clock, modifier: Modifier = Modifier) {
+fun TimeAgoText(bungiePost: BungiePost, clock: Clock, modifier: Modifier = Modifier) {
     val timeAgoTextValue = bungiePost.timestamp?.ago(
         LocalContext.current,
         clock,
-        TimeAgoFormattingConfig(
-            momentsAgoStringRes = R.string.moments_ago,
-            minsAgoStringRes = R.string.minutes_ago,
-            hourAgoStringRes = R.string.hour_ago,
-            hoursAgoStringRes = R.string.hours_ago,
-            todayStringRes = R.string.today,
-            yesterdayStringRes = R.string.yesterday,
-        ),
+        timeAgoFormattingConfig,
     ) ?: bungiePost.createdAt
 
     timeAgoTextValue?.let {
@@ -221,76 +222,3 @@ private fun BungiePostCardPreview(modifier: Modifier = Modifier) {
         }
     }
 }
-
-@PreviewLightDark
-@Composable
-private fun TimeAgoTextMinsAgoPreview(modifier: Modifier = Modifier) {
-    val fakeClock = FakeClock(1711999999.milliseconds)
-    DestinyStatusAppTheme {
-        Surface {
-            TimeAgoText(
-                bungiePost = BungiePost(
-                    id = "0",
-                    createdAt = "March 21, 2024, 21:55:02 UTC",
-                    userName = "BungieHelp",
-                    text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
-                    timestamp = 1711058102.seconds,
-                    url = "https://twitter.com/BungieHelp/status/1770932153981050919",
-                    media = emptyList(),
-                    isRepost = false,
-                ),
-                clock = fakeClock,
-                modifier = modifier,
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun TimeAgoTextMomentsAgoPreview(modifier: Modifier = Modifier) {
-    val fakeClock = FakeClock(1711999999.milliseconds)
-    DestinyStatusAppTheme {
-        Surface {
-            TimeAgoText(
-                bungiePost = BungiePost(
-                    id = "0",
-                    createdAt = "March 21, 2024, 21:55:02 UTC",
-                    userName = "BungieHelp",
-                    text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
-                    timestamp = 1711999999.seconds,
-                    url = "https://twitter.com/BungieHelp/status/1770932153981050919",
-                    media = emptyList(),
-                    isRepost = false,
-                ),
-                clock = fakeClock,
-                modifier = modifier,
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun TimeAgoTextMissingTimestampPreview(modifier: Modifier = Modifier) {
-    val fakeClock = FakeClock(1711999999.milliseconds)
-    DestinyStatusAppTheme {
-        Surface {
-            TimeAgoText(
-                bungiePost = BungiePost(
-                    id = "0",
-                    createdAt = "March 21, 2024, 21:55:02 UTC",
-                    userName = "BungieHelp",
-                    text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
-                    timestamp = null,
-                    url = "https://twitter.com/BungieHelp/status/1770932153981050919",
-                    media = emptyList(),
-                    isRepost = false,
-                ),
-                clock = fakeClock,
-                modifier = modifier,
-            )
-        }
-    }
-}
-
