@@ -15,7 +15,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,23 +22,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.angelo.destinystatusapp.R
 import com.angelo.destinystatusapp.domain.helper.datetime.TimeAgoFormattingConfig
 import com.angelo.destinystatusapp.domain.helper.datetime.ago
 import com.angelo.destinystatusapp.domain.helper.datetime.clock.Clock
-import com.angelo.destinystatusapp.domain.helper.datetime.clock.testing.FakeClock
 import com.angelo.destinystatusapp.domain.model.BungieChannelType
 import com.angelo.destinystatusapp.domain.model.BungiePost
-import com.angelo.destinystatusapp.domain.model.BungiePostMedia
 import com.angelo.destinystatusapp.domain.model.BungiePostMediaType
 import com.angelo.destinystatusapp.presentation.helper.customtabs.launchCustomTabs
-import com.angelo.destinystatusapp.presentation.theme.DestinyStatusAppTheme
 import org.koin.androidx.compose.get
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun BungiePostCard(
@@ -176,48 +168,6 @@ fun TimeAgoText(bungiePost: BungiePost, clock: Clock, modifier: Modifier = Modif
                 text = it,
                 modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.labelMedium,
-            )
-        }
-    }
-}
-
-@PreviewLightDark
-@PreviewScreenSizes
-@Composable
-private fun BungiePostCardPreview(modifier: Modifier = Modifier) {
-    val fakeClock = FakeClock(1711999999.milliseconds)
-
-    DestinyStatusAppTheme {
-        Surface {
-            BungiePostCard(
-                bungiePost = BungiePost(
-                    id = "0",
-                    createdAt = "March 21, 2024, 21:55:02 UTC",
-                    userName = "LoremIpsumDolorSitAmet",
-                    text = "The quick brown fox jumps over the lazy dog\n\nThis is a test\n7.3.5.2\nhttps://t.co/",
-                    timestamp = 1711058102.seconds,
-                    url = "https://twitter.com/BungieHelp/status/1770932153981050919",
-                    media = listOf(
-                        BungiePostMedia(
-                            id = "",
-                            imageUrl = "https://pbs.twimg.com/media/GLEtYt7WgAAWojF.jpg",
-                            type = BungiePostMediaType.Photo,
-                            sizes = null,
-                            videoInfo = null,
-                        ),
-                        BungiePostMedia(
-                            id = "",
-                            imageUrl = "https://pbs.twimg.com/media/GLEtYt7WgAAWojF.jpg",
-                            type = BungiePostMediaType.Photo,
-                            sizes = null,
-                            videoInfo = null,
-                        ),
-                    ),
-                    isRepost = true,
-                ),
-                channelType = BungieChannelType.BungieHelp,
-                modifier = modifier,
-                clock = fakeClock,
             )
         }
     }
