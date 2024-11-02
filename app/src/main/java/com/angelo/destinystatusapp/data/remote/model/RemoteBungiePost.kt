@@ -15,7 +15,7 @@ data class RemoteBungiePost(
     @SerialName("media") val media: List<RemoteBungiePostMedia>? = emptyList(),
     @SerialName("retweeted_tweet") val repost: RemoteBungiePost? = null,
 ) {
-    fun RemoteBungiePost.getLastRepost(): RemoteBungiePost {
+    fun getLastRepost(): RemoteBungiePost {
         return generateSequence(this) { it.repost }
             .lastOrNull() ?: this
     }
@@ -39,14 +39,21 @@ data class RemoteBungiePostMedia(
 
         return imageUrl?.let { fullPath ->
             val extensionDelimiter = '.'
-            val format = if (fullPath.contains(extensionDelimiter)) {
-                fullPath.substringAfterLast(extensionDelimiter).lowercase()
+            val stringAfterLastSlash = fullPath.substringAfterLast('/')
+            val hasExtensionAfterSlash = stringAfterLastSlash.contains(extensionDelimiter)
+            val format = if (hasExtensionAfterSlash) {
+                stringAfterLastSlash.substringAfterLast(extensionDelimiter).lowercase()
             } else {
                 // Assume default JPG format if no extension is found.
                 "jpg"
             }
 
-            val basePath = fullPath.substringBeforeLast(extensionDelimiter)
+            val basePath = if (hasExtensionAfterSlash) {
+                fullPath.substringBeforeLast(extensionDelimiter)
+            } else {
+                fullPath.removeSuffix("/")
+            }
+
             "$basePath?format=$format&name=large"
         }
     }
