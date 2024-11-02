@@ -12,7 +12,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 class ServiceClient private constructor() {
     companion object {
-        private const val DESTINY_SERVICE_BASE_URL = "https://bungiehelp.org"
+        private const val DESTINY_STATUS_SERVICE_BASE_URL = "https://bungiehelp.org"
 
         fun createDestinyStatusService(context: Context): DestinyStatusService {
             val json = Json {
@@ -29,7 +29,7 @@ class ServiceClient private constructor() {
             }
 
             return Retrofit.Builder()
-                .baseUrl(DESTINY_SERVICE_BASE_URL)
+                .baseUrl(DESTINY_STATUS_SERVICE_BASE_URL)
                 .client(clientBuilder.build())
                 .addConverterFactory(
                     json.asConverterFactory(
