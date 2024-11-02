@@ -11,7 +11,7 @@ import okhttp3.Response
 
 class NetworkAvailabilityInterceptor(private val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        if (!context.isNetworkAvailable()) {
+        if (!isNetworkAvailable(context)) {
             throw NoConnectivityException()
         }
 
@@ -19,9 +19,9 @@ class NetworkAvailabilityInterceptor(private val context: Context) : Interceptor
     }
 
     @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
-    private fun Context.isNetworkAvailable(): Boolean {
+    private fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager =
-            ContextCompat.getSystemService(this, ConnectivityManager::class.java) ?: return false
+            ContextCompat.getSystemService(context, ConnectivityManager::class.java) ?: return false
         val networkCapabilities =
             connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork) ?: return false
 
