@@ -8,11 +8,12 @@ reset_color='\033[0m'
 echo -e "${info_color}⚈ ⚈ ⚈ Running Detekt ⚈ ⚈ ⚈${reset_color}"
 
 ./gradlew detektMain
+status_main=$?
+
 ./gradlew detektTest
+status_test=$?
 
-status=$?
-
-if [ "$status" = 0 ] ; then
+if [ "$status_main" -eq 0 ] && [ "$status_test" -eq 0 ]; then
     echo -e "${success_color}✅ Detekt succeeded.${reset_color}"
     exit 0
 else

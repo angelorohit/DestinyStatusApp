@@ -107,8 +107,10 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Koin
+    implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+    testImplementation(libs.koin.test.junit5)
 
     // Retrofit
     implementation(libs.retrofit)

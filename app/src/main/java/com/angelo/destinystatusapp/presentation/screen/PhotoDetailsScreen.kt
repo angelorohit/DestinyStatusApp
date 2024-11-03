@@ -101,4 +101,3 @@ fun PhotoDetailsScreen(
         Spacer(modifier = Modifier.padding(it))
     }
 }
-
