@@ -26,7 +26,7 @@ import com.angelo.destinystatusapp.presentation.viewmodel.PhotoDetailsViewModel
 import com.angelo.destinystatusapp.presentation.widget.SingleLineText
 import com.angelo.destinystatusapp.presentation.widget.StandardTopAppBar
 import com.angelo.destinystatusapp.presentation.widget.ZoomableImage
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +35,7 @@ fun PhotoDetailsScreen(
     navController: NavController,
     args: MediaDetailsArgs,
     modifier: Modifier = Modifier,
-    viewModel: PhotoDetailsViewModel = getViewModel {
+    viewModel: PhotoDetailsViewModel = koinViewModel {
         parametersOf(
             BungieChannelType.fromName(args.channelTypeName),
             args.postId,

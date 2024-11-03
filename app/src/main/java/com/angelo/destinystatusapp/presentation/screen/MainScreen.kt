@@ -65,14 +65,14 @@ import com.angelo.destinystatusapp.presentation.widget.BungiePostCard
 import com.angelo.destinystatusapp.presentation.widget.SingleLineText
 import com.angelo.destinystatusapp.presentation.widget.StandardTopAppBar
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = getViewModel(),
+    viewModel: MainViewModel = koinViewModel(),
 ) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
