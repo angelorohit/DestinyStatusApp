@@ -3,6 +3,7 @@ package com.angelo.destinystatusapp.data.local.datastore
 import android.content.Context
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.dataStore
 import com.angelo.destinystatusapp.data.model.BungieChannelType
 import com.angelo.destinystatusapp.proto.AllBungieChannelPosts
@@ -32,7 +33,8 @@ private object AllBungieChannelPostsSerializer : Serializer<AllBungieChannelPost
 
 private val Context.dataStore by dataStore(
     fileName = DATA_STORE_FILE_NAME,
-    serializer = AllBungieChannelPostsSerializer
+    serializer = AllBungieChannelPostsSerializer,
+    corruptionHandler = ReplaceFileCorruptionHandler { allBungieChannelPosts { } }
 )
 
 class BungieChannelPostsDaoImpl(context: Context) : BungieChannelPostsDao {
