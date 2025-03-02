@@ -17,7 +17,7 @@ plugins {
 
 android {
     namespace = "com.angelo.destinystatusapp"
-    compileSdk = 34
+    compileSdk = 35
     ndkVersion = "27.0.117180114"
 
     @Suppress("UnstableApiUsage")
@@ -26,7 +26,7 @@ android {
     defaultConfig {
         applicationId = "com.angelo.destinystatusapp"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
 
         versionCode = 4
         versionName = "1.0.0"
