@@ -1,0 +1,31 @@
+kover {
+    reports {
+        filters {
+            // filters for reports of all build variants
+            excludes {
+                classes(
+                        // Generated BuildConfig class.
+                        "*.BuildConfig",
+
+                        // Koin module classes are simply for DI provisions, and do not need tests.
+                        "*.KoinModule*",
+                        "*.di.*ModuleKt",
+
+                        // Generated moshi JSON adapters.
+                        "sg.com.sph.*JsonAdapter",
+
+                        // Compose generated classes.
+                        "*ComposableSingletons*",
+
+                        // Room database generated classes.
+                        "*_Impl",
+                        "*_Impl\$*",
+                )
+                annotatedBy(
+                        "androidx.compose.runtime.Composable",
+                        "androidx.compose.ui.tooling.preview.Preview",
+                )
+            }
+        }
+    }
+}

@@ -15,6 +15,8 @@ plugins {
     alias(libs.plugins.screenshot)
 }
 
+apply(from = "$rootDir/gradle/kover/rules.gradle")
+
 android {
     namespace = "com.angelo.destinystatusapp"
     compileSdk = 35
